@@ -3,3 +3,5 @@ docs/
 *.out
 *.log
 results/*.log
+*malog*.txt
+*scalehost_log*.txt
