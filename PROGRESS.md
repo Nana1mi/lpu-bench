@@ -19,7 +19,7 @@
   - `notes/mpu_capabilities.md`：梳理了 512-bit 向量类型（`v16fp32`, `v32fp16`, `v64i8` 等）、SPU 调 MPU 机制（`async_call`, `sync_call`, `async_enqueue`）及向量指令与 FMA 累加器。
 
 ### 3. 阶段 1：计时方法学建立与基准实验验证 (已完成)
-- **统一计时抽象**：完成 `common/timer.h`，支持基于 SPU 硬件寄存器 `0x803440` 的 `tick()` 周期计时与基于 Host 异步 Stream 的 `mapsEventElapsedTimeEx` 毫秒/周期测量。
+- **统一计时抽象**：完成 `common/timer.h`，确立以 SPU 硬件寄存器 `0x803440` 的 `tick()` 周期计数为唯一基准指标（`mapsEventElapsedTimeEx` 经核验已排除）。
 - **微基准测试**：在 `kernels/test_timer/` 下设计了 1x (10), 2x (20), 4x (40), 8x (80) 工作量、各 3 次重复测量的完整套件。
 - **关键实验发现**：
   - 测得原始数据写入 `results/timing_validation.csv`。

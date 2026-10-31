@@ -2,12 +2,12 @@
 
 ## 1. 核心结论与计时源选型
 
-在思朗科技（SmartLogicTech）Aurora 芯片的 CModel（QEMU + gem5）仿真环境中，**禁止使用宿主机物理墙钟时间**作为评测依据。经过对官方驱动、工具链底层寄存器及微基准测试的严格实验验证，本项目确立了**双层协同可信计时体系**：
+在思朗科技（SmartLogicTech）Aurora 芯片的 CModel（QEMU + gem5）仿真环境中，**禁止使用宿主机物理墙钟时间**作为评测依据。经过对官方驱动、工具链底层寄存器及微基准测试的严格实验验证，本项目确立了**以 Device 硬件周期计数器 (`tick()`) 为唯一可信性能度量**的评测体系（`mapsEventElapsedTimeEx` 经核验已排除）：
 
 | 计时源 | 采集机制 | 作用域与测量区间 | 精度与方差 | 用途 |
 |---|---|---|---|---|
 | **Device 硬件周期计数器 (`tick()`)** | 直接读取 SPU 硬件寄存器 `0x803440` (64-bit cycle counter) | **微秒/周期级精确区间**：可分别或联合测量 DMA 搬入、MPU 核心计算、DMA 写回的纯净硬件周期数（排除了 Host 驱动下发和队列调度抖动） | 方差为 **0**（完全确定性，线性度 $R^2 = 1.0000$） | **主要指标**：算子纯计算/流水线周期数、加速比计算、Roofline 模型构建 |
-| **Host 仿真事件 API (`mapsEventElapsedTimeEx`)** | 基于 MAPS 异步 Stream 插入的 Event 戳记 | **Kernel 级端到端区间**：覆盖队列下发、SPU 引导、Kernel 执行到完成同步的整体仿真时间 (ms 与 cycle) | 极高线性度 ($R^2 > 0.999$)，包含微量固定启动开销 | **辅助指标**：整网/端到端 Kernel 调用开销评估 |
+| **Host 仿真事件 API (`mapsEventElapsedTimeEx`)** | 基于 MAPS 异步 Stream 插入的 Event 戳记 | **Kernel 级端到端区间**：覆盖队列下发、SPU 引导、Kernel 执行到完成同步 | 与宿主机物理墙钟高度线性绑定；`sim_ms` 与 `sim_cycles` 恒等 | **已排除** (仅供对照排查留档，不作为性能指标) |
 | **Host 物理墙钟 (`std::chrono`)** | x86 宿主机物理时钟 | 仅作为实验等待耗时记录 | 随宿主机负载和 QEMU/gem5 模拟比率波动 | **仅供实验耗时参考，不计入学术报告指标** |
 
 ---
@@ -33,7 +33,7 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
 8,80,2,4694.0000,4694,117582,4765.56
 ```
 
-### 2.2 关键指标分析
+### 2.2 Device 周期计数器 (`tick()`) 验证分析
 
 1. **确定性与方差 (Repeatability)**：
    - 相同工作量下，Device `tick()` 读出的硬件周期数在 3 次重复中**完全一致**（如 10 循环恒为 14,752 cycles，80 循环恒为 117,582 cycles），方差为 0。证明 gem5 仿真核指令周期计算是精确、可重复的硬件级建模。
@@ -41,11 +41,23 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
    - 基础循环基线（10 循环）= 14,752 cycles。
    - 每增加 10 次循环计算，增量周期为：
      $$\Delta = 29442 - 14752 = 14690 \text{ cycles (即 } 1469 \text{ cycles/loop)}$$
+   - 拟合回归方程为：$\text{Cycles} = 1469 \times \text{loop\_count} + 62$（其中 62 cycles 为 SPU 内核启动与基础调用开销）。
    - 预测 40 循环：$14752 + 30 \times 1469 = 58822$ cycles（实测精确为 58,822）。
    - 预测 80 循环：$14752 + 70 \times 1469 = 117582$ cycles（实测精确为 117,582）。
    - 判定系数 $R^2 = 1.00000$！
-3. **仿真时间 vs. 物理墙钟**：
-   - 数据表明宿主机消耗的物理墙钟（~4.7 秒）与仿真内部时间处于同量级，但包含宿主机进程调度与仿真器自身的瞬时波动，而设备内部周期数则完全消除了这一噪声。
+
+### 2.3 `mapsEventElapsedTimeEx` 的排除理由（阴性验证分析）
+
+在初步方案中，`mapsEventElapsedTimeEx` 曾被考虑作为 Host 端流式计时源。然而，经过对全套基准测试生成的全部 66 行原始 CSV 数据进行逐行交叉验证，发现该接口存在根本性方法学缺陷，必须予以彻底排除：
+
+1. **数值无量纲化与字段恒等**：
+   在所有实测 CSV 中，`sim_ms` 与 `sim_cycles` 的数值**完全相等**（例如 `856.0000` 与 `856`，Attention 算子中均为 `3950.0000` 与 `3950`）。两个理论上量纲完全不同（毫秒时间 vs. 时钟周期数）的字段输出同一数值，结合底层日志中驱动打印的 `imapsEventElapsedTimeEx: Returned mapsSuccess : Elapsed Time = , 856, Elapsed Cycle = , 856`，证实驱动层并未真正读取 gem5 周期模型，返回值缺乏明确的物理量纲。
+2. **宿主机物理墙钟的常数偏移伪装**：
+   计算 `wall_ms - sim_ms` 的差值：在 `timing_validation.csv` 中，该差值高度稳定在 68 ~ 84 ms 区间；在 `gemm.csv` 中稳定在 53 ~ 94 ms 区间。这一恒定差值本质上是宿主机端 `std::chrono` 统计范围额外包含的内存搬移与同步调用固定开销。换言之，`sim_ms` 实际上直接反映的是宿主机 x86 物理执行耗时，而非 Aurora 芯片的仿真时钟。这完全命中了 `GOAL.md` 阶段 1 的判定准则（"确认候选计时源反映的是仿真时间而不是宿主机时间。如果两者高度相关、比例恒定，就要怀疑它测的是宿主机时间"）。
+3. **`device_cycles` 硬件独立性的旁证**：
+   与 `sim_ms` 随宿主机负载和仿真比率波动不同，`device_cycles / sim_ms` 的比值呈现明显的非恒定变化（如 1x 负载下为 $14752 / 830 \approx 17.8$，而 8x 负载下为 $117582 / 4634 \approx 25.4$）。这有力证明了 `device_cycles` 来自真正的片上 SPU 周期脉冲计数器，其递增完全取决于仿真内核所执行的指令周期，与宿主机处理器的瞬时执行速度和系统调度彻底解耦。
+
+**结论**：`device_cycles` 是 CModel 仿真环境下唯一具备物理真实性与可重复性的性能指标。`sim_ms` 与 `sim_cycles` 仅作为排查和溯源证据保留在原始 CSV 中，已从 `REPORT.md` 的所有表格和论述中彻底剔除。
 
 ---
 
@@ -66,7 +78,7 @@ unsigned long long t_compute = tick();
 // [阶段 C: 写回]
 unsigned long long t_end = tick();
 
-// 2. Host 侧：通过 mapsEventElapsedTimeEx 监控 Stream 级仿真时延
+// 2. Host 侧：通过 mapsEventElapsedTimeEx 监控 Stream 级仿真时延 (已排除作为基准指标，仅供对照留档)
 HostEventTimer timer(stream);
 timer.start();
 kernel<<<grid, block, 0, stream>>>(...);
