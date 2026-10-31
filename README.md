@@ -154,7 +154,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 | **$M=4$** | 524,288 | 1,810,449 | 1,819,874 | 0.2896 | 0.2881 | **0.9948x** | PASS |
 | **$M=8$** | 1,048,576 | 3,596,981 | 3,606,446 | 0.2915 | 0.2908 | **0.9974x** | PASS |
 
-![K1 GEMM Utilization](file:///home/rog/lpu-workspace/lpu-bench/figures/k1_gemm_utilization.png)
+![K1 GEMM Utilization](figures/k1_gemm_utilization.png)
 
 **图 1: Aurora GEMM 算子有效计算吞吐率 (FLOPs/Cycle) 与周期数随 Token/Batch $M$ 扩展曲线**
 
@@ -176,8 +176,8 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 | **$L=256$** | 586,246 | *容量超限 (N/A)* | 586,954 | *受制于 32KB 壁垒* | 约 7.7% (估算) | 0.8949 |
 | **$L=512$** | 1,169,030 | *容量超限 (N/A)* | 1,170,514 | *受制于 32KB 壁垒* | 约 7.7% (估算) | 0.8975 |
 
-![K2 Attention Latency](file:///home/rog/lpu-workspace/lpu-bench/figures/k2_attn_cycles.png)
-![K2 Attention Breakdown](file:///home/rog/lpu-workspace/lpu-bench/figures/k2_breakdown.png)
+![K2 Attention Latency](figures/k2_attn_cycles.png)
+![K2 Attention Breakdown](figures/k2_breakdown.png)
 
 **图 2: Decode Attention 执行周期随序列长度 $L$ 变化曲线与 $L=64, 128$ 计算/搬运耗时分解堆叠图**
 
@@ -207,7 +207,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 | **Attention SRAM 局部性** | $L=128$ | $v0$ (294,852) | $v1$ (272,225) | -22,627 | **1.0831x** | 搬运延迟呈严格线性翻倍，SRAM 常驻节约 7.67% 周期 |
 | **Attention DDR 双缓冲** | $L=64\sim 512$ | $v0$ | $v2$ | +126 ~ +1,484 | **0.9987x ~ 0.9992x** | Attention 算术强度极低 ($<1$), 异步预取受制于 DDR 延迟 |
 
-![K3 Speedup Ablation](file:///home/rog/lpu-workspace/lpu-bench/figures/k3_speedup.png)
+![K3 Speedup Ablation](figures/k3_speedup.png)
 
 **图 3: K3 算子流水双缓冲与片上 SRAM 局部性加速比柱状图对比**
 
