@@ -1,0 +1,5 @@
+docs/
+*.o
+*.out
+*.log
+results/*.log

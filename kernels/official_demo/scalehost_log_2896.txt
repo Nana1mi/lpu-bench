@@ -1,0 +1,650 @@
+[2026-10-31 02:45:40.661][2896][2896][info][src/scale_host.cpp(33): __scaleRegisterFatBinary][scalehost] __scaleRegisterFatBinary is called!
+[2026-10-31 02:45:40.674][2896][2896][info][src/scale_code_object.cpp(289): StatCO][scalehost] SCALE_ENABLE_CROSS_MODULE_SYMBOLS is disabled
+[2026-10-31 02:45:40.674][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7d8160
+[2026-10-31 02:45:40.681][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x7f03cac14c50, deviceName: _Z11llcdsc_initi
+[2026-10-31 02:45:40.682][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7d8160
+[2026-10-31 02:45:40.682][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x7f03cac14cd0, deviceName: _Z10error_testPU3AS1j
+[2026-10-31 02:45:40.685][2896][2896][info][src/scale_host.cpp(33): __scaleRegisterFatBinary][scalehost] __scaleRegisterFatBinary is called!
+[2026-10-31 02:45:40.686][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.687][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821520, deviceName: _Z12printf_debugPU3AS1jS0_
+[2026-10-31 02:45:40.689][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.690][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x8215b0, deviceName: _Z15profiler_devbufv
+[2026-10-31 02:45:40.690][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.691][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821630, deviceName: _Z12print_stressv
+[2026-10-31 02:45:40.692][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.693][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x8216b0, deviceName: _Z13print_anotherv
+[2026-10-31 02:45:40.695][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.695][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821730, deviceName: _Z6print1v
+[2026-10-31 02:45:40.697][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.699][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x8217b0, deviceName: _Z5printv
+[2026-10-31 02:45:40.701][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.701][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821830, deviceName: _Z13simple_copy32PU3AS1jS0_
+[2026-10-31 02:45:40.702][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.702][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x8218c0, deviceName: _Z20simple_copy32_stressPU3AS1jS0_
+[2026-10-31 02:45:40.703][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.704][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821950, deviceName: _Z12test_counterPU3AS1jj
+[2026-10-31 02:45:40.704][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.706][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x8219e0, deviceName: _Z16vaddu32_nomemcpyPU3AS1jS0_S0_j
+[2026-10-31 02:45:40.707][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.711][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821a90, deviceName: _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:45:40.712][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.712][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821b40, deviceName: _Z11vaddu32_asmPU3AS1jS0_S0_j
+[2026-10-31 02:45:40.713][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.713][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821bf0, deviceName: _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y
+[2026-10-31 02:45:40.714][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.715][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821cc0, deviceName: _Z16vsubu32_nomemcpyPU3AS1jS0_S0_j
+[2026-10-31 02:45:40.716][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.717][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821d70, deviceName: _Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:45:40.717][2896][2896][info][src/scale_host.cpp(48): __scaleRegisterFunction][scalehost] __scaleRegisterFunction is called for module 0x2b7dc040
+[2026-10-31 02:45:40.719][2896][2896][info][src/scale_host.cpp(49): __scaleRegisterFunction][scalehost]     hostFunction: 0x821e20, deviceName: _Z9vtanhfp32PU3AS1fPU3AS1Kfj
+[2026-10-31 02:45:40.721][2896][2896][info][src/scale_host.cpp(95): __scaleRegisterVar][scalehost] __scaleRegisterVar is called var: 0x824bc0, hostVar: global_src1, deviceVar: global_src1, ext:0, size: 1024, constant:0 for module 0x2b7dc040
+[2026-10-31 02:45:40.722][2896][2896][info][src/scale_host.cpp(95): __scaleRegisterVar][scalehost] __scaleRegisterVar is called var: 0x824fc0, hostVar: global_src2, deviceVar: global_src2, ext:0, size: 3072, constant:0 for module 0x2b7dc040
+[2026-10-31 02:45:40.723][2896][2896][info][src/scale_host.cpp(95): __scaleRegisterVar][scalehost] __scaleRegisterVar is called var: 0x825bc0, hostVar: global_dst1, deviceVar: global_dst1, ext:0, size: 1024, constant:1 for module 0x2b7dc040
+[2026-10-31 02:45:40.724][2896][2896][info][src/scale_host.cpp(95): __scaleRegisterVar][scalehost] __scaleRegisterVar is called var: 0x825fc0, hostVar: global_dst2, deviceVar: global_dst2, ext:0, size: 3072, constant:1 for module 0x2b7dc040
+[2026-10-31 02:47:48.425][2896][2896][info][src/scale_host.cpp(166): scaleInit][scalehost] scaleInit is called for 1 devices
+[2026-10-31 02:47:48.427][2896][2896][info][src/scale_host.cpp(167): scaleInit][scalehost] 4 memory related funcPtr: 0x7f03caa88c55, 0x7f03caa890dc, 0x7f03caa89219, 0x7f03caa893f7
+[2026-10-31 02:47:48.429][2896][2896][info][src/scale_platform.cpp(41): init][scalehost] KEEP_BUILT_TEMP_FILES is disabled
+[2026-10-31 02:47:48.430][2896][2896][info][src/scale_device.h(71): Device][scalehost] Device 0: isaName: Aurora, ammuPageSize(not used): 0x200000, mathTableAddr: 0x7e0400000000, featureMask: 0
+[2026-10-31 02:47:48.437][2896][2896][info][src/scale_code_object.cpp(81): getTripleTargetID][scalehost] Bundled entry id "host" is not "scale", ignored
+[2026-10-31 02:47:48.482][2896][2896][info][src/scale_code_object.cpp(81): getTripleTargetID][scalehost] Bundled entry id "host" is not "scale", ignored
+[2026-10-31 02:47:48.484][2896][2896][info][src/scale_platform.cpp(142): getAllStatFuncs][scalehost] All Host funtions table: 
+[2026-10-31 02:47:48.485][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821e20: _Z9vtanhfp32PU3AS1fPU3AS1Kfj 
+[2026-10-31 02:47:48.485][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821cc0: _Z16vsubu32_nomemcpyPU3AS1jS0_S0_j 
+[2026-10-31 02:47:48.486][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821bf0: _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y 
+[2026-10-31 02:47:48.487][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821b40: _Z11vaddu32_asmPU3AS1jS0_S0_j 
+[2026-10-31 02:47:48.488][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x7f03cac14c50: _Z11llcdsc_initi 
+[2026-10-31 02:47:48.490][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x7f03cac14cd0: _Z10error_testPU3AS1j 
+[2026-10-31 02:47:48.491][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821d70: _Z7vsubu32PU3AS1jS0_S0_j 
+[2026-10-31 02:47:48.492][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821630: _Z12print_stressv 
+[2026-10-31 02:47:48.492][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x8216b0: _Z13print_anotherv 
+[2026-10-31 02:47:48.493][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821730: _Z6print1v 
+[2026-10-31 02:47:48.493][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x8217b0: _Z5printv 
+[2026-10-31 02:47:48.494][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x8215b0: _Z15profiler_devbufv 
+[2026-10-31 02:47:48.494][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821950: _Z12test_counterPU3AS1jj 
+[2026-10-31 02:47:48.495][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821830: _Z13simple_copy32PU3AS1jS0_ 
+[2026-10-31 02:47:48.495][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821a90: _Z7vaddu32PU3AS1jS0_S0_j 
+[2026-10-31 02:47:48.497][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x821520: _Z12printf_debugPU3AS1jS0_ 
+[2026-10-31 02:47:48.498][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x8218c0: _Z20simple_copy32_stressPU3AS1jS0_ 
+[2026-10-31 02:47:48.500][2896][2896][info][src/scale_platform.cpp(144): getAllStatFuncs][scalehost] 	 0x8219e0: _Z16vaddu32_nomemcpyPU3AS1jS0_S0_j 
+[2026-10-31 02:47:48.522][2896][2896][info][src/scale_platform.cpp(151): getAllStatGlobalVars][scalehost] All Host Vars table: 
+[2026-10-31 02:47:48.523][2896][2896][info][src/scale_platform.cpp(153): getAllStatGlobalVars][scalehost] 	 0x825fc0: global_dst2 
+[2026-10-31 02:47:48.526][2896][2896][info][src/scale_platform.cpp(153): getAllStatGlobalVars][scalehost] 	 0x825bc0: global_dst1 
+[2026-10-31 02:47:48.527][2896][2896][info][src/scale_platform.cpp(153): getAllStatGlobalVars][scalehost] 	 0x824fc0: global_src2 
+[2026-10-31 02:47:48.529][2896][2896][info][src/scale_platform.cpp(153): getAllStatGlobalVars][scalehost] 	 0x824bc0: global_src1 
+[2026-10-31 02:47:48.534][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z11llcdsc_initi
+[2026-10-31 02:47:48.676][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z11llcdsc_initi
+[2026-10-31 02:47:48.677][2896][2896][info][src/scale_memory.cpp(148): mallocFromChunkPool][scalehost] Call mapsScaleMalloc: devId: 0, size: 2097152, type: 0 for a new large chunk
+[2026-10-31 02:47:51.782][2896][2896][info][src/scale_memory.cpp(156): mallocFromChunkPool][scalehost] mapsScaleMalloc return: handle:0x2b8423b0, gpubase: 0x410000000
+[2026-10-31 02:47:51.789][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 40, type: 2, alignment: 0
+[2026-10-31 02:47:51.806][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b8313d0, gpubase: 0x7e0401400000
+[2026-10-31 02:47:51.808][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410000000 --defsym=__scale_rodata_start=0x7e0401400000 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z11llcdsc_initi
+[2026-10-31 02:47:51.839][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2b886370, elf: 0x2b87c370, offset: 0xa000
+[2026-10-31 02:47:51.839][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 0, src: 0x2b886370, size: 8192
+[2026-10-31 02:48:11.306][2896][2896][info][src/scale_devkernel.cpp(506): load][scalehost] rodata data host addr: 0x2b888370, elf: 0x2b87c370, offset: 0xc000
+[2026-10-31 02:48:11.308][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8313d0, offset: 0, src: 0x2b888370, size: 40
+[2026-10-31 02:48:11.409][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z11llcdsc_initi on device 0:
+[2026-10-31 02:48:11.416][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410000400
+[2026-10-31 02:48:11.417][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x2000, offset: 0x0
+[2026-10-31 02:48:11.419][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:48:11.420][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 168, flag:0x0
+[2026-10-31 02:48:11.421][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 0, flag:0x0
+[2026-10-31 02:48:11.424][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:48:11.427][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:48:11.433][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:48:11.437][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:48:11.438][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x7e0401400000
+[2026-10-31 02:48:11.439][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 40
+[2026-10-31 02:48:11.440][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:48:11.450][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:48:11.452][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:48:14.434][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:48:14.437][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z11llcdsc_initi, kernel addr: 0x410000400
+[2026-10-31 02:48:14.446][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:48:14.447][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 1 arguments are being passed for Kernel _Z11llcdsc_initi
+[2026-10-31 02:48:14.451][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 4 to R1
+[2026-10-31 02:48:14.957][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:48:14.965][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z11llcdsc_initi, kernel addr: 0x410000400
+[2026-10-31 02:48:14.967][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:48:14.971][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 1 arguments are being passed for Kernel _Z11llcdsc_initi
+[2026-10-31 02:48:14.975][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 4 to R1
+[2026-10-31 02:48:15.349][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:48:15.351][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z11llcdsc_initi, kernel addr: 0x410000400
+[2026-10-31 02:48:15.354][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:48:15.356][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 1 arguments are being passed for Kernel _Z11llcdsc_initi
+[2026-10-31 02:48:15.358][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 4 to R1
+[2026-10-31 02:48:15.725][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:48:15.726][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z11llcdsc_initi, kernel addr: 0x410000400
+[2026-10-31 02:48:15.737][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:48:15.738][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 1 arguments are being passed for Kernel _Z11llcdsc_initi
+[2026-10-31 02:48:15.739][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 4 to R1
+[2026-10-31 02:48:17.770][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z20simple_copy32_stressPU3AS1jS0_
+[2026-10-31 02:48:17.959][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 5779560, type: 2, alignment: 0
+[2026-10-31 02:48:17.992][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b82c6c0, gpubase: 0x7e0403a00000
+[2026-10-31 02:48:17.997][2896][2896][info][src/scale_globalvar_manager.cpp(300): linkVariables][scalehost] Global Varirables alloc: 0x583068(= 0x583028 + 0x40) bytes on devId 0, block handle = 0x2b82c6c0, baseOffset: 0x0
+[2026-10-31 02:48:17.998][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: slm_recv_data, size:0x1000, alignedSize:0x1000, elfOffset: 0x5c13b0, devOffset: 0x581028, addrAlign: 0x4
+[2026-10-31 02:48:17.999][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: sdma_done_dst, size:0x8, alignedSize:0x8, elfOffset: 0x5bfc68, devOffset: 0x581010, addrAlign: 0x8
+[2026-10-31 02:48:18.000][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: hbm2dm_bdcast_sync_flag, size:0x8, alignedSize:0x8, elfOffset: 0x5be8b0, devOffset: 0x581008, addrAlign: 0x1
+[2026-10-31 02:48:18.002][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: slm_send_data, size:0x1000, alignedSize:0x1000, elfOffset: 0x5c03b0, devOffset: 0x582028, addrAlign: 0x4
+[2026-10-31 02:48:18.004][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: sdma_done_src, size:0x8, alignedSize:0x8, elfOffset: 0x5bfc70, devOffset: 0x581018, addrAlign: 0x8
+[2026-10-31 02:48:18.006][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: dm2dm_bdcast_sync_flag, size:0x8, alignedSize:0x8, elfOffset: 0x5be8b8, devOffset: 0x581000, addrAlign: 0x1
+[2026-10-31 02:48:18.012][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: ddr_stress, size:0x500000, alignedSize:0x500000, elfOffset: 0xb9ba0, devOffset: 0x81000, addrAlign: 0x4
+[2026-10-31 02:48:18.014][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: ddr_dst, size:0x40000, alignedSize:0x40000, elfOffset: 0x79ba0, devOffset: 0x41000, addrAlign: 0x4
+[2026-10-31 02:48:18.015][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: global_src2, size:0xc00, alignedSize:0xc00, elfOffset: 0x4d40, devOffset: 0x400, addrAlign: 0x40
+[2026-10-31 02:48:18.016][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: local_sdma_done_flag_src, size:0x4, alignedSize:0x4, elfOffset: 0x5c23b4, devOffset: 0x581024, addrAlign: 0x4
+[2026-10-31 02:48:18.017][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: local_sdma_done_flag_dst, size:0x4, alignedSize:0x4, elfOffset: 0x5c23b0, devOffset: 0x581020, addrAlign: 0x4
+[2026-10-31 02:48:18.018][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: ddr_data, size:0x40000, alignedSize:0x40000, elfOffset: 0x39ba0, devOffset: 0x1000, addrAlign: 0x4
+[2026-10-31 02:48:18.021][2896][2896][info][src/scale_globalvar_manager.cpp(309): linkVariables][scalehost] Var: global_src1, size:0x400, alignedSize:0x400, elfOffset: 0x4940, devOffset: 0x0, addrAlign: 0x40
+[2026-10-31 02:48:18.024][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 4160, type: 2, alignment: 0
+[2026-10-31 02:48:18.034][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b853830, gpubase: 0x7e0401400100
+[2026-10-31 02:48:18.036][2896][2896][info][src/scale_globalvar_manager.cpp(334): linkVariables][scalehost] Constants alloc: 0x1040(= 0x1000 + 0x40) bytes on devId 0, block handle = 0x2b853830, baseOffset: 0x0
+[2026-10-31 02:48:18.040][2896][2896][info][src/scale_globalvar_manager.cpp(343): linkVariables][scalehost] Constant: global_dst2, size:0xc00, alignedSize:0xc00, elfOffset: 0x5d40, devOffset: 0x400, addrAlign: 0x40
+[2026-10-31 02:48:18.041][2896][2896][info][src/scale_globalvar_manager.cpp(343): linkVariables][scalehost] Constant: global_dst1, size:0x400, alignedSize:0x400, elfOffset: 0x5940, devOffset: 0x0, addrAlign: 0x40
+[2026-10-31 02:48:18.043][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z20simple_copy32_stressPU3AS1jS0_
+[2026-10-31 02:48:18.044][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410002000 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z20simple_copy32_stressPU3AS1jS0_
+[2026-10-31 02:48:18.067][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2b93aa90, elf: 0x2b930a90, offset: 0xa000
+[2026-10-31 02:48:18.072][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 8192, src: 0x2b93aa90, size: 3072
+[2026-10-31 02:48:24.664][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z20simple_copy32_stressPU3AS1jS0_ on device 0:
+[2026-10-31 02:48:24.666][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410002400
+[2026-10-31 02:48:24.669][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0xc00, offset: 0x2000
+[2026-10-31 02:48:24.669][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:48:24.671][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 128, flag:0x0
+[2026-10-31 02:48:24.671][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 0, flag:0x0
+[2026-10-31 02:48:24.673][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:48:24.674][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:48:24.676][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:48:24.677][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:48:24.677][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x0
+[2026-10-31 02:48:24.679][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 0
+[2026-10-31 02:48:24.681][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:48:24.682][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:48:24.683][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:48:24.686][2896][2896][info][src/scale_host.cpp(273): scaleFuncGetParamCount][scalehost] scaleFuncGetParamCount: func: 0x2, paramCount: 730312896
+[2026-10-31 02:48:24.689][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 0 of fun: 0x8218c0, resides in registers, its offset is: 0 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:48:24.690][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 1 of fun: 0x8218c0, resides in registers, its offset is: 8 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:48:24.695][2896][2896][info][src/scale_memory.cpp(261): memcpyToHost][scalehost] Call mapsMemcpyD2HFunc(NeedAlign=false): Host dst: 0x7fff8d85f090, dev src: 0x4100020e0, handle: 0x2b8423b0, offset: 8416,size: 16
+[2026-10-31 02:48:24.718][2896][2896][info][src/scale_devkernel.cpp(448): setMetricsMask][scalehost] instructions: 0xf9e00001, 0xf9000001, 0xf9e00002, 0xf9200002
+[2026-10-31 02:48:24.719][2896][2896][info][src/scale_devkernel.cpp(460): setMetricsMask][scalehost] New instructions: 0xf9fe1e01, 0xf9000001, 0xf9e00002, 0xf9200002
+[2026-10-31 02:48:24.721][2896][2896][info][src/scale_memory.cpp(219): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc(NeedAlign=false): dev dest: 0x4100020e0, handle: 0x2b8423b0, offset: 8416, host src: 0x7fff8d85f090, size: 16
+[2026-10-31 02:48:24.739][2896][2896][info][src/scale_devkernel.cpp(467): setMetricsMask][scalehost] New matrics value 0xf0f0 is set successfully
+[2026-10-31 02:48:25.585][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:48:25.587][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z20simple_copy32_stressPU3AS1jS0_, kernel addr: 0x410002400
+[2026-10-31 02:48:25.588][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:48:25.589][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 2 arguments are being passed for Kernel _Z20simple_copy32_stressPU3AS1jS0_
+[2026-10-31 02:48:25.590][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:48:25.591][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:48:25.880][2896][2896][info][src/scale_host.cpp(273): scaleFuncGetParamCount][scalehost] scaleFuncGetParamCount: func: 0x2, paramCount: 730945824
+[2026-10-31 02:48:25.882][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 0 of fun: 0x8218c0, resides in registers, its offset is: 0 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:48:25.883][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 1 of fun: 0x8218c0, resides in registers, its offset is: 8 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:48:25.889][2896][2896][info][src/scale_host.cpp(273): scaleFuncGetParamCount][scalehost] scaleFuncGetParamCount: func: 0x2, paramCount: 730945824
+[2026-10-31 02:48:25.889][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 0 of fun: 0x8218c0, resides in registers, its offset is: 0 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:48:25.890][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 1 of fun: 0x8218c0, resides in registers, its offset is: 8 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:49:46.798][2896][2896][info][src/scale_devkernel.cpp(429): setMetricsMask][scalehost] new matrics value 0xf0f0 is the same
+[2026-10-31 02:49:47.973][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:49:47.975][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z20simple_copy32_stressPU3AS1jS0_, kernel addr: 0x410002400
+[2026-10-31 02:49:47.977][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:49:47.981][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 2 arguments are being passed for Kernel _Z20simple_copy32_stressPU3AS1jS0_
+[2026-10-31 02:49:47.982][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:49:47.984][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:51:14.112][2896][2896][info][src/scale_memory.cpp(219): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: dev dest: 0x7e0403a00000, handle: 0x2b82c6c0, offset: 0, host src: 0x208940, size: 1024
+[2026-10-31 02:51:16.089][2896][2896][info][src/scale_globalvar_manager.cpp(426): loadVariable][scalehost] Load variable global_src1 on device 0 addr: 0x7e0403a00000
+[2026-10-31 02:51:16.105][2896][2896][info][src/scale_memory.cpp(219): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: dev dest: 0x7e0401400100, handle: 0x2b853830, offset: 0, host src: 0x209940, size: 1024
+[2026-10-31 02:51:17.971][2896][2896][info][src/scale_globalvar_manager.cpp(426): loadVariable][scalehost] Load variable global_dst1 on device 0 addr: 0x7e0401400100
+[2026-10-31 02:51:17.995][2896][2896][info][src/scale_memory.cpp(219): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: dev dest: 0x7e0403a00400, handle: 0x2b82c6c0, offset: 1024, host src: 0x208d40, size: 3072
+[2026-10-31 02:51:23.437][2896][2896][info][src/scale_globalvar_manager.cpp(426): loadVariable][scalehost] Load variable global_src2 on device 0 addr: 0x7e0403a00400
+[2026-10-31 02:51:23.445][2896][2896][info][src/scale_memory.cpp(219): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: dev dest: 0x7e0401400500, handle: 0x2b853830, offset: 1024, host src: 0x209d40, size: 3072
+[2026-10-31 02:51:28.916][2896][2896][info][src/scale_globalvar_manager.cpp(426): loadVariable][scalehost] Load variable global_dst2 on device 0 addr: 0x7e0401400500
+[2026-10-31 02:51:35.875][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:51:35.880][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:51:35.893][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z6print1v
+[2026-10-31 02:51:35.955][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z6print1v
+[2026-10-31 02:51:35.957][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 16, type: 2, alignment: 0
+[2026-10-31 02:51:35.969][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b7f30f0, gpubase: 0x7e0401401200
+[2026-10-31 02:51:35.971][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410002c00 --defsym=__scale_rodata_start=0x7e0401401200 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z6print1v
+[2026-10-31 02:51:35.989][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2b9e8150, elf: 0x2b9dd550, offset: 0xac00
+[2026-10-31 02:51:35.990][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 11264, src: 0x2b9e8150, size: 7168
+[2026-10-31 02:51:45.757][2896][2896][info][src/scale_devkernel.cpp(506): load][scalehost] rodata data host addr: 0x2b9e9750, elf: 0x2b9dd550, offset: 0xc200
+[2026-10-31 02:51:45.758][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b7f30f0, offset: 0, src: 0x2b9e9750, size: 16
+[2026-10-31 02:51:45.786][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z6print1v on device 0:
+[2026-10-31 02:51:45.787][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410003000
+[2026-10-31 02:51:45.788][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x1c00, offset: 0x2c00
+[2026-10-31 02:51:45.790][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:51:45.791][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 144, flag:0x0
+[2026-10-31 02:51:45.792][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 4, flag:0x1
+[2026-10-31 02:51:45.794][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:51:45.796][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:51:45.797][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:51:45.798][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:51:45.798][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x7e0401401200
+[2026-10-31 02:51:45.800][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 16
+[2026-10-31 02:51:45.803][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:51:45.805][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 1
+[2026-10-31 02:51:45.807][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:51:45.812][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0401600000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:51:45.813][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z6print1v, kernel addr: 0x410003000
+[2026-10-31 02:51:45.813][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0401600000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:51:45.814][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z6print1v
+[2026-10-31 02:51:55.312][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:51:55.319][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:51:55.333][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0401600000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:51:55.334][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z6print1v, kernel addr: 0x410003000
+[2026-10-31 02:51:55.336][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0401600000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:51:55.337][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z6print1v
+[2026-10-31 02:52:04.539][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:52:04.543][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:52:04.553][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z5printv
+[2026-10-31 02:52:04.580][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z5printv
+[2026-10-31 02:52:04.582][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 72, type: 2, alignment: 0
+[2026-10-31 02:52:04.591][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b801410, gpubase: 0x7e0401401300
+[2026-10-31 02:52:04.594][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410004800 --defsym=__scale_rodata_start=0x7e0401401300 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z5printv
+[2026-10-31 02:52:04.614][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2ba38780, elf: 0x2ba2df80, offset: 0xa800
+[2026-10-31 02:52:04.615][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 18432, src: 0x2ba38780, size: 7168
+[2026-10-31 02:52:17.601][2896][2896][info][src/scale_devkernel.cpp(506): load][scalehost] rodata data host addr: 0x2ba3a280, elf: 0x2ba2df80, offset: 0xc300
+[2026-10-31 02:52:17.603][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b801410, offset: 0, src: 0x2ba3a280, size: 72
+[2026-10-31 02:52:17.740][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z5printv on device 0:
+[2026-10-31 02:52:17.742][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410004c00
+[2026-10-31 02:52:17.745][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x1c00, offset: 0x4800
+[2026-10-31 02:52:17.746][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:52:17.747][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 200, flag:0x0
+[2026-10-31 02:52:17.754][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 0, flag:0x0
+[2026-10-31 02:52:17.757][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:52:17.758][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:52:17.759][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:52:17.760][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:52:17.762][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x7e0401401300
+[2026-10-31 02:52:17.763][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 72
+[2026-10-31 02:52:17.764][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:52:17.765][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 1
+[2026-10-31 02:52:17.766][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:52:17.779][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0401600000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:52:17.780][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z5printv, kernel addr: 0x410004c00
+[2026-10-31 02:52:17.781][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0401600000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:52:17.782][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z5printv
+[2026-10-31 02:52:31.163][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:52:31.168][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:52:31.176][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z13print_anotherv
+[2026-10-31 02:52:31.208][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z13print_anotherv
+[2026-10-31 02:52:31.209][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 72, type: 2, alignment: 0
+[2026-10-31 02:52:31.217][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b926450, gpubase: 0x7e0401401400
+[2026-10-31 02:52:31.220][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410006400 --defsym=__scale_rodata_start=0x7e0401401400 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z13print_anotherv
+[2026-10-31 02:52:31.233][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2baae3a0, elf: 0x2baa3fa0, offset: 0xa400
+[2026-10-31 02:52:31.236][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 25600, src: 0x2baae3a0, size: 7168
+[2026-10-31 02:52:41.098][2896][2896][info][src/scale_devkernel.cpp(506): load][scalehost] rodata data host addr: 0x2bab03a0, elf: 0x2baa3fa0, offset: 0xc400
+[2026-10-31 02:52:41.100][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b926450, offset: 0, src: 0x2bab03a0, size: 72
+[2026-10-31 02:52:41.253][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z13print_anotherv on device 0:
+[2026-10-31 02:52:41.255][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410006800
+[2026-10-31 02:52:41.256][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x1c00, offset: 0x6400
+[2026-10-31 02:52:41.258][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:52:41.259][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 200, flag:0x0
+[2026-10-31 02:52:41.260][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 0, flag:0x0
+[2026-10-31 02:52:41.261][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:52:41.263][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:52:41.264][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:52:41.265][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:52:41.267][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x7e0401401400
+[2026-10-31 02:52:41.270][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 72
+[2026-10-31 02:52:41.271][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:52:41.274][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 1
+[2026-10-31 02:52:41.276][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:52:41.285][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0401600000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:52:41.287][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z13print_anotherv, kernel addr: 0x410006800
+[2026-10-31 02:52:41.294][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0401600000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:52:41.295][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z13print_anotherv
+[2026-10-31 02:52:54.634][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:52:54.641][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:52:54.651][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0401600000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:52:54.652][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z5printv, kernel addr: 0x410004c00
+[2026-10-31 02:52:54.653][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0401600000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:52:54.654][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z5printv
+[2026-10-31 02:53:08.605][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:08.611][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:08.622][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0401600000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:53:08.623][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z13print_anotherv, kernel addr: 0x410006800
+[2026-10-31 02:53:08.625][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0401600000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:53:08.627][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z13print_anotherv
+[2026-10-31 02:53:21.234][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:21.238][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:21.246][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z15profiler_devbufv
+[2026-10-31 02:53:21.278][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z15profiler_devbufv
+[2026-10-31 02:53:21.290][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 128, type: 2, alignment: 0
+[2026-10-31 02:53:21.295][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b847d50, gpubase: 0x7e0401401500
+[2026-10-31 02:53:21.296][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410008000 --defsym=__scale_rodata_start=0x7e0401401500 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z15profiler_devbufv
+[2026-10-31 02:53:21.315][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2bafef00, elf: 0x2baf4f00, offset: 0xa000
+[2026-10-31 02:53:21.316][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 32768, src: 0x2bafef00, size: 7168
+[2026-10-31 02:53:30.444][2896][2896][info][src/scale_devkernel.cpp(506): load][scalehost] rodata data host addr: 0x2bb01400, elf: 0x2baf4f00, offset: 0xc500
+[2026-10-31 02:53:30.447][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b847d50, offset: 0, src: 0x2bb01400, size: 128
+[2026-10-31 02:53:30.597][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z15profiler_devbufv on device 0:
+[2026-10-31 02:53:30.598][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410008400
+[2026-10-31 02:53:30.601][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x1c00, offset: 0x8000
+[2026-10-31 02:53:30.604][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:53:30.607][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 256, flag:0x0
+[2026-10-31 02:53:30.611][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 0, flag:0x0
+[2026-10-31 02:53:30.611][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:53:30.613][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:53:30.614][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:53:30.616][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:53:30.617][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x7e0401401500
+[2026-10-31 02:53:30.618][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 128
+[2026-10-31 02:53:30.619][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:53:30.623][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 1
+[2026-10-31 02:53:30.624][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:53:30.637][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0402800000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc400
+[2026-10-31 02:53:30.641][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z15profiler_devbufv, kernel addr: 0x410008400
+[2026-10-31 02:53:30.642][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0402800000, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc400, stackSize: 0x0
+[2026-10-31 02:53:30.643][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z15profiler_devbufv
+[2026-10-31 02:53:37.586][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:37.592][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:37.605][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0402800000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc500
+[2026-10-31 02:53:37.606][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z15profiler_devbufv, kernel addr: 0x410008400
+[2026-10-31 02:53:37.606][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0402800000, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc500, stackSize: 0x0
+[2026-10-31 02:53:37.612][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z15profiler_devbufv
+[2026-10-31 02:53:43.531][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:43.536][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:43.542][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0402800000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:53:43.543][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z15profiler_devbufv, kernel addr: 0x410008400
+[2026-10-31 02:53:43.545][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0402800000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:53:43.546][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z15profiler_devbufv
+[2026-10-31 02:53:48.829][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:48.832][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:48.838][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0402800000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc400
+[2026-10-31 02:53:48.839][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z15profiler_devbufv, kernel addr: 0x410008400
+[2026-10-31 02:53:48.843][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0402800000, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc400, stackSize: 0x0
+[2026-10-31 02:53:48.844][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z15profiler_devbufv
+[2026-10-31 02:53:53.622][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:53.626][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:53.635][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0402800000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc500
+[2026-10-31 02:53:53.635][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z15profiler_devbufv, kernel addr: 0x410008400
+[2026-10-31 02:53:53.637][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0402800000, peakStackSize: 0x0, profilerBufferAddr: 0x7e04000bc500, stackSize: 0x0
+[2026-10-31 02:53:53.638][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z15profiler_devbufv
+[2026-10-31 02:53:58.399][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:53:58.403][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:53:58.429][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0402800000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:53:58.432][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z15profiler_devbufv, kernel addr: 0x410008400
+[2026-10-31 02:53:58.434][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0402800000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:53:58.436][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z15profiler_devbufv
+[2026-10-31 02:54:03.696][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:03.700][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:03.707][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z13simple_copy32PU3AS1jS0_
+[2026-10-31 02:54:03.733][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z13simple_copy32PU3AS1jS0_
+[2026-10-31 02:54:03.738][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410009c00 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z13simple_copy32PU3AS1jS0_
+[2026-10-31 02:54:03.752][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2bb4eb10, elf: 0x2bb43f10, offset: 0xac00
+[2026-10-31 02:54:03.753][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 39936, src: 0x2bb4eb10, size: 3072
+[2026-10-31 02:54:07.032][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z13simple_copy32PU3AS1jS0_ on device 0:
+[2026-10-31 02:54:07.035][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x41000a000
+[2026-10-31 02:54:07.035][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0xc00, offset: 0x9c00
+[2026-10-31 02:54:07.036][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: (nil), size: 0x0, offset: 0x0
+[2026-10-31 02:54:07.038][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 128, flag:0x0
+[2026-10-31 02:54:07.040][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 0, flag:0x0
+[2026-10-31 02:54:07.040][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 0, flag:0x0
+[2026-10-31 02:54:07.042][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:54:07.042][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:54:07.044][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:54:07.046][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x0
+[2026-10-31 02:54:07.047][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 0
+[2026-10-31 02:54:07.048][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:54:07.049][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:54:07.054][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:54:07.060][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:07.061][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z13simple_copy32PU3AS1jS0_, kernel addr: 0x41000a000
+[2026-10-31 02:54:07.062][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:07.063][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 2 arguments are being passed for Kernel _Z13simple_copy32PU3AS1jS0_
+[2026-10-31 02:54:07.065][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:07.065][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:08.113][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:08.117][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:08.123][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:08.126][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z13simple_copy32PU3AS1jS0_, kernel addr: 0x41000a000
+[2026-10-31 02:54:08.128][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:08.129][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 2 arguments are being passed for Kernel _Z13simple_copy32PU3AS1jS0_
+[2026-10-31 02:54:08.130][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:08.131][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:09.538][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:09.543][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:09.548][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:09.587][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:09.589][2896][2896][info][src/scale_memory.cpp(148): mallocFromChunkPool][scalehost] Call mapsScaleMalloc: devId: 0, size: 2097152, type: 1 for a new large chunk
+[2026-10-31 02:54:10.863][2896][2896][info][src/scale_memory.cpp(156): mallocFromChunkPool][scalehost] mapsScaleMalloc return: handle:0x2b863fb0, gpubase: 0x410200000
+[2026-10-31 02:54:10.865][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x41000a800 --defsym=__scale_mpu_text_base=0x410200000 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:10.882][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2bb9e580, elf: 0x2bb93d80, offset: 0xa800
+[2026-10-31 02:54:10.883][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 43008, src: 0x2bb9e580, size: 7168
+[2026-10-31 02:54:18.989][2896][2896][info][src/scale_devkernel.cpp(500): load][scalehost] mpu code host addr: 0x2bb9fd80, elf: 0x2bb93d80, offset: 0xc000
+[2026-10-31 02:54:18.991][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b863fb0, offset: 0, src: 0x2bb9fd80, size: 2048
+[2026-10-31 02:54:21.409][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z7vaddu32PU3AS1jS0_S0_j on device 0:
+[2026-10-31 02:54:21.412][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x41000ac00
+[2026-10-31 02:54:21.414][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x1c00, offset: 0xa800
+[2026-10-31 02:54:21.415][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: 0x2b863fb0, size: 0x800, offset: 0x0
+[2026-10-31 02:54:21.417][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 128, flag:0x0
+[2026-10-31 02:54:21.418][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 128, flag:0x0
+[2026-10-31 02:54:21.418][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 128, flag:0x0
+[2026-10-31 02:54:21.421][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 128, flag:0x0
+[2026-10-31 02:54:21.422][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:54:21.422][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:54:21.423][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x0
+[2026-10-31 02:54:21.423][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 0
+[2026-10-31 02:54:21.424][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:54:21.424][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:54:21.425][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:54:21.436][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:21.437][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vaddu32PU3AS1jS0_S0_j, kernel addr: 0x41000ac00
+[2026-10-31 02:54:21.439][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:21.442][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:21.444][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:21.445][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:21.446][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:54:21.448][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:54:24.652][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:24.659][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:24.666][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:24.706][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:24.709][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x41000c400 --defsym=__scale_mpu_text_base=0x410200800 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:24.724][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2bc1d690, elf: 0x2bc13290, offset: 0xa400
+[2026-10-31 02:54:24.725][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 50176, src: 0x2bc1d690, size: 7168
+[2026-10-31 02:54:39.166][2896][2896][info][src/scale_devkernel.cpp(500): load][scalehost] mpu code host addr: 0x2bc1fa90, elf: 0x2bc13290, offset: 0xc800
+[2026-10-31 02:54:39.170][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b863fb0, offset: 2048, src: 0x2bc1fa90, size: 2048
+[2026-10-31 02:54:43.194][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z7vsubu32PU3AS1jS0_S0_j on device 0:
+[2026-10-31 02:54:43.197][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x41000c800
+[2026-10-31 02:54:43.199][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x1c00, offset: 0xc400
+[2026-10-31 02:54:43.201][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: 0x2b863fb0, size: 0x800, offset: 0x800
+[2026-10-31 02:54:43.206][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 128, flag:0x0
+[2026-10-31 02:54:43.208][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 256, flag:0x0
+[2026-10-31 02:54:43.211][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 256, flag:0x0
+[2026-10-31 02:54:43.216][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 256, flag:0x0
+[2026-10-31 02:54:43.218][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:54:43.219][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:54:43.224][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x0
+[2026-10-31 02:54:43.226][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 0
+[2026-10-31 02:54:43.227][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:54:43.230][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:54:43.232][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:54:43.247][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:43.250][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vsubu32PU3AS1jS0_S0_j, kernel addr: 0x41000c800
+[2026-10-31 02:54:43.251][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:43.257][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:43.259][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:43.261][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:43.262][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:54:43.264][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:54:46.465][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:46.476][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:46.488][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:46.491][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vaddu32PU3AS1jS0_S0_j, kernel addr: 0x41000ac00
+[2026-10-31 02:54:46.492][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:46.494][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:46.496][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:46.497][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:46.499][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:54:46.500][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:54:50.219][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:50.231][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:50.244][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:50.245][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vsubu32PU3AS1jS0_S0_j, kernel addr: 0x41000c800
+[2026-10-31 02:54:50.247][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:50.249][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:50.251][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:50.252][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:50.254][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:54:50.255][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:54:54.518][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:54.525][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:54.540][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:54.541][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vsubu32PU3AS1jS0_S0_j, kernel addr: 0x41000c800
+[2026-10-31 02:54:54.543][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:54.544][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:54.546][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:54.547][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:54.553][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:54:54.556][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:54:55.075][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:55.083][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:55.100][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:55.102][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vaddu32PU3AS1jS0_S0_j, kernel addr: 0x41000ac00
+[2026-10-31 02:54:55.103][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:54:55.104][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:54:55.105][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:54:55.106][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:54:55.108][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:54:55.111][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:54:55.650][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:54:55.659][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:54:55.670][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0404000000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:54:55.674][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z5printv, kernel addr: 0x410004c00
+[2026-10-31 02:54:55.675][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0404000000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:54:55.677][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z5printv
+[2026-10-31 02:55:18.927][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:55:18.933][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:55:18.943][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:55:18.944][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vaddu32PU3AS1jS0_S0_j, kernel addr: 0x41000ac00
+[2026-10-31 02:55:18.945][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:55:18.946][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:55:18.947][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:55:18.949][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:55:18.953][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:55:18.954][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:55:24.667][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:55:24.673][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:55:24.683][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:55:24.685][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vsubu32PU3AS1jS0_S0_j, kernel addr: 0x41000c800
+[2026-10-31 02:55:24.688][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:55:24.695][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vsubu32PU3AS1jS0_S0_j
+[2026-10-31 02:55:24.696][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:55:24.700][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:55:24.717][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:55:24.723][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:55:25.213][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:55:25.216][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:55:25.229][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:55:25.234][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vaddu32PU3AS1jS0_S0_j, kernel addr: 0x41000ac00
+[2026-10-31 02:55:25.236][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:55:25.238][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:55:25.239][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:55:25.240][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:55:25.241][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:55:25.242][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:55:25.991][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:55:25.996][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:55:26.007][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x7e0404000000, printfBuffSize: 0x1000800, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:55:26.010][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z5printv, kernel addr: 0x410004c00
+[2026-10-31 02:55:26.012][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 32, printfBuffSize: 0x1000800, printfBuffAddr 0x7e0404000000, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x0
+[2026-10-31 02:55:26.014][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 0 arguments are being passed for Kernel _Z5printv
+[2026-10-31 02:55:47.398][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:55:47.406][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:55:47.423][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:55:47.425][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vaddu32PU3AS1jS0_S0_j, kernel addr: 0x41000ac00
+[2026-10-31 02:55:47.426][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:55:47.429][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 4 arguments are being passed for Kernel _Z7vaddu32PU3AS1jS0_S0_j
+[2026-10-31 02:55:47.433][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:55:47.435][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:55:47.438][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:55:47.440][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:55:50.944][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z7vmulu32PU3AS1jS0_S0_jPU3AS1y
+[2026-10-31 02:55:51.007][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y
+[2026-10-31 02:55:51.009][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x41000e000 --defsym=__scale_mpu_text_base=0x410201000 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z7vmulu32PU3AS1jS0_S0_jPU3AS1y
+[2026-10-31 02:55:51.024][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2bc6fa90, elf: 0x2bc65a90, offset: 0xa000
+[2026-10-31 02:55:51.027][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 57344, src: 0x2bc6fa90, size: 8192
+[2026-10-31 02:56:06.845][2896][2896][info][src/scale_devkernel.cpp(500): load][scalehost] mpu code host addr: 0x2bc71a90, elf: 0x2bc65a90, offset: 0xc000
+[2026-10-31 02:56:06.851][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b863fb0, offset: 4096, src: 0x2bc71a90, size: 2048
+[2026-10-31 02:56:11.322][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y on device 0:
+[2026-10-31 02:56:11.325][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x41000e400
+[2026-10-31 02:56:11.331][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x2000, offset: 0xe000
+[2026-10-31 02:56:11.333][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: 0x2b863fb0, size: 0x800, offset: 0x1000
+[2026-10-31 02:56:11.334][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 136, flag:0x0
+[2026-10-31 02:56:11.336][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 256, flag:0x0
+[2026-10-31 02:56:11.338][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 256, flag:0x0
+[2026-10-31 02:56:11.339][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 256, flag:0x0
+[2026-10-31 02:56:11.342][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:56:11.344][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:56:11.346][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x0
+[2026-10-31 02:56:11.348][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 0
+[2026-10-31 02:56:11.352][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x80
+[2026-10-31 02:56:11.353][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:56:11.355][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:56:11.371][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:56:11.373][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y, kernel addr: 0x41000e400
+[2026-10-31 02:56:11.374][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 40, printfBuffSize: 0x0, printfBuffAddr 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x8
+[2026-10-31 02:56:11.375][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 5 arguments are being passed for Kernel _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y
+[2026-10-31 02:56:11.376][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:56:11.378][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:56:11.380][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:56:11.383][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:56:11.386][2896][2896][info][src/scale_devkernel.cpp(389): setRuntimeKernelArgs][scalehost] Moving 4th arg of size= 8 to stack at offset = 0
+[2026-10-31 02:56:13.467][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:56:13.469][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y, kernel addr: 0x41000e400
+[2026-10-31 02:56:13.472][2896][2896][info][src/scale_devkernel.cpp(368): setRuntimeKernelArgs][scalehost] payload: 40, printfBuffSize: 0x0, printfBuffAddr 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0, stackSize: 0x8
+[2026-10-31 02:56:13.474][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 5 arguments are being passed for Kernel _Z7vmulu32PU3AS1jS0_S0_jPU3AS1y
+[2026-10-31 02:56:13.476][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:56:13.477][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:56:13.479][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 8 to D5
+[2026-10-31 02:56:13.482][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 3th arg of size= 4 to R7
+[2026-10-31 02:56:13.484][2896][2896][info][src/scale_devkernel.cpp(389): setRuntimeKernelArgs][scalehost] Moving 4th arg of size= 8 to stack at offset = 0
+[2026-10-31 02:56:15.012][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:56:15.017][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:56:15.024][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --relocatable --just-symbols=/opt/maps/toolchain/lib/scale/release/scale_scheduler_apc_strip.out --allow-multiple-definition /opt/maps/toolchain/lib/scale/release/aurora_dlmt.o /opt/maps/toolchain/lib/scale/release/aurora_sync.o /opt/maps/toolchain/lib/scale/release/device_builtin_vars.o /opt/maps/toolchain/lib/scale/release/aurora_callm_queue_args_buff.s.o /opt/maps/toolchain/lib/scale/release/kernel_builtin_table.s.o /opt/maps/toolchain/lib/scale/release/crtend.o -L/opt/maps/toolchain/lib/scale/release -lm -lgloss -lclang_rt.builtins-aurora_s -laurora -lc++ -lc++abi -lscale -lc -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z9vtanhfp32PU3AS1fPU3AS1Kfj
+[2026-10-31 02:56:15.181][2896][2896][info][src/scale_devprogram.cpp(61): build][scalehost] Build kernel: _Z9vtanhfp32PU3AS1fPU3AS1Kfj
+[2026-10-31 02:56:15.184][2896][2896][info][src/scale_memory.cpp(104): mallocSingleBlock][scalehost] Call mapsScaleMalloc: devId: 0, size: 64, type: 2, alignment: 0
+[2026-10-31 02:56:15.194][2896][2896][info][src/scale_memory.cpp(114): mallocSingleBlock][scalehost] mapsScaleMalloc return: handle:0x2b868480, gpubase: 0x7e0401401600
+[2026-10-31 02:56:15.198][2896][2896][info][comgr.cpp(245): logArgv][scalehost] scale comgr job: ld.lld --defsym=__scale_spu_text_base=0x410010000 --defsym=__scale_mpu_text_base=0x410201800 --defsym=__scale_rodata_start=0x7e0401401600 --defsym=MATH_TABLE_ADDR=0x7e0400000000 --defsym=METRICS_MASK=0x0 -T/opt/maps/toolchain/lib/scale/release/apc-ai.ld --gc-sections --threads=1 --entry=_Z9vtanhfp32PU3AS1fPU3AS1Kfj
+[2026-10-31 02:56:15.230][2896][2896][info][src/scale_devkernel.cpp(495): load][scalehost] spu code host addr: 0x2bd53010, elf: 0x2bd31010, offset: 0x22000
+[2026-10-31 02:56:15.234][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b8423b0, offset: 65536, src: 0x2bd53010, size: 11264
+[2026-10-31 02:56:33.549][2896][2896][info][src/scale_devkernel.cpp(500): load][scalehost] mpu code host addr: 0x2bd55810, elf: 0x2bd31010, offset: 0x24800
+[2026-10-31 02:56:33.553][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b863fb0, offset: 6144, src: 0x2bd55810, size: 3072
+[2026-10-31 02:56:38.892][2896][2896][info][src/scale_devkernel.cpp(506): load][scalehost] rodata data host addr: 0x2bd56610, elf: 0x2bd31010, offset: 0x25600
+[2026-10-31 02:56:38.897][2896][2896][info][src/scale_memory.cpp(177): memcpyToDevice][scalehost] Call mapsMemcpyH2DFunc: handle: 0x2b868480, offset: 0, src: 0x2bd56610, size: 64
+[2026-10-31 02:56:38.987][2896][2896][kernel][src/scale_host.cpp(195): scaleGetKernelInfo][scalehost] kernelInfo of _Z9vtanhfp32PU3AS1fPU3AS1Kfj on device 0:
+[2026-10-31 02:56:38.990][2896][2896][info][src/scale_host.cpp(196): scaleGetKernelInfo][scalehost] 	 kernelEntryAddr: 0x410010400
+[2026-10-31 02:56:38.991][2896][2896][info][src/scale_host.cpp(197): scaleGetKernelInfo][scalehost] 	 spuCode handle: 0x2b8423b0, size: 0x2c00, offset: 0x10000
+[2026-10-31 02:56:38.994][2896][2896][info][src/scale_host.cpp(198): scaleGetKernelInfo][scalehost] 	 mpuCode handle: 0x2b863fb0, size: 0xc00, offset: 0x1800
+[2026-10-31 02:56:38.995][2896][2896][kernel][src/scale_host.cpp(199): scaleGetKernelInfo][scalehost] 	 sharedMem: size 65792, flag:0x0
+[2026-10-31 02:56:38.996][2896][2896][kernel][src/scale_host.cpp(200): scaleGetKernelInfo][scalehost] 	 mem0: size 32768, flag:0x0
+[2026-10-31 02:56:38.999][2896][2896][kernel][src/scale_host.cpp(201): scaleGetKernelInfo][scalehost] 	 mem1: size 32768, flag:0x0
+[2026-10-31 02:56:39.000][2896][2896][kernel][src/scale_host.cpp(202): scaleGetKernelInfo][scalehost] 	 mem2: size 0, flag:0x0
+[2026-10-31 02:56:39.001][2896][2896][kernel][src/scale_host.cpp(203): scaleGetKernelInfo][scalehost] 	 mem3: size 0, flag:0x0
+[2026-10-31 02:56:39.002][2896][2896][kernel][src/scale_host.cpp(204): scaleGetKernelInfo][scalehost] 	 mem4: size 0, flag:0x0
+[2026-10-31 02:56:39.004][2896][2896][info][src/scale_host.cpp(205): scaleGetKernelInfo][scalehost] 	 rodata start: 0x7e0401401600
+[2026-10-31 02:56:39.005][2896][2896][info][src/scale_host.cpp(206): scaleGetKernelInfo][scalehost] 	 rodata size: 64
+[2026-10-31 02:56:39.007][2896][2896][info][src/scale_host.cpp(207): scaleGetKernelInfo][scalehost] 	 rodata offset: 0x100c0
+[2026-10-31 02:56:39.009][2896][2896][info][src/scale_host.cpp(208): scaleGetKernelInfo][scalehost] 	 hasPrint: 0
+[2026-10-31 02:56:39.010][2896][2896][info][src/scale_host.cpp(209): scaleGetKernelInfo][scalehost] 	 hasPeakStackSize: 0
+[2026-10-31 02:56:39.017][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:56:39.019][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z9vtanhfp32PU3AS1fPU3AS1Kfj, kernel addr: 0x410010400
+[2026-10-31 02:56:39.020][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:56:39.022][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 3 arguments are being passed for Kernel _Z9vtanhfp32PU3AS1fPU3AS1Kfj
+[2026-10-31 02:56:39.023][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:56:39.024][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:56:39.025][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 4 to R5
+[2026-10-31 02:56:50.793][2896][2896][info][src/scale_host.cpp(135): __scalePushCallConfiguration][scalehost] __scalePushCallConfiguration is called
+[2026-10-31 02:56:50.799][2896][2896][info][src/scale_host.cpp(150): __scalePopCallConfiguration][scalehost] __scalePopCallConfiguration is called
+[2026-10-31 02:56:50.821][2896][2896][info][src/scale_host.cpp(221): scaleSetKernelArgs][scalehost] hiddenArgs: printfBuffAddr: 0x0, printfBuffSize: 0x0, peakStackSize: 0x0, profilerBufferAddr: 0x0
+[2026-10-31 02:56:50.828][2896][2896][info][src/scale_devkernel.cpp(349): setRuntimeKernelArgs][scalehost] setKernelArgs for _Z9vtanhfp32PU3AS1fPU3AS1Kfj, kernel addr: 0x410010400
+[2026-10-31 02:56:50.830][2896][2896][info][src/scale_devkernel.cpp(359): setRuntimeKernelArgs][scalehost] payload: 0
+[2026-10-31 02:56:50.835][2896][2896][info][src/scale_devkernel.cpp(383): setRuntimeKernelArgs][scalehost] paramNum 3 arguments are being passed for Kernel _Z9vtanhfp32PU3AS1fPU3AS1Kfj
+[2026-10-31 02:56:50.840][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 0th arg of size= 8 to D1
+[2026-10-31 02:56:50.842][2896][2896][info][src/scale_devkernel.cpp(397): setRuntimeKernelArgs][scalehost] Moving 1th arg of size= 8 to D3
+[2026-10-31 02:56:50.845][2896][2896][info][src/scale_devkernel.cpp(399): setRuntimeKernelArgs][scalehost] Moving 2th arg of size= 4 to R5
+[2026-10-31 02:57:03.606][2896][2896][info][src/scale_host.cpp(261): scaleFuncGetName][scalehost] func: 0x2b7dca30, name: 0Ê}+
+[2026-10-31 02:57:03.615][2896][2896][info][src/scale_host.cpp(273): scaleFuncGetParamCount][scalehost] scaleFuncGetParamCount: func: 0x4, paramCount: 730056096
+[2026-10-31 02:57:03.620][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 0 of fun: 0x821a90, resides in registers, its offset is: 0 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:57:03.623][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 1 of fun: 0x821a90, resides in registers, its offset is: 8 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:57:03.633][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 2 of fun: 0x821a90, resides in registers, its offset is: 16 (bytes), its size is: 8 (bytes)
+[2026-10-31 02:57:03.639][2896][2896][info][src/scale_host.cpp(302): scaleFuncGetParamInfo][scalehost] The param index: 3 of fun: 0x821a90, resides in registers, its offset is: 24 (bytes), its size is: 4 (bytes)
+[2026-10-31 02:57:03.651][2896][2896][info][src/scale_host.cpp(106): __scaleUnregisterFatBinary][scalehost] __scaleUnregisterFatBinary is called for module 0x2b7dc040
+[2026-10-31 02:57:03.692][2896][2896][info][src/scale_host.cpp(106): __scaleUnregisterFatBinary][scalehost] __scaleUnregisterFatBinary is called for module 0x2b7d8160
+[2026-10-31 02:57:04.007][2896][2896][info][src/scale_host.cpp(251): scaleReleaseDevice][scalehost] scaleReleaseDevice( 0 ) is called
