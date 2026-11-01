@@ -36,7 +36,7 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
 ### 2.2 Device 周期计数器 (`tick()`) 验证分析
 
 1. **确定性与方差 (Repeatability)**：
-   - 相同工作量下，Device `tick()` 读出的硬件周期数在 3 次重复中**完全一致**（如 10 循环恒为 14,752 cycles，80 循环恒为 117,582 cycles），方差为 0。证明 gem5 仿真核指令周期计算是精确、可重复的硬件级建模。
+   - 相同工作量下，Device `tick()` 读出的硬件周期数在 3 次重复中**完全一致**（如 10 循环恒为 14,752 cycles，80 循环恒为 117,582 cycles），方差为 0。证明 gem5 仿真器在给定的静态指令序列下具有完全确定性与可重复性。
 2. **完美线性度 (Linearity)**：
    - 基础循环基线（10 循环）= 14,752 cycles。
    - 每增加 10 次循环计算，增量周期为：
@@ -97,3 +97,34 @@ export MALOG_LEVEL=error
 export MAPS_KERNEL_REPEATITION_COUNT=1
 ```
 所有测试脚本均在非交互模式下运行，由 `scripts/guest_run.sh` 自动分发与捕获结果。
+
+---
+
+## 5. CModel 仿真器建模粒度与 MPU 编译开销归因 (T0 定性)
+
+在探索算子性能时，观察到 CModel 上向量 FMA 执行耗时远高于理论单周期吞吐的异常现象（GEMM 中单步向量累加约 95~100 周期）。为解释该异常并定性 CModel 的仿真粒度，我们开展了专题实验与归因分析（详见 `notes/cmodel_mpu_granularity.md`）：
+
+### 5.1 编译器生成质量归因 (反汇编审查)
+通过 `clang-offload-bundler` 提取 MPU 二进制并执行 `llvm-objdump -d` 反汇编（见 `notes/gemm_mpu.dis` 与 `kernels/test_fma/test_fma_mpu.dis`），查明高级语言循环存在显著的编译器未优化现象：
+1. **乘加未自动融合**：`+= *` 被拆分为独立乘法（`FMA1: 0 + A * B`）与加法（`FMA0: C + temp * 1`），中间插入 5 个静态 NOP 保护气泡。
+2. **保守静态调度与 NOP 气泡**：编译器采用全静态冒险保护，每次 LOAD 插入 12 个 NOP，每次 FMA 插入 5 个 NOP。
+3. **严重寄存器未分配与栈溢出**：循环计数变量 `i`、基地址指针及局部累加向量在每轮迭代均经历多次全量入栈与出栈（`T15[15] + offset`），单轮累加循环指令包膨胀至 70~80 条。
+
+### 5.2 受控微基准线性验证 (`results/test_fma.csv`)
+通过受控微基准对 $N \in \{100, 1000, 10000\}$ 进行扫描，得出精确线性回归方程：
+- **Mode 0 (Unfused Reg, `acc += va * vb`)**: $Cycles = 74.00 \times N + 204$ ($R^2 = 1.00000$)
+- **Mode 1 (Fused Reg, `acc = acc * va + vb`)**: $Cycles = 69.00 \times N + 217$ ($R^2 = 1.00000$)，比 Mode 0 精确减少 5 周期（即消除拆分乘加之间的 5-NOP 气泡）。
+- **Mode 2 (DM Acc / GEMM Pattern, `c[0] += a[0] * b[0]`)**: $Cycles = 87.00 \times N + 146$ ($R^2 = 1.00000$)，包含 DM 向量写回（`BIU2: STORE`）。在真实 GEMM 内核中叠加多重循环步进与标量广播计算后，达到约 95~100 周期/步。
+- **与厂商手写汇编对比**：厂商官方手写汇编（`kernels/official_demo/mpu_add_u32.m.asm`）采用软件流水预热（`wait 13 || wait 16`），单行 VLIW 指令包实现 Load+Add+Store+Jump 并发，实测吞吐量为 **1 cycle/vector operation**。证实硬件本身具备单周期向量吞吐能力，编译代码的高延迟源于当前编译工具链的早期实现。
+
+### 5.3 仿真器微架构建模粒度审查
+审查 gem5 配置文件（`config.ini`）、启动参数与运行日志：
+1. **MPU 硬件流水线建模被禁用**：`[system.apc.ape0.mpu]` 中明确声明 `pipeline=false`，MPU 未实现动态微架构流水线仿真。
+2. **内存系统为固定时延模型 (`SimpleMemory`)**：工程中完全不存在 `DRAMCtrl`，缺乏对物理 DDR/LPDDR 控制器（Row Buffer、Bank 冲突、刷新与物理时序）的建模。
+3. **硬件遥测统计缺失**：`stats.txt` 全程为空（0 字节），缺乏流水线停顿分类和微架构硬件计数器。
+
+### 5.4 仿真环境使用与学术定性规范
+基于上述实验证据，对本项目的性能数据做出如下学术定性规范：
+1. **撤销“周期精确”表述**：严禁在报告或对外交流中将当前 CModel 称为“周期精确硬件仿真器”（Cycle-Accurate Simulator）。该环境属于**指令集级/功能级仿真器附带粗粒度静态延迟估算模型**。
+2. **禁止将测得周期直接等同于物理硬件能力**：CModel 测得的绝对 cycle 周期数与算子耗时，反映的是“**当前早期编译器代码生成质量 + 粗粒度静态时延模型**”下的系统行为，不得将其作为 Aurora 物理量产芯片的算力极限提供给外部评估。
+

@@ -2,7 +2,7 @@
 
 **项目名称**: LPU-Bench: LLM Inference Microbenchmarks on Aurora Architecture  
 **研究对象**: Aurora 解耦型 SPU/MPU 异构多核架构与片上高速数据存储 (Data Memory, DM)  
-**仿真平台**: Aurora CModel (QEMU pciemu + gem5 cycle-accurate hardware simulation)  
+**仿真平台**: Aurora CModel (QEMU pciemu + gem5 指令级时序仿真平台)  
 **编程模型**: SCALE Programming Framework (Single-program C++ dialect with vector intrinsics)  
 **基准测试套件**: K1 (GEMM / FFN Scaling), K2 (LLM Decode Attention), K3 (Pipelined Overlap & Locality Ablation)  
 
@@ -12,7 +12,7 @@
 
 大语言模型 (LLM) 推理已成为当代计算基础设施的核心负载。LLM 推理包含两个具有本质物理特征差异的阶段：**预填充阶段 (Prefill Phase)** 与 **解码阶段 (Decode Phase)**，以及两种不同计算强度的算子类型：**注意力计算 (Attention)** 与 **前馈网络 (FFN / GEMM)**。近年来，以 Groq 为代表的语言处理单元 (Language Processing Unit, LPU) 提倡摒弃传统 GPU 的高延迟 DRAM/HBM 访存模式，采用海量片上 SRAM 常驻与极简确定性执行流水线，以此实现超高吞吐、极低时延的 Token 生成。
 
-本项目立足于思朗科技 Aurora 自研处理器的全系统周期精确仿真平台 (CModel: QEMU pciemu + gem5 cycle simulation)，在 SCALE 异构统一编程框架下构建并验证了面向 LLM 推理关键核心算子的微基准测试系统 (Microbenchmark Suite)，完成了严格的硬件计时可靠性验证、K1 矩阵乘算子规模扩展性评测、K2 解码注意力算子访存局部性评测、以及 K3 流水线双缓冲重叠与存储消融实验。
+本项目立足于思朗科技 Aurora 自研处理器的全系统指令级时序仿真平台 (CModel: QEMU pciemu + gem5 仿真平台)，在 SCALE 异构统一编程框架下构建并验证了面向 LLM 推理关键核心算子的微基准测试系统 (Microbenchmark Suite)，完成了严格的硬件计时可靠性验证、K1 矩阵乘算子规模扩展性评测、K2 解码注意力算子访存局部性评测、以及 K3 流水线双缓冲重叠与存储消融实验。
 
 基于来自 gem5 硬件仿真周期寄存器 (`tick()`) 的确定性数据，本报告得出以下三个核心结论：
 1. **注意力与前馈网络分离 (AF 分离)**：Aurora 单个片上 DM 分配区域存在严格的 **32 KB 物理容量上限**，隐藏层维度 $d=64$ 时仅能常驻 $L=128$ 个 Token 的 KV Cache，更长上下文必须流式访问外部 DDR（实测纯 DMA 搬运时延约 176 cycles/token）。相比之下，FFN/GEMM 算子的权重分块（16 KB Tile）天然契合单 Bank 存储，且算力随 Batch/Token 规模 $M$ 显著提升（从 0.2786 提升至 0.2915 FLOPs/cycle）。因此在 AF 分离架构中，**Aurora 极不适合作为长上下文 Attention 专用节点，而高度适合承担无状态、计算密集的 FFN / GEMM 专用计算引擎**。
@@ -215,7 +215,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 
 ## 5. 核心课题论证与学术回答 (Research Questions & Core Synthesis)
 
-基于上述确凿且零方差的周期精确仿真数据，本研究系统性地回答本项目提出的三个核心问题。
+基于上述在 CModel 仿真环境下测得的零方差确定性数据，本研究系统性地回答本项目提出的三个核心问题。
 
 ### 5.1 RQ1: 注意力与前馈网络分离 (AF 分离) 中 Aurora 的角色定位
 
@@ -274,7 +274,7 @@ Aurora 在当前存储与总线规格下，**不适合作为追求极限低时�
 ## 6. 局限性与有效性威胁 (Threats to Validity & Limitations)
 
 在科学评估中，本研究明确记录以下有效性威胁与边界约束：
-1. **仿真时钟与物理硅片的差异**：gem5 提供了周期精确的时钟模型，但在大规模外部内存并发冲突、PCIe 总线仲裁抖动以及片上网络 (NoC) 拥塞时延方面，全系统软件模拟与物理流片芯片仍存在微小理论差异。
+1. **CModel 仿真粒度与物理硅片的差异**：当前 CModel 属于指令级功能与静态粗粒度时序仿真模型（gem5 配置 `pipeline=false`、`SimpleMemory`，无真实 DRAM 控制器时序与流水线动态 stall 统计），且实测周期数高度受编译器静态指令生成（未融合 FMA、栈寄存器溢出与 NOP 气泡）影响。因此，当前的 cycle 计数反映的是编译器生成代码在 CModel 估算模型下的行为表现，不可直接当作硬件物理芯片的实际能力对外提供。
 2. **实验参数空间科学裁剪理由**：
    - 依据项目管理与系统工程原则，单次运行超过 30 分钟的配置应谨慎评估。在证明 gem5 仿真零方差（$Var = 0, R^2 = 1.00000$）的确定性前提下，K1 评测在 $M \in \{1, 2, 4, 8\}$ 范围内已完整跨越 8 倍规模，清晰呈现了从访存受限向算力利用率饱和收敛的完整物理趋势。
    - 针对 $M=16, 32$ 的配置，单点仿真在宿主机需持续消耗数十至数百分钟，且边际信息增益极低，故依据规则主动裁剪，有效规避了无响应阻塞风险。
@@ -283,6 +283,9 @@ Aurora 在当前存储与总线规格下，**不适合作为追求极限低时�
 ---
 
 ## 7. 下一代 Aurora 架构演进建议 (Architectural Recommendations)
+
+> [!IMPORTANT]
+> **关于 CModel 仿真数据与硬件能力的说明**：深入分析表明，当前测得的周期数（如单条向量乘加约 74~87 周期）主要源于 `scale-cc` 编译器生成的冗余寄存器栈溢出及长延迟静态 NOP 气泡，而官方手写汇编实现软件流水后单操作仅需 1 周期。同时 CModel 的 MPU 未开启动态流水线模拟 (`pipeline=false`)。因此，本报告中所有周期数据仅代表当前编译器生成质量在 CModel 粗粒度时序估算下的表现，绝不可将现有 cycle 数作为 Aurora 芯片真实硬件算力上限对外提供。
 
 若思朗科技计划将下一代 Aurora 芯片打造为**真正具备全球竞争力的语言处理单元 (LPU)**，基于本实验数据的量化反馈，提出以下三项硬件架构演进建议：
 
