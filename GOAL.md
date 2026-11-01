@@ -1,6 +1,6 @@
 # GOAL：在 Aurora CModel 上测量 LLM 推理典型算子，论证该架构适合 LPU / AF 分离中的角色
 
-> 本文件是给自主开发 agent 的长期目标说明。请完整阅读后再开始；每次恢复工作时先读 PROGRESS.md 和 BLOCKERS.md。
+> 本文件是给自主开发 agent 的长期目标说明。请完整阅读后再开始；每次恢复工作时先读 `PROGRESS.md` 和 `BLOCKERS.md`。
 
 ---
 
@@ -18,48 +18,60 @@
 
 ### 1.1 芯片与软件栈
 - 厂商：思朗科技（smartlogictech）。核心向量核 MPU 源自其 MaPU 架构。
-- 软件栈：toolchain（Clang/LLVM，编译 .sc 文件）、maps-kmd（内核驱动）、maps-umd（用户态驱动）、maps-fw 等。Host 端 API 类似 CUDA，前缀为 maps（mapsMalloc / mapsMemcpyAsync / <<<>>> / mapsLaunchKernelExc）。
-- 参考文档放在仓库 docs/ 下（由人类提供）：
-  - SCALE_Programming_Guide —— 编程最重要的参考，写 kernel 前必读第 3、4、5 章
-  - maps-umd包使用说明 —— 测试用例、环境变量
-  - Installation_Document_2.0.x —— mapkg 安装命令
-  - 搭建cmodel环境 —— 启动/销毁 QEMU 节点
-  - SCALE_CModel_Installation_Summary —— 本机已部署环境的说明与踩坑记录
+- 软件栈：`toolchain`（Clang/LLVM，编译 `.sc` 文件）、`maps-kmd`（内核驱动）、`maps-umd`（用户态驱动）、`maps-fw` 等。Host 端 API 类似 CUDA，前缀为 `maps`（`mapsMalloc` / `mapsMemcpyAsync` / `<<<>>>` / `mapsLaunchKernelExc`）。
+- 参考文档放在仓库 `docs/` 下（由人类提供）：
+  - `SCALE_Programming_Guide` —— **编程最重要的参考，写 kernel 前必读第 3、4、5 章**
+  - `maps-umd包使用说明` —— 测试用例、环境变量
+  - `Installation_Document_2.0.x` —— mapkg 安装命令
+  - `搭建cmodel环境` —— 启动/销毁 QEMU 节点
+  - `SCALE_CModel_Installation_Summary` —— 本机已部署环境的说明与踩坑记录
 
 ### 1.2 架构要点（来自 Programming Guide）
-- APE = SPU + MPU：SPU 是乱序标量核，负责 DMA 搬运、同步、调度；MPU 是 VLIW 向量核，只做计算，只能访问 DM，只能由 SPU 调用。
-- SPU 调 MPU 三种方式：async_call（默认）、sync_call、async_enqueue（异步任务队列，用于减少空泡；不可与前两者混用）。
+- **APE = SPU + MPU**：SPU 是乱序标量核，负责 DMA 搬运、同步、调度；MPU 是 VLIW 向量核，只做计算，**只能访问 DM**，只能由 SPU 调用。
+- SPU 调 MPU 三种方式：`async_call`（默认）、`sync_call`、`async_enqueue`（异步任务队列，用于减少空泡；**不可与前两者混用**）。
 - 4 个 APE 组成一个 APC（共享 DM），4 个 APC 组成一个 APC cluster。
-- SIMD 而非 SIMT：warpSize == 1，单线程直接操作 v16f32 等 512bit 向量类型。
+- **SIMD 而非 SIMT**：`warpSize == 1`，单线程直接操作 `v16f32` 等 512bit 向量类型。
 - 一个 block 最多 128 线程，必须落在一个 APC 内。
-- 两种执行模式：N 模式（同 CUDA，线程可切换）；C 模式（block 仅 2 或 4 线程，保证并行、独占 APC，需用 mapsLaunchKernelExc 启动）。
-- 内存：DDR 为 global memory（64 位地址）；DM 分 24 个 bank，用 __mem0~4__（local）、__shared__、__fix0~5__（指定 bank）、__acc__、__residency__ 显式管理。
-- 数据搬运：memcpy_async（DMA）配合 barrier 等待，barrier_type 有 sync_read / sync_write / sync_read_write。
+- 两种执行模式：N 模式（同 CUDA，线程可切换）；C 模式（block 仅 2 或 4 线程，保证并行、独占 APC，需用 `mapsLaunchKernelExc` 启动）。
+- 内存：DDR 为 global memory（64 位地址）；DM 分 24 个 bank，用 `__mem0~4__`（local）、`__shared__`、`__fix0~5__`（指定 bank）、`__acc__`、`__residency__` 显式管理。
+- 数据搬运：`memcpy_async`（DMA）配合 barrier 等待，`barrier_type` 有 `sync_read` / `sync_write` / `sync_read_write`。
 
 ### 1.3 必须遵守的编程约束（违反会导致编译失败或运行时诡异错误）
-- 指向 DDR 的 kernel 参数要加 __DDR 修饰；__device__ 数组当指针用时需 (__ptr64 T*) 强转。
-- kernel 参数不能用 long / unsigned long，64 位整数一律用 long long / unsigned long long（host/device 对 long 位宽理解不同，会导致 launch 失败）。
-- host 侧 mapsMalloc 得到的虚地址需要 mapsMemobjGetPhysicalAddress 转换后再传给 device（参见 demo 工程）。
-- Local memory region 不能跳号（用三个就只能是 __mem0__ __mem1__ __mem2__）。
-- 强烈建议（N 模式）：单个 memory region <= 32KB，local region 不超过 4 个，block 线程数 <= 32。
-- 链接时加 --check-scale-mem 做内存限制检查。
-- 用户写 MPU 汇编时不能破坏 BIUT15 / KI15，需以 mfetch:jump KI15 结束（尽量用 MPU C 写法，避免汇编）。
+- 指向 DDR 的 kernel 参数要加 `__DDR` 修饰；`__device__` 数组当指针用时需 `(__ptr64 T*)` 强转。
+- kernel 参数**不能用 `long` / `unsigned long`**，64 位整数一律用 `long long` / `unsigned long long`（host/device 对 long 位宽理解不同，会导致 launch 失败）。
+- host 侧 `mapsMalloc` 得到的虚地址需要 `mapsMemobjGetPhysicalAddress` 转换后再传给 device（参见 demo 工程）。
+- Local memory region 不能跳号（用三个就只能是 `__mem0__ __mem1__ __mem2__`）。
+- **强烈建议（N 模式）**：单个 memory region ≤ 32KB，local region 不超过 4 个，block 线程数 ≤ 32。
+- 链接时加 `--check-scale-mem` 做内存限制检查。
+- 用户写 MPU 汇编时不能破坏 `BIUT15` / `KI15`，需以 `mfetch:jump KI15` 结束（尽量用 MPU C 写法，避免汇编）。
 - N 模式下单个 kernel 使用的 barrier 不超过 8 个。
 
 ---
 
 ## 2. 环境
 
+> 以下值来自部署总结，**开始前请逐项核实，以实际为准**，核实结果写入 `PROGRESS.md`。
+
 | 项 | 值 |
 |---|---|
 | 宿主机 | Windows 11 WSL2，Ubuntu 24.04 |
-| 宿主机工作目录 | /home/rog/lpu-workspace/scale/ |
-| driver 目录 | /home/rog/lpu-workspace/scale/driver |
+| 宿主机工作目录 | `/home/rog/lpu-workspace/scale/` |
+| driver 目录 | `/home/rog/lpu-workspace/scale/driver` |
 | 客体机 (QEMU) | Ubuntu 22.04，kernel 5.15 |
-| 共享目录 | 宿主机 /home/rog <-> 客体机 /home/emu（9p 挂载，双向实时可见） |
-| 登录客体机 | cd driver && ./pciemu/release/ssh_emu.sh，或 ssh -p <端口> root@localhost |
-| 工具链 | 客体机 /opt/maps/toolchain |
+| 共享目录 | 宿主机 `/home/rog` ↔ 客体机 `/home/emu`（9p 挂载，双向实时可见） |
+| 登录客体机 | `cd driver && ./pciemu/release/ssh_emu.sh`，或 `ssh -p <端口> root@localhost`（端口每次 create 可能变化，从 create 日志末尾读取） |
+| 工具链 | 客体机 `/opt/maps/toolchain`；编译前需 source 驱动的 setup 脚本以得到 `$TOOLCHAIN_DIR` 等变量（自行查找具体脚本） |
 | 模拟器配置 | 默认 4 个 APC |
+
+**工作方式**：在宿主机共享目录里写代码；通过 ssh 在客体机里编译和运行（编译器只在客体机里）。建议把所有在客体机执行的命令封装成脚本 `scripts/guest_run.sh "<cmd>"`，统一处理 ssh、`source` 环境、超时和日志。
+
+**环境健康检查**（每次恢复工作先做）：
+1. 客体机能 ssh 登录；
+2. `lsmod | grep maps` 有输出（重启后需 `sudo modprobe maps`）；
+3. `/dev/dri/card1` 存在；
+4. `umd_test/memory/memory_basic_test` 通过。
+
+**QEMU 挂掉时**：必须在 tmux 会话中重启：先 `./pciemu/release/clean_pciemu_runenv.sh`，再 `./mapkg create -m umd`。注意 clean 脚本会杀掉当前用户**所有** qemu 进程。WSL 会话断开会导致 QEMU 收到 SIGHUP 退出，因此长任务一律放在 tmux 里跑。
 
 ---
 
@@ -195,7 +207,7 @@ lpu-bench/                  # 放在宿主机共享目录下，例如 /home/rog/
 ## 7. 完成标准（Definition of Done）
 
 全部满足才算完成：
-- [x] 阶段 0：demo 能复现运行；`notes/demo_walkthrough.md` 和 `notes/mpu_capabilities.md` 完成
+- [ ] 阶段 0：demo 能复现运行；`notes/demo_walkthrough.md` 和 `notes/mpu_capabilities.md` 完成
 - [ ] 阶段 1：`METHODOLOGY.md` 写明经过验证的仿真时间计时方法
 - [ ] K1 GEMM：v0、v1 两个版本正确性全部通过，完成 M 扫描
 - [ ] K2 decode attention：v0、v1、v2 三个版本正确性全部通过，完成 L 扫描
