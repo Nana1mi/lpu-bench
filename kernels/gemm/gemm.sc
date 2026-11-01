@@ -1,6 +1,7 @@
 #include "scale.h"
 #include "maps_runtime_api.h"
 #include "aurora.h"
+#include "aurora_s-intrin.h"
 #include "scale/barrier"
 #include "cooperative_groups.h"
 
@@ -114,7 +115,7 @@ __global__ void gemm_v0_serial_kernel(
 }
 
 // -------------------------------------------------------------
-// SPU Kernel v1: Overlap (Double Buffering DMA + MPU)
+// SPU Kernel v1: Overlap (Double Buffering DMA + MPU async_enqueue)
 // -------------------------------------------------------------
 __global__ void gemm_v1_overlap_kernel(
     __DDR float *Y,
@@ -130,8 +131,9 @@ __global__ void gemm_v1_overlap_kernel(
 
     __mem0__ v16fp32 W_buf0[K_TILE * N_VECS] __attribute__((aligned(64)));
     __mem1__ v16fp32 W_buf1[K_TILE * N_VECS] __attribute__((aligned(64)));
-    __mem2__ float X_buf[MAX_M * K_TILE] __attribute__((aligned(64)));
-    __mem3__ v16fp32 Y_acc[MAX_M * N_VECS] __attribute__((aligned(64)));
+    __mem2__ float X_buf0[MAX_M * K_TILE] __attribute__((aligned(64)));
+    __mem3__ float X_buf1[MAX_M * K_TILE] __attribute__((aligned(64)));
+    __mem4__ v16fp32 Y_acc[MAX_M * N_VECS] __attribute__((aligned(64)));
 
     auto block = cooperative_groups::this_thread_block();
     using barrier_t = scale::barrier<scale::thread_scope_block>;
@@ -154,49 +156,43 @@ __global__ void gemm_v1_overlap_kernel(
 
     unsigned num_k_tiles = K / K_TILE;
 
-    // Prologue: Prefetch tile 0 into W_buf0 and X_buf
+    // Prologue: Prefetch tile 0 into W_buf0 and X_buf0
     memcpy_async(block, W_buf0, W, scale::aligned_size_t<4>(K_TILE * N * sizeof(float)), bar0);
     for (unsigned m = 0; m < M; ++m) {
-        memcpy_async(block, X_buf + m * K_TILE, X + m * K, scale::aligned_size_t<4>(K_TILE * sizeof(float)), bar0);
+        memcpy_async(block, X_buf0 + m * K_TILE, X + m * K, scale::aligned_size_t<4>(K_TILE * sizeof(float)), bar0);
     }
     bar0.arrive_and_wait();
 
-    // Pipelined main loop
+    // Pipelined main loop: double-buffered W and X, async_enqueue for MPU
     for (unsigned t = 0; t < num_k_tiles - 1; ++t) {
         if (t % 2 == 0) {
-            // Compute on W_buf0 while prefetching tile t+1 into W_buf1
+            // Compute on W_buf0 & X_buf0 while prefetching tile t+1 into W_buf1 & X_buf1
             memcpy_async(block, W_buf1, W + (t + 1) * K_TILE * N, scale::aligned_size_t<4>(K_TILE * N * sizeof(float)), bar1);
-            mpu_gemm_accumulate_tile(Y_acc, W_buf0, X_buf, M, K_TILE, N_VECS);
-            MPU_SYNC();
-
-            bar1.arrive_and_wait();
-            // Fetch next X tile into X_buf
             for (unsigned m = 0; m < M; ++m) {
-                memcpy_async(block, X_buf + m * K_TILE, X + m * K + (t + 1) * K_TILE, scale::aligned_size_t<4>(K_TILE * sizeof(float)), bar1);
+                memcpy_async(block, X_buf1 + m * K_TILE, X + m * K + (t + 1) * K_TILE, scale::aligned_size_t<4>(K_TILE * sizeof(float)), bar1);
             }
+            async_enqueue mpu_gemm_accumulate_tile(Y_acc, W_buf0, X_buf0, M, K_TILE, N_VECS);
+            while (__aurora_s_callmCounter(warpEntryIdx) > 0);
             bar1.arrive_and_wait();
         } else {
-            // Compute on W_buf1 while prefetching tile t+1 into W_buf0
+            // Compute on W_buf1 & X_buf1 while prefetching tile t+1 into W_buf0 & X_buf0
             memcpy_async(block, W_buf0, W + (t + 1) * K_TILE * N, scale::aligned_size_t<4>(K_TILE * N * sizeof(float)), bar0);
-            mpu_gemm_accumulate_tile(Y_acc, W_buf1, X_buf, M, K_TILE, N_VECS);
-            MPU_SYNC();
-
-            bar0.arrive_and_wait();
-            // Fetch next X tile into X_buf
             for (unsigned m = 0; m < M; ++m) {
-                memcpy_async(block, X_buf + m * K_TILE, X + m * K + (t + 1) * K_TILE, scale::aligned_size_t<4>(K_TILE * sizeof(float)), bar0);
+                memcpy_async(block, X_buf0 + m * K_TILE, X + m * K + (t + 1) * K_TILE, scale::aligned_size_t<4>(K_TILE * sizeof(float)), bar0);
             }
+            async_enqueue mpu_gemm_accumulate_tile(Y_acc, W_buf1, X_buf1, M, K_TILE, N_VECS);
+            while (__aurora_s_callmCounter(warpEntryIdx) > 0);
             bar0.arrive_and_wait();
         }
     }
 
     // Epilogue: compute final tile
     if ((num_k_tiles - 1) % 2 == 0) {
-        mpu_gemm_accumulate_tile(Y_acc, W_buf0, X_buf, M, K_TILE, N_VECS);
+        async_enqueue mpu_gemm_accumulate_tile(Y_acc, W_buf0, X_buf0, M, K_TILE, N_VECS);
     } else {
-        mpu_gemm_accumulate_tile(Y_acc, W_buf1, X_buf, M, K_TILE, N_VECS);
+        async_enqueue mpu_gemm_accumulate_tile(Y_acc, W_buf1, X_buf1, M, K_TILE, N_VECS);
     }
-    MPU_SYNC();
+    while (__aurora_s_callmCounter(warpEntryIdx) > 0);
 
     // Write back Y [M, N]
     for (unsigned m = 0; m < M; ++m) {
@@ -305,14 +301,14 @@ int main(int argc, char** argv) {
     float max_diff = 0.0f;
     bool pass = lpu_bench::verify_results(h_Y_ref, h_Y, M * N, 1e-2f, 1e-3f, &max_diff);
     if (!pass) {
-        std::cerr << "[ERROR] Correctness verification FAILED for " << version << "!" << std::endl;
+        std::cerr << "[ERROR] Warm-up correctness verification FAILED for " << version << "!" << std::endl;
         return 2;
     }
 
     double total_flops = 2.0 * static_cast<double>(M) * static_cast<double>(K) * static_cast<double>(N);
 
     std::cout << "--- CSV DATA START ---" << std::endl;
-    std::cout << "kernel,version,M,K,N,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,flops,flops_per_cycle,correct" << std::endl;
+    std::cout << "kernel,version,M,K,N,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,flops,flops_per_cycle,correct,max_diff" << std::endl;
 
     for (int r = 0; r < repeats; ++r) {
         h_cycles[0] = 0;
@@ -336,6 +332,12 @@ int main(int argc, char** argv) {
         TimingResult res = timer.get_result(h_cycles[0]);
         double flops_per_cycle = (res.device_cycles > 0) ? (total_flops / static_cast<double>(res.device_cycles)) : 0.0;
 
+        // T11: verify results on every repeat outside timing interval
+        mapsMemcpy(h_Y, d_Y, y_size, mapsMemcpyDeviceToHost);
+        float r_max_diff = 0.0f;
+        bool r_pass = lpu_bench::verify_results(h_Y_ref, h_Y, M * N, 1e-2f, 1e-3f, &r_max_diff);
+        std::string status = r_pass ? "PASS" : "FAIL";
+
         std::cout << "gemm,"
                   << version << ","
                   << M << ","
@@ -349,7 +351,8 @@ int main(int argc, char** argv) {
                   << std::fixed << std::setprecision(2) << res.wall_clock_ms << ","
                   << static_cast<uint64_t>(total_flops) << ","
                   << std::fixed << std::setprecision(4) << flops_per_cycle << ","
-                  << "PASS" << std::endl;
+                  << status << ","
+                  << std::scientific << std::setprecision(6) << r_max_diff << std::endl;
     }
     std::cout << "--- CSV DATA END ---" << std::endl;
 

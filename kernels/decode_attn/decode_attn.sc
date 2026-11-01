@@ -1,6 +1,7 @@
 #include "scale.h"
 #include "maps_runtime_api.h"
 #include "aurora.h"
+#include "aurora_s-intrin.h"
 #include "scale/barrier"
 #include "cooperative_groups.h"
 
@@ -34,6 +35,7 @@
 // -------------------------------------------------------------
 __device__ inline float fast_expf(float x) {
     if (x < -15.0f) return 0.0f;
+    if (x > 0.0f) return 1.0f;
     // Range reduction: x = k * ln(2) + r, where k = round(x * log2(e))
     float x_log2e = x * 1.4426950408889634f;
     int k = static_cast<int>(x_log2e < 0.0f ? (x_log2e - 0.5f) : (x_log2e + 0.5f));
@@ -264,7 +266,7 @@ __global__ void decode_attn_v1_dm_resident_kernel(
 }
 
 // -------------------------------------------------------------
-// SPU Kernel v2: DDR Overlap (Double Buffering DMA + MPU)
+// SPU Kernel v2: DDR Overlap (Double Buffering DMA + MPU async_enqueue)
 // -------------------------------------------------------------
 __global__ void decode_attn_v2_overlap_kernel(
     __DDR float *O,
@@ -318,23 +320,23 @@ __global__ void decode_attn_v2_overlap_kernel(
     for (unsigned t = 0; t < num_tiles - 1; ++t) {
         if (t % 2 == 0) {
             memcpy_async(block, KV_buf1, K + (t + 1) * TILE_L * d, scale::aligned_size_t<4>(TILE_L * d * sizeof(float)), bar1);
-            mpu_attn_scores_tile(Q_buf, KV_buf0, scores + t * TILE_L, TILE_L, scale);
-            MPU_SYNC();
+            async_enqueue mpu_attn_scores_tile(Q_buf, KV_buf0, scores + t * TILE_L, TILE_L, scale);
+            while (__aurora_s_callmCounter(warpEntryIdx) > 0);
             bar1.arrive_and_wait();
         } else {
             memcpy_async(block, KV_buf0, K + (t + 1) * TILE_L * d, scale::aligned_size_t<4>(TILE_L * d * sizeof(float)), bar0);
-            mpu_attn_scores_tile(Q_buf, KV_buf1, scores + t * TILE_L, TILE_L, scale);
-            MPU_SYNC();
+            async_enqueue mpu_attn_scores_tile(Q_buf, KV_buf1, scores + t * TILE_L, TILE_L, scale);
+            while (__aurora_s_callmCounter(warpEntryIdx) > 0);
             bar0.arrive_and_wait();
         }
     }
     // Epilogue for K
     if ((num_tiles - 1) % 2 == 0) {
-        mpu_attn_scores_tile(Q_buf, KV_buf0, scores + (num_tiles - 1) * TILE_L, TILE_L, scale);
+        async_enqueue mpu_attn_scores_tile(Q_buf, KV_buf0, scores + (num_tiles - 1) * TILE_L, TILE_L, scale);
     } else {
-        mpu_attn_scores_tile(Q_buf, KV_buf1, scores + (num_tiles - 1) * TILE_L, TILE_L, scale);
+        async_enqueue mpu_attn_scores_tile(Q_buf, KV_buf1, scores + (num_tiles - 1) * TILE_L, TILE_L, scale);
     }
-    MPU_SYNC();
+    while (__aurora_s_callmCounter(warpEntryIdx) > 0);
 
     // 3. Pass 2: Softmax
     fast_softmax(scores, probs, L);
@@ -347,23 +349,23 @@ __global__ void decode_attn_v2_overlap_kernel(
     for (unsigned t = 0; t < num_tiles - 1; ++t) {
         if (t % 2 == 0) {
             memcpy_async(block, KV_buf1, V + (t + 1) * TILE_L * d, scale::aligned_size_t<4>(TILE_L * d * sizeof(float)), bar1);
-            mpu_attn_accumulate_v_tile(O_acc, KV_buf0, probs + t * TILE_L, TILE_L);
-            MPU_SYNC();
+            async_enqueue mpu_attn_accumulate_v_tile(O_acc, KV_buf0, probs + t * TILE_L, TILE_L);
+            while (__aurora_s_callmCounter(warpEntryIdx) > 0);
             bar1.arrive_and_wait();
         } else {
             memcpy_async(block, KV_buf0, V + (t + 1) * TILE_L * d, scale::aligned_size_t<4>(TILE_L * d * sizeof(float)), bar0);
-            mpu_attn_accumulate_v_tile(O_acc, KV_buf1, probs + t * TILE_L, TILE_L);
-            MPU_SYNC();
+            async_enqueue mpu_attn_accumulate_v_tile(O_acc, KV_buf1, probs + t * TILE_L, TILE_L);
+            while (__aurora_s_callmCounter(warpEntryIdx) > 0);
             bar0.arrive_and_wait();
         }
     }
     // Epilogue for V
     if ((num_tiles - 1) % 2 == 0) {
-        mpu_attn_accumulate_v_tile(O_acc, KV_buf0, probs + (num_tiles - 1) * TILE_L, TILE_L);
+        async_enqueue mpu_attn_accumulate_v_tile(O_acc, KV_buf0, probs + (num_tiles - 1) * TILE_L, TILE_L);
     } else {
-        mpu_attn_accumulate_v_tile(O_acc, KV_buf1, probs + (num_tiles - 1) * TILE_L, TILE_L);
+        async_enqueue mpu_attn_accumulate_v_tile(O_acc, KV_buf1, probs + (num_tiles - 1) * TILE_L, TILE_L);
     }
-    MPU_SYNC();
+    while (__aurora_s_callmCounter(warpEntryIdx) > 0);
 
     // 5. Pass 4: Write back output O
     memcpy_async(block, O, (float*)O_acc, scale::aligned_size_t<4>(d * sizeof(float)), bar0);
@@ -485,7 +487,7 @@ int main(int argc, char** argv) {
     float max_diff = 0.0f;
     bool pass = lpu_bench::verify_results(h_O_ref, h_O, d, 2e-2f, 2e-2f, &max_diff);
     if (!pass) {
-        std::cerr << "[ERROR] Correctness verification FAILED for " << version << "!" << std::endl;
+        std::cerr << "[ERROR] Warm-up correctness verification FAILED for " << version << "!" << std::endl;
         return 2;
     }
 
@@ -493,7 +495,7 @@ int main(int argc, char** argv) {
     double total_bytes = (version == "v1") ? (2.0 * d * sizeof(float)) : (2.0 * L * d * sizeof(float) + 2.0 * d * sizeof(float));
 
     std::cout << "--- CSV DATA START ---" << std::endl;
-    std::cout << "kernel,version,L,d,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,total_bytes,flops,effective_bw_bytes_per_cycle,correct" << std::endl;
+    std::cout << "kernel,version,L,d,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,total_bytes,flops,effective_bw_bytes_per_cycle,correct,max_diff" << std::endl;
 
     for (int r = 0; r < repeats; ++r) {
         h_cycles[0] = 0;
@@ -525,6 +527,12 @@ int main(int argc, char** argv) {
         // Effective BW in Bytes / Cycle (converting to GB/s requires chip clock frequency which is unknown)
         double bw_bytes_per_cycle = (res.device_cycles > 0) ? (total_bytes / static_cast<double>(res.device_cycles)) : 0.0;
 
+        // T11: verify results on every repeat outside timing interval
+        mapsMemcpy(h_O, d_O, o_size, mapsMemcpyDeviceToHost);
+        float r_max_diff = 0.0f;
+        bool r_pass = lpu_bench::verify_results(h_O_ref, h_O, d, 2e-2f, 2e-2f, &r_max_diff);
+        std::string status = r_pass ? "PASS" : "FAIL";
+
         std::cout << "decode_attn,"
                   << version << ","
                   << L << ","
@@ -538,7 +546,8 @@ int main(int argc, char** argv) {
                   << static_cast<uint64_t>(total_bytes) << ","
                   << static_cast<uint64_t>(flops) << ","
                   << std::fixed << std::setprecision(4) << bw_bytes_per_cycle << ","
-                  << "PASS" << std::endl;
+                  << status << ","
+                  << std::scientific << std::setprecision(6) << r_max_diff << std::endl;
     }
     std::cout << "--- CSV DATA END ---" << std::endl;
 
