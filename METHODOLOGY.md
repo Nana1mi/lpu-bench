@@ -51,7 +51,7 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
 在初步方案中，`mapsEventElapsedTimeEx` 曾被考虑作为 Host 端流式计时源。然而，经过对全套基准测试生成的全部 66 行原始 CSV 数据进行逐行交叉验证，发现该接口存在根本性方法学缺陷，必须予以彻底排除：
 
 1. **数值无量纲化与字段恒等**：
-   在所有实测 CSV 中，`sim_ms` 与 `sim_cycles` 的数值**完全相等**（例如 `856.0000` 与 `856`，Attention 算子中均为 `3950.0000` 与 `3950`）。两个理论上量纲完全不同（毫秒时间 vs. 时钟周期数）的字段输出同一数值，结合底层日志中驱动打印的 `imapsEventElapsedTimeEx: Returned mapsSuccess : Elapsed Time = , 856, Elapsed Cycle = , 856`，证实驱动层并未真正读取 gem5 周期模型，返回值缺乏明确的物理量纲。
+   在所有实测 CSV 中，`sim_ms` 与 `sim_cycles` 的数值**完全相等**（例如 `856.0000` 与 `856`，Attention 算子中均为 `3950.0000` 与 `3950`）。两个理论上量纲完全不同（毫秒时间 vs. 时钟周期数）的字段输出同一数值，结合底层日志中驱动打印的 `imapsEventElapsedTimeEx: Returned mapsSuccess : Elapsed Time = , 856, Elapsed Cycle = , 856`（脱敏实测日志片段已归档提交于 `results/maps_event_driver_log_excerpt.txt`，供可重现查验），证实驱动层并未真正读取 gem5 周期模型，返回值缺乏明确的物理量纲。
 2. **宿主机物理墙钟的常数偏移伪装**：
    计算 `wall_ms - sim_ms` 的差值：在 `timing_validation.csv` 中，该差值高度稳定在 68 ~ 84 ms 区间；在 `gemm.csv` 中稳定在 53 ~ 94 ms 区间。这一恒定差值本质上是宿主机端 `std::chrono` 统计范围额外包含的内存搬移与同步调用固定开销。换言之，`sim_ms` 实际上直接反映的是宿主机 x86 物理执行耗时，而非 Aurora 芯片的仿真时钟。这完全命中了 `GOAL.md` 阶段 1 的判定准则（"确认候选计时源反映的是仿真时间而不是宿主机时间。如果两者高度相关、比例恒定，就要怀疑它测的是宿主机时间"）。
 3. **`device_cycles` 硬件独立性的旁证**：
