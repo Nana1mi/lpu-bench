@@ -21,7 +21,13 @@
 #define D_MODEL   64
 #define NUM_VECS  4   // 4 * 16 = 64 floats
 #define TILE_L    16  // tokens per tile
+#ifndef MAX_L
 #define MAX_L     512 // maximum sequence length supported in DM scratchpad
+#endif
+
+#ifndef RESIDENT_L
+#define RESIDENT_L 128
+#endif
 
 // -------------------------------------------------------------
 // SPU Inline Fast Range-Reduced Exponential & Softmax
@@ -201,9 +207,9 @@ __global__ void decode_attn_v1_dm_resident_kernel(
     unsigned int tid = blockIdx.x * blockDim.x + threadIdx.x;
     if (tid != 0) return;
 
-    // Up to L=128 tokens resident in DM banks
-    __mem0__ v16fp32 K_resident[128 * NUM_VECS] __attribute__((aligned(64)));
-    __mem1__ v16fp32 V_resident[128 * NUM_VECS] __attribute__((aligned(64)));
+    // Up to L=RESIDENT_L tokens resident in DM banks
+    __mem0__ v16fp32 K_resident[RESIDENT_L * NUM_VECS] __attribute__((aligned(64)));
+    __mem1__ v16fp32 V_resident[RESIDENT_L * NUM_VECS] __attribute__((aligned(64)));
     __mem2__ v16fp32 Q_buf[NUM_VECS] __attribute__((aligned(64)));
     __mem2__ v16fp32 O_acc[NUM_VECS] __attribute__((aligned(64)));
     __mem3__ float scores[MAX_L] __attribute__((aligned(64)));
@@ -391,8 +397,8 @@ int main(int argc, char** argv) {
         std::cerr << "Error: L (" << L << ") exceeds MAX_L (" << MAX_L << ")" << std::endl;
         return 1;
     }
-    if (version == "v1" && L > 128) {
-        std::cerr << "Error: v1_dm_resident requires L <= 128 (hardware DM bank limit)" << std::endl;
+    if (version == "v1" && L > RESIDENT_L) {
+        std::cerr << "Error: v1_dm_resident requires L <= " << RESIDENT_L << " (compiled DM resident limit)" << std::endl;
         return 1;
     }
 

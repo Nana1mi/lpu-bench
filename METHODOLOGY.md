@@ -128,3 +128,28 @@ export MAPS_KERNEL_REPEATITION_COUNT=1
 1. **撤销“周期精确”表述**：严禁在报告或对外交流中将当前 CModel 称为“周期精确硬件仿真器”（Cycle-Accurate Simulator）。该环境属于**指令集级/功能级仿真器附带粗粒度静态延迟估算模型**。
 2. **禁止将测得周期直接等同于物理硬件能力**：CModel 测得的绝对 cycle 周期数与算子耗时，反映的是“**当前早期编译器代码生成质量 + 粗粒度静态时延模型**”下的系统行为，不得将其作为 Aurora 物理量产芯片的算力极限提供给外部评估。
 
+---
+
+## 6. 片上数据存储 (DM) 真实容量上限与边界验证方法
+
+针对先前报告中“32 KB 物理容量上限与 L=128 常驻极限”的表述，本项目深入查阅了《SCALE_Programming_Guide》并实施了参数化容量边界实测，彻底厘清了底层存储机制：
+
+### 6.1 体系结构机理与规范来源
+1. **Bank 拓扑与物理规格**：单个 APC 包含 **24 个物理 DM Bank**，每个 Bank 容量为 **256 KB**，单 APC 物理 DM SRAM 总量为 **6 MB**。
+2. **APE 分配隔离**：4 个 APE 各自独占 6 个 Bank（APE0: 0~5, APE1: 6~11 等），每个 APE 支持 5 个局部存储区（`__mem0__` ~ `__mem4__`）及 1 个共享存储区（`__shared__`）。
+3. **“32 KB 建议”的技术原委**：根据编程指南第 4 章规范，在多 Warp 并发执行时，每个 Warp 均需复制一份 Local Region。为支持最大 8 个 Warp 并发调度（$256\text{ KB} / 32\text{ KB} = 8$），文档强烈建议单个 Local Region $\le 32\text{ KB}$。在微基准测试（单 Warp/单线程）场景下，该并发占有率约束并不限制单个 Region 独占完整 Bank。
+
+### 6.2 容量上限实测与错误边界定位
+在 `kernels/decode_attn/decode_attn.sc` 中将常驻缓存参数化为 `RESIDENT_L`，在 `--check-scale-mem` 开启下扫描 $L \in \{128, 160, 192, 224, 256, 320, 384, 512, 768, 1024, 1536, 2048\}$：
+- **$L \le 1024$（单区 $\le 256\text{ KB}$）**：离线编译、链接、运行时加载与计算全部正常。验证精度绝对误差严格保持在 $10^{-9}$ 量级，耗时满足严格线性方程 $\text{Cycles} = 2098.82 \times L + 3576$ ($R^2 = 1.00000$)。
+- **$L > 1024$（单区 $> 256\text{ KB}$，如 384 KB / 512 KB）**：
+  - **离线编译与链接**：离线 `clang++ -c` 与 `clang++ --scale-link` 均正常通过；
+  - **运行时错误行为**：在 Host 侧调用 `mapsLaunchKernel` 时，驱动层 `scalehost`（`comgr.cpp`）调用设备链接器 `ld.lld`，精确抛出硬性链接错误：
+    ```
+    ld.lld: error: section .MEMORY0 size 524288 bytes exceeds max DM size 256KB
+    ld.lld: error: section .MEMORY1 size 524288 bytes exceeds max DM size 256KB
+    ```
+    导致 `mapsLaunchKernel` 返回 `mapsErrorInvalidDeviceFunction`。
+- **结论**：单个 Memory Region 的硬件与设备链接器硬性物理上限为 **256 KB**（$d=64$ 时对应 **$L=1024$**），超限时表现为**运行时设备 JIT 链接报错**。
+
+

@@ -15,7 +15,7 @@
 本项目立足于思朗科技 Aurora 自研处理器的全系统指令级时序仿真平台 (CModel: QEMU pciemu + gem5 仿真平台)，在 SCALE 异构统一编程框架下构建并验证了面向 LLM 推理关键核心算子的微基准测试系统 (Microbenchmark Suite)，完成了严格的硬件计时可靠性验证、K1 矩阵乘算子规模扩展性评测、K2 解码注意力算子访存局部性评测、以及 K3 流水线双缓冲重叠与存储消融实验。
 
 基于来自 gem5 硬件仿真周期寄存器 (`tick()`) 的确定性数据，本报告得出以下三个核心结论：
-1. **注意力与前馈网络分离 (AF 分离)**：Aurora 单个片上 DM 分配区域存在严格的 **32 KB 物理容量上限**，隐藏层维度 $d=64$ 时仅能常驻 $L=128$ 个 Token 的 KV Cache，更长上下文必须流式访问外部 DDR（实测纯 DMA 搬运时延约 176 cycles/token）。相比之下，FFN/GEMM 算子的权重分块（16 KB Tile）天然契合单 Bank 存储，且算力随 Batch/Token 规模 $M$ 显著提升（从 0.2786 提升至 0.2915 FLOPs/cycle）。因此在 AF 分离架构中，**Aurora 极不适合作为长上下文 Attention 专用节点，而高度适合承担无状态、计算密集的 FFN / GEMM 专用计算引擎**。
+1. **注意力与前馈网络分离 (AF 分离) 与存储特征**：根据《SCALE_Programming_Guide》与微基准实测，Aurora 单个片上局部存储区域的物理 Bank 上限为 **256 KB**（单 APC 共 24 个 Bank，物理 SRAM 总量 6 MB）。在单 APE 单线程微基准下，隐藏层维度 $d=64$ 时片上可完整常驻达 **$L=1024$ 个 Token** 的 KV Cache（单区 256 KB），并在 $L \in [128, 1024]$ 呈现严格的线性拟合（$Cycles = 2098.82 \times L + 3576, R^2 = 1.00000$）。当 $L > 1024$ 时触发设备链接器运行时报错（`exceeds max DM size 256KB`），必须退回流式访问外部 DDR（纯 DMA 搬运与同步额外开销约 178 cycles/token）。相比之下，FFN/GEMM 算子的权重分块（16 KB Tile）天然契合单 Bank 存储，且算力随 Batch 规模 $M$ 显著提升（从 0.2786 提升至 0.2915 FLOPs/cycle）。在单 APE 口径下，Aurora 更适合承担无状态、计算密集的 FFN / GEMM 专用计算引擎，而在长上下文 Attention 场景下受制于单 Bank 256 KB 容量与外部访存开销。
 2. **解码与预填充阶段分离 (PD 分离)**：自回归单 Token 解码步 ($M=1$) 属于极度访存受限型任务，权重流式传输开销远大于计算耗时，双缓冲异步流水反而因同步 Barrier 开销引入约 2.0% 的额外延迟 (0.9804x 加速比)。随着批量扩展至 $M=4, 8$，计算密集度提升，算力利用率稳步爬升。因此，**Aurora 更倾向于担任中等 Batch 的 Prefill 阶段或微批处理 (Micro-batched Decode) 节点，而非极低延迟的 Batch=1 纯自回归 Decode 引擎**。
 3. **LPU 架构设计空间定位**：Aurora 并非类似 Groq 的“纯片上 SRAM 常驻型 LPU”，而是与 Tenstorrent 解耦异构多核思想高度契合的“乱序标量控制 (SPU) + 512-bit VLIW 向量计算 (MPU) + 分布式片上 DM SRAM + 外部存储”体系。若要演进为下一代面向 LLM 推理的“专用 LPU”，Aurora 必须将单 APC 片上 SRAM 容量扩充至 MB 级别，并升级至 HBM 或 LPDDR5X 高带宽接口，同时在硬件层面引入自动异步流水以消除显式同步开销。
 
@@ -48,7 +48,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 |                                                                  |                    |
 |   +--------------------------------------------------------------v----------------+   |
 |   |            On-Chip Distributed Data Memory (DM) - 24 Independent Banks        |   |
-|   |                (Up to 32 KB per region allocation, zero-latency SRAM)         |   |
+|   |                (Up to 256 KB per bank allocation, zero-latency SRAM)          |   |
 |   +---------------------------------------------------------------+   |
 +---------------------------------------^-----------------------------------------------+
                                         | (High-Speed Asynchronous SDMA Channel)
@@ -66,19 +66,18 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
    - 集成专用乘累加累加器 (`FMAMR`)，支持单周期向量融合乘加 (`scale::__vfmadd_mr`)。
    - **至关重要的硬件设计约束：MPU 严禁直接访问外部 DDR 存储**。MPU 的所有操作数输入与计算结果输出必须严格落在片上高速数据存储器 (Data Memory, DM) 中。
 
-### 1.2 片上存储体系与容量壁垒 (Data Memory Banks & Capacity Limits)
+### 1.2 片上存储体系与容量边界 (Data Memory Banks & Capacity Limits)
 
-在 APC 内部，配备了由 **24 个独立物理 Bank** 组成的片上分布式高速静态存储器 (DM SRAM)。每个 Bank 具备极高的数据吞吐率和单周期访问延迟。
+在 APC 内部，配备了由 **24 个独立物理 Bank** 组成的片上分布式高速静态存储器 (DM SRAM)，单 Bank 容量为 **256 KB**，单 APC 物理 DM 总量为 **6 MB**。每个 APE 独占 6 个 Bank，其中包含 5 个 Local Region（`__mem0__` ~ `__mem4__`）和 1 个 Shared Region（`__shared__`）。
 
-然而，在编译器规范与硬件寻址空间设计中，存在以下两项极其严苛的物理限制：
-- **单块动态分配上限限制**：在动态内存空间分配模式 (`__mem0__` 到 `__mem4__`) 下，单个局部缓冲区的容量上限被严格限制在 **32 KB** 范围内。
-- **空间地址数量限制**：scale 编译工具链仅开放了 `__mem0__` 至 `__mem4__` 共 5 个命名空间。超出该范围的张量必须在结构体内共享或者动态复用同一存储空间。
-
-**对 LLM 推理的决定性影响**：
-以标准注意力机制的隐藏层维度 $d=64$（单精度 FP32，即每个 Token 的 $K_i$ 或 $V_i$ 占用 $64 	imes 4 = 256$ 字节）为例：
-- 一个 32 KB 的物理 DM 区域最多容纳：
-  $$\frac{32 \times 1024 \text{ 字节}}{256 \text{ 字节/Token}} = 128 \text{ Tokens}$$
-- 这一硬件限制直接裁定了：**在当前 Aurora 架构下，若单次分配超过 128 个历史上下文 Token，KV Cache 物理上无法单块常驻于单个片上 DM Bank，必须通过 SPU SDMA 流式分块搬运**。这一关键物理瓶颈为后续关于 AF 分离与 LPU 架构定位的研究提供了坚实的微观理论依据。
+深入分析与实测（详见 `notes/dm_capacity_limit_investigation.md`）揭示了以下存储特征与容量边界：
+- **单 Region 物理容量上限为 256 KB**：在微基准实测中，单个局部区域（如 `__mem0__`）可直接分配并成功使用高达 **256 KB** 的空间。当超过 256 KB 时，离线编译链接虽能通过，但在运行时拉起设备链接器时精确报错：`ld.lld: error: section .MEMORY0 size ... bytes exceeds max DM size 256KB`，导致 Kernel 启动失败。
+- **“32 KB 建议”的根源**：官方《SCALE_Programming_Guide》中的 32 KB 并非硬件物理单 Bank 上限，而是**多 Warp 并发场景下的占有率建议**（$256\text{ KB} / 32\text{ KB} = 8\text{ Warps}$），以避免 Local Region 复制挤占 Bank 空间。
+- **对 LLM 推理的决定性影响**：
+  以隐藏层维度 $d=64$（每个 Token 的 $K_i$ 或 $V_i$ 占用 $64 \times 4 = 256$ 字节）为例：
+  - 单 Bank 物理上限（256 KB）最多可容纳：
+    $$\frac{256 \times 1024 \text{ 字节}}{256 \text{ 字节/Token}} = 1024 \text{ Tokens}$$
+  - 实测证实，在单 APE 下片上可完整常驻达 **$L = 1024$** 的 KV Cache（$K\_resident$ 与 $V\_resident$ 各占一个 256 KB 的 Local Bank）。当上下文长度超过 1024 Token 时，单 Bank 常驻模式触发硬件物理截断，必须依赖 SPU SDMA 流式分块搬运。
 
 ---
 
@@ -102,7 +101,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 - **参数空间**：$K=256, N=256$，评估 $M \in \{1, 2, 4, 8\}$，模拟 LLM 从 Batch=1 的 Decode 步向 Batch=8 的小批量 Prefill 步扩展的完整算力变化区间。
 - **存储与分块策略**：
   - 沿 $K$ 维度以 $K_{tile} = 16$ 步长进行切分，分为 $256 / 16 = 16$ 个分块。
-  - 单个权重分块 $W_{tile}$ 尺寸为 $16 \times 256$ 个浮点数（即 $16 \times 16 = 256$ 个 `v16fp32` 向量），占用正好 **16 KB**（严格低于单 Bank 32 KB 硬件上限）。
+  - 单个权重分块 $W_{tile}$ 尺寸为 $16 \times 256$ 个浮点数（即 $16 \times 16 = 256$ 个 `v16fp32` 向量），占用正好 **16 KB**（严格低于单 Bank 规范建议的 32 KB 及 256 KB 物理上限）。
 - **对比版本**：
   - `v0_serial`：SPU 串行发起 DMA 搬运 $W_{tile}$ 与 $X_{tile}$ 到片上 DM，到达后等待屏障，再调用 MPU 运行向量乘累加循环 (`mpu_gemm_accumulate_tile`)，计算与传输完全串行。
   - `v1_overlap`：利用 SPU 的双缓冲异步特性，在 MPU 计算第 $t$ 块的同时，SPU 驱动片上 SDMA 并行从 DDR 预取第 $t+1$ 块权重到乒乓缓冲区 (`W_buf0` 与 `W_buf1`)，实现流水重叠。
@@ -115,7 +114,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
   - 为避免在裸机设备内核上依赖 Host C 运行库，设计并实现了基于 IEEE-754 浮点位操作的 Cody-Waite 范围规约快速指数函数 `fast_expf` 与片上归约 Softmax，误差严格小于 $10^{-7}$。
 - **对比版本**：
   - `v0_ddr`：KV Cache 存放于外部 DDR，以 $T=16$ 为 Token 步长分块搬运至片上 DM，MPU 逐分块计算注意力分数与累加加权值。
-  - `v1_dm_resident`：**片上 SRAM 常驻模式**。在 $L \le 128$（受限于 32 KB 物理限额）时，将全部 $K$ 与 $V$ 预置在片上 DM Bank 中，测量零 DDR 搬运开销下的理论极限性能。
+  - `v1_dm_resident`：**片上 SRAM 常驻模式**。将全部 $K$ 与 $V$ 预置在片上 DM Bank 中（实测单 Bank 支持达 256 KB，即 $L \le 1024$），测量零 DDR 搬运开销下的基准性能。在基础套件中对标 $L=64, 128$，并系统扫描至物理上限 $L=1024$。
   - `v2_overlap`：双缓冲流水线流式预取模式，边计算当前 KV Tile，边预取下一 Tile。
 
 ---
@@ -185,10 +184,10 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 1. **严格线性外推与确定性时延**：注意力延迟随序列长度 $L$ 表现出极高精度的线性相关性：
    $$\text{Cycles}(L) = 2276.5 \times L + 3484.5 \quad (R^2 = 0.99999)$$
    在自回归解码中，Aurora 处理每一个历史 Token 的端到端仿真代价恒定为 **2,276.5 个时钟周期**。
-2. **片上 SRAM 常驻的物理收益与容量断崖**：
-   - 当 $L=64$ 与 $L=128$ 时，KV Cache 能够常驻于片上高速 DM SRAM ($v1$)，相比于 DDR 流式搬运 ($v0$) 分别节约了 11,255 cycles 与 22,627 cycles，带来 **1.082x 的确定性加速**。
+2. **片上 SRAM 常驻的物理收益与容量边界实测**：
+   - 当 $L=64$ 与 $L=128$ 时，KV Cache 常驻于片上高速 DM SRAM ($v1$)，相比于 DDR 流式搬运 ($v0$) 分别节约了 11,255 cycles 与 22,627 cycles，带来 **1.082x 的确定性加速**。
    - DDR DMA 数据传输开销恰好为 **$22627 / 128 \approx 176.8$ cycles/token**，占整个算子耗时的 7.5% ~ 7.7%。
-   - **容量断崖**：当 $L \ge 256$ 时，KV Cache 空间需求达到 $256 \times 64 \times 4 \times 2 = 131,072$ 字节 (128 KB)，远超单分配区域 32 KB 上限，片上常驻模式完全失效，强制回退至 DDR 流式搬运。
+   - **容量边界实测扩展**：深入实测（`results/dm_capacity_scan.csv`）表明，单 Region 物理容量上限为 256 KB，单 APE 可支持片上常驻扩展至 $L=1024$（耗时 2,152,767 cycles，拟合式 $Cycles = 2098.82 \times L + 3576$）。只有当 $L > 1024$（例如 $L=1536$ 对应 384 KB）时，驱动运行时 JIT 链接器才抛出 `section size exceeds max DM size 256KB` 错误，此时单 Bank 常驻模式才正式失效，必须依赖 DDR 流式搬运。
 
 ---
 
@@ -224,7 +223,7 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 **实测证据支持**：
 1. **注意力机制的“访存墙与容量墙”双重挤压**：
    - 自回归解码 Attention 的算术强度极低（每个 Token 仅进行一次单精度点积与一次加权累加，算术强度不足 0.25 FLOP/Byte）。
-   - 实测显示，DDR 流式搬运在 Attention 中占据 7.5% ~ 7.7% 的周期。当上下文长度扩展时，Aurora 遭遇了严苛的 **32 KB 单区域内存上限**，导致 $L > 128$ 的 KV Cache 无法在片上常驻。
+   - 实测显示，DDR 流式搬运在 Attention 中占据 7.5% ~ 7.7% 的周期。当上下文长度扩展超过单 Bank 256 KB 物理上限（对应 $L > 1024$）或多 Warp 规范建议（$L > 128$）时，KV Cache 无法在单 Bank 片上常驻，必须依赖外部访存。
    - 由于 Aurora 的板载存储为常规 DDR 而非高带宽 HBM，当处理真实大模型（上下文动辄 4K ~ 32K Tokens）时，Aurora 会将绝大部分周期浪费在等待外部 DDR 内存总线响应上。
 2. **前馈网络 (FFN / GEMM) 的“分块计算亲和性”**：
    - FFN 计算主要是权重固定的矩阵乘（GEMM），其权重分块能够完美被静态切分为 16 KB 的 Tile，并精确装载入单 Bank DM SRAM 中。
@@ -263,10 +262,10 @@ Aurora 在当前存储与总线规格下，**不适合作为追求极限低时�
 | **解耦型细粒度多核** | **Tenstorrent Wormhole** | 1.5 MB SRAM/Tile + GDDR6 外部存储 | 异构解耦：RISC-V 标量核 + Tensix 矩阵核 | 模块化可扩展，能效比高，性价比出色 | 软件栈编译优化复杂度高 |
 | **专用脉动数据流** | **Google TPU v4/v5** | 超大容量 HBM + 脉动矩阵阵列 (MXU) | 批处理密集型矩阵脉动流水 | 大规模大批量 Prefill 与模型预训练 | 单 Token 延迟偏高，非规则控制灵活性低 |
 | **通用海量 SIMT** | **NVIDIA H100 / B200** | HBM3e (高达 8 TB/s) + Tensor Core | 硬件 Warp 线程级并行动态乱序调度 | 工业级生态垄断，全能适应各类负载 | 静态调度开销大，芯片功耗极高 |
-| **解耦型向量多核 (本案)** | **Aurora (思朗科技)** | **24 Bank 片上 DM SRAM (32KB/区) + 板载 DDR** | **硬件完全解耦：乱序标量 SPU + 512-bit VLIW MPU** | **标量控制极度灵活，向量能效高，支持复杂自研算子** | **单 Bank 空间过小 (32KB)，外部总线带宽受限** |
+| **解耦型向量多核 (本案)** | **Aurora (思朗科技)** | **24 Bank 片上 DM SRAM (单APC 6MB, 单Bank 256KB) + 板载 DDR** | **硬件完全解耦：乱序标量 SPU + 512-bit VLIW MPU** | **标量控制极度灵活，向量能效高，支持复杂自研算子** | **缺乏硬件跨 Bank 聚合机制，外部总线带宽受限** |
 
 **学术定位总结**：
-1. **Aurora 不是 Groq**：Groq 的核心本质是“空间换时间”的绝对确定性纯片上 SRAM 阵列，以零 DRAM 访问实现确定性的 1 Token/cycle 流水；而 Aurora 配备了常规外部 DDR 和有限的片上 SRAM（单 Bank 32 KB），其架构哲学是传统的“分块流式搬运 (Tiled Streaming)”。
+1. **Aurora 不是 Groq**：Groq 的核心本质是“空间换时间”的绝对确定性纯片上 SRAM 阵列，以零 DRAM 访问实现确定性的 1 Token/cycle 流水；而 Aurora 配备了常规外部 DDR 和分布式片上 SRAM（单 Bank 256 KB，单 APC 共 6 MB），其架构哲学更偏向于“分块流式搬运 (Tiled Streaming)”。
 2. **Aurora 最贴近 Tenstorrent 的解耦哲学**：Aurora 的 SPU/MPU 分工机制与 Tenstorrent 的“RISC-V 标量核负责网络通信与 DMA 搬运、Tensix 协处理器负责张量乘累加”在设计思想上高度一致。SPU 赋予了 Aurora 远超传统 GPU 的复杂标量控制与动态分块能力，而 MPU 则保证了极高的单时钟周期向量算力。
 
 ---
@@ -278,7 +277,7 @@ Aurora 在当前存储与总线规格下，**不适合作为追求极限低时�
 2. **实验参数空间科学裁剪理由**：
    - 依据项目管理与系统工程原则，单次运行超过 30 分钟的配置应谨慎评估。在证明 gem5 仿真零方差（$Var = 0, R^2 = 1.00000$）的确定性前提下，K1 评测在 $M \in \{1, 2, 4, 8\}$ 范围内已完整跨越 8 倍规模，清晰呈现了从访存受限向算力利用率饱和收敛的完整物理趋势。
    - 针对 $M=16, 32$ 的配置，单点仿真在宿主机需持续消耗数十至数百分钟，且边际信息增益极低，故依据规则主动裁剪，有效规避了无响应阻塞风险。
-3. **编译器动态分配上限**：当前 scale 工具链将 `__mem0__` ~ `__mem4__` 的单区域容量硬性卡死在 32 KB，导致注意力算子无法测量 $L \ge 256$ 时 SRAM 常驻的理论性能。
+3. **单 Bank 物理容量与动态多 Warp 约束**：深入实测表明单 Region 物理上限为 256 KB（$L=1024$ 为单 Bank 常驻物理极限，超过时运行时报 `exceeds max DM size 256KB`）。而在多 Warp 并发场景下，受限于占有率规范建议单区容量宜控制在 32 KB 以内。
 
 ---
 
@@ -289,8 +288,8 @@ Aurora 在当前存储与总线规格下，**不适合作为追求极限低时�
 
 若思朗科技计划将下一代 Aurora 芯片打造为**真正具备全球竞争力的语言处理单元 (LPU)**，基于本实验数据的量化反馈，提出以下三项硬件架构演进建议：
 
-1. **破除 32 KB 物理壁垒，将单 APC 片上 SRAM 扩容至 2 MB ~ 4 MB**：
-   - 32 KB 仅能容纳 128 个 Token 的 KV Cache。若扩容至 2 MB，单个 APC 将能常驻 8,192 个 Token 的完整长上下文，使得 Decode Attention 能以 100% 片上 SRAM 零搬运延迟运行，预计可直接获得 10% ~ 20% 的端到端时延降低。
+1. **提供硬件跨 Bank 聚合机制或扩充单 Bank 物理容量**：
+   - 实测证实单个 APC 物理 SRAM 虽然达到 6 MB，但单个局部区域受制于单 Bank 256 KB 物理上限（最多常驻 1,024 个 Token）。若下一代架构支持跨 Bank 连续内存平坦寻址（例如聚合 4~8 个 Bank 形成 1~2 MB 连续空间），单个 APC 将能常驻 4,096 ~ 8,192 个 Token 的完整长上下文，使得 Decode Attention 能以 100% 片上 SRAM 零搬运延迟运行，彻底消除长上下文注意力的 DDR 流式延迟。
 2. **升级外部存储接口为 LPDDR5X 或 HBM**：
    - 当前 DDR 接口有效带宽实测约 0.22 字节/周期，换算为 GB/s 需主频参数，当前未知，导致 GEMM 权重流式加载与长上下文注意力搬运受限。升级至高带宽内存是承载现代大模型推理的必由之路。
 3. **引入硬件级自动异步流水 (Hardware Auto-Pipelining)**：
