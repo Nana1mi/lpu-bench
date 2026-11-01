@@ -72,7 +72,7 @@ def plot_k2_attn():
         return
 
     df = pd.read_csv(csv_path)
-    agg = df.groupby(['version', 'L'])[['device_cycles', 'effective_bw_gbps']].mean().reset_index()
+    agg = df.groupby(['version', 'L'])[['device_cycles', 'effective_bw_bytes_per_cycle']].mean().reset_index()
 
     fig, ax = plt.subplots(figsize=(8, 5), dpi=300)
 

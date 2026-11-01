@@ -487,7 +487,7 @@ int main(int argc, char** argv) {
     double total_bytes = (version == "v1") ? (2.0 * d * sizeof(float)) : (2.0 * L * d * sizeof(float) + 2.0 * d * sizeof(float));
 
     std::cout << "--- CSV DATA START ---" << std::endl;
-    std::cout << "kernel,version,L,d,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,total_bytes,flops,effective_bw_gbps,correct" << std::endl;
+    std::cout << "kernel,version,L,d,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,total_bytes,flops,effective_bw_bytes_per_cycle,correct" << std::endl;
 
     for (int r = 0; r < repeats; ++r) {
         h_cycles[0] = 0;
@@ -516,8 +516,8 @@ int main(int argc, char** argv) {
         mapsStreamSynchronize(stream);
 
         TimingResult res = timer.get_result(h_cycles[0]);
-        // Effective BW in GB/s assuming 1.0 GHz device clock (bytes / cycles = GB/s)
-        double bw_gbps = (res.device_cycles > 0) ? (total_bytes / static_cast<double>(res.device_cycles)) : 0.0;
+        // Effective BW in Bytes / Cycle (converting to GB/s requires chip clock frequency which is unknown)
+        double bw_bytes_per_cycle = (res.device_cycles > 0) ? (total_bytes / static_cast<double>(res.device_cycles)) : 0.0;
 
         std::cout << "decode_attn,"
                   << version << ","
@@ -531,7 +531,7 @@ int main(int argc, char** argv) {
                   << std::fixed << std::setprecision(2) << res.wall_clock_ms << ","
                   << static_cast<uint64_t>(total_bytes) << ","
                   << static_cast<uint64_t>(flops) << ","
-                  << std::fixed << std::setprecision(4) << bw_gbps << ","
+                  << std::fixed << std::setprecision(4) << bw_bytes_per_cycle << ","
                   << "PASS" << std::endl;
     }
     std::cout << "--- CSV DATA END ---" << std::endl;

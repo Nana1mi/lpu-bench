@@ -1,4 +1,4 @@
-kernel,version,L,d,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,total_bytes,flops,effective_bw_gbps,correct
+kernel,version,L,d,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,total_bytes,flops,effective_bw_bytes_per_cycle,correct
 decode_attn,v0,64,64,fp32,0,3950.0000,3950,149156,4011.86,33280,16576,0.2231,PASS
 decode_attn,v0,64,64,fp32,1,4134.0000,4134,149156,4193.26,33280,16576,0.2231,PASS
 decode_attn,v0,64,64,fp32,2,4044.0000,4044,149156,4118.52,33280,16576,0.2231,PASS
