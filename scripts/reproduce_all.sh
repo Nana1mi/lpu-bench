@@ -3,10 +3,13 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-PYTHON_BIN="/home/rog/miniconda3/bin/python"
-
-if [ ! -f "$PYTHON_BIN" ]; then
-    PYTHON_BIN="python3"
+PYTHON_BIN="python3"
+if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+    if [ -f "/home/rog/miniconda3/bin/python" ]; then
+        PYTHON_BIN="/home/rog/miniconda3/bin/python"
+    else
+        PYTHON_BIN="python"
+    fi
 fi
 
 echo "=========================================================="

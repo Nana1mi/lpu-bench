@@ -29,7 +29,6 @@ FLAGS := -std=c++11 -Xclang -target-sdk-version=9.2 -g -fdynamic-memory-base -DU
 
 all: gemm.out
 
-test_timer.o: test_timer.sc
 gemm.o: gemm.sc
 	$(TC_BIN)/clang++ gemm.sc -c \
 	-Xarch_host -I$(INC_MAPS) -Xarch_host -I$(HOST_INC) -Xarch_host -I$(HOST_INC2) -Xarch_host -I$(HOST_INC3) -Xarch_host -I$(HOST_INC4) -Xarch_host -I$(HOST_INC5) -Xarch_host -I$(DEVICE_INC4) -Xarch_host -I$(INC_COMMON) \
@@ -38,7 +37,7 @@ gemm.o: gemm.sc
 	-Xarch_device -nostdlibinc $(FLAGS)
 
 gemm.out: gemm.o
-	$(TC_BIN)/clang++ --scale-link -o gemm.out gemm.o \
+	$(TC_BIN)/clang++ --scale-link -Wl,--check-scale-mem -o gemm.out gemm.o \
 	-lscalehost -lmaps -lmapskmd -lllcdsc_kernel -lelf -lstdc++ -lm -lgcc -lc -lgcc_eh \
 	-L/lib64 -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L$(LIB_TC) -L$(LIB_MAPS) -L$(LIB_MAPSKMD) -L$(HOST_LIB) -L$(HOST_LIB2)
 

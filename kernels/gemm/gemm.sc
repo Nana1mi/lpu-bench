@@ -231,6 +231,10 @@ int main(int argc, char** argv) {
         std::cerr << "Error: M (" << M << ") exceeds MAX_M (" << MAX_M << ")" << std::endl;
         return 1;
     }
+    if (N != 256) {
+        std::cerr << "Error: N (" << N << ") must be 256 (N_VECS=" << N_VECS << " requires N=256)" << std::endl;
+        return 1;
+    }
 
     std::cout << "[GEMM] Running configuration: Version=" << version
               << ", M=" << M << ", K=" << K << ", N=" << N

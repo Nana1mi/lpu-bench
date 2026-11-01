@@ -37,7 +37,7 @@ test_timer.o: test_timer.sc
 	-Xarch_device -nostdlibinc $(FLAGS)
 
 test_timer.out: test_timer.o
-	$(TC_BIN)/clang++ --scale-link -o test_timer.out test_timer.o \
+	$(TC_BIN)/clang++ --scale-link -Wl,--check-scale-mem -o test_timer.out test_timer.o \
 	-lscalehost -lmaps -lmapskmd -lllcdsc_kernel -lelf -lstdc++ -lm -lgcc -lc -lgcc_eh \
 	-L/lib64 -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L$(LIB_TC) -L$(LIB_MAPS) -L$(LIB_MAPSKMD) -L$(HOST_LIB) -L$(HOST_LIB2)
 

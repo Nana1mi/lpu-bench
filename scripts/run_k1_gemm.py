@@ -3,10 +3,20 @@ import os
 import sys
 import subprocess
 import csv
+import datetime
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GUEST_RUN = os.path.join(PROJECT_ROOT, "scripts", "guest_run.sh")
 RESULTS_CSV = os.path.join(PROJECT_ROOT, "results", "gemm.csv")
+
+def get_git_commit():
+    try:
+        return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=PROJECT_ROOT, text=True).strip()
+    except Exception:
+        return "unknown"
+
+def get_timestamp():
+    return datetime.datetime.now().isoformat()
 
 os.makedirs(os.path.join(PROJECT_ROOT, "results"), exist_ok=True)
 
@@ -65,7 +75,7 @@ def main():
             print(f"[ERROR] No output for {version} M={M}", file=sys.stderr)
             continue
             
-        cur_header = output_lines[0]
+        cur_header = output_lines[0] + ",commit_hash,timestamp"
         if header is None:
             header = cur_header
             if write_header:
@@ -74,10 +84,13 @@ def main():
                 write_header = False
 
         data_rows = output_lines[1:]
+        commit_hash = get_git_commit()
+        timestamp = get_timestamp()
         with open(RESULTS_CSV, "a", newline="") as f:
             for row in data_rows:
-                f.write(row + "\n")
-                print(f"  -> Recorded: {row}")
+                out_row = f"{row},{commit_hash},{timestamp}"
+                f.write(out_row + "\n")
+                print(f"  -> Recorded: {out_row}")
 
     print("\n[COMPLETE] K1 Benchmark finished! Results written to:", RESULTS_CSV)
 
