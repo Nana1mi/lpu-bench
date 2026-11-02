@@ -38,6 +38,8 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
 1. **确定性与方差 (Repeatability)**：
    - 相同工作量下，Device `tick()` 读出的硬件周期数在 3 次重复中**完全一致**（如 10 循环恒为 14,752 cycles，80 循环恒为 117,582 cycles），方差为 0。证明 gem5 仿真器在给定的静态指令序列下具有完全确定性与可重复性。
    - **重要限定**：“方差为 0”仅在同一二进制内成立，不同 commit / 不同 build 之间的 cycles 不可直接比对（例如代码微小改动可能引起栈偏移、寄存器重排或指令包对齐变动，导致跨二进制出现微小周期漂移）。跨版本比较加速比时必须保证基线与优化版本在同一构建环境下生成。
+   - **二进制身份可核验机制 (`build_id`)**：由于典型研发流程为“修改源码 $\to$ 编译 $\to$ 运行测试 $\to$ git commit 提交”，运行时获取的 `git rev-parse HEAD` 仅反映上一个已提交 commit，而非当前执行二进制的真实状态（例如在尚未提交新代码时运行，HEAD 仍停留在旧 commit）。为彻底杜绝“跨 commit 算加速比”的核验漏洞，我们在测试驱动 (`run_k1_gemm.py`、`run_k2_attn.py`) 中增加了 `build_id` 字段，直接计算被执行 ELF 文件的 MD5 哈希（如 `decode_attn.out` 为 `b3887730448dfc2364cbfb112344f78f`，`gemm.out` 为 `7aa34dfcf47bb4d06513c651f980a002`），与 `commit_hash` 并存，使“同一 build 测量”成为数据中可机器核验的事实。
+   - **非敏感分支的周期恒定性旁证**：当我们在 `decode_attn.sc` 中将 `RESIDENT_L` 从 128 扩展至 1024 并重新编译后，重跑 $v0$（DDR 流式基线）和 $v2$（双缓冲重叠）在 $L=256$ 与 $L=512$ 下的 Device cycles 逐位不变（$v0@256=589,837$、$v2@256=593,914$、$v0@512=1,176,205$、$v2@512=1,184,458$）。这是因为 $v0$ 与 $v2$ 仅使用局部 tile 缓冲，未在 DM SRAM 上分配 `K_resident` / `V_resident`，对 `RESIDENT_L` 的改动完全不敏感。这一经验证据为 CModel 仿真器在非变更代码路径上的绝对稳定性提供了极强的经验旁证。
 2. **完美线性度 (Linearity)**：
    - 基础循环基线（10 循环）= 14,752 cycles。
    - 每增加 10 次循环计算，增量周期为：

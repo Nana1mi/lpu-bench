@@ -4,14 +4,23 @@ import sys
 import subprocess
 import csv
 import datetime
+import hashlib
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GUEST_RUN = os.path.join(PROJECT_ROOT, "scripts", "guest_run.sh")
 RESULTS_CSV = os.path.join(PROJECT_ROOT, "results", "gemm.csv")
+BINARY_PATH = os.path.join(PROJECT_ROOT, "kernels", "gemm", "gemm.out")
 
 def get_git_commit():
     try:
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=PROJECT_ROOT, text=True).strip()
+    except Exception:
+        return "unknown"
+
+def get_binary_md5(binary_path):
+    try:
+        with open(binary_path, "rb") as f:
+            return hashlib.md5(f.read()).hexdigest()
     except Exception:
         return "unknown"
 
@@ -66,6 +75,12 @@ def main():
     print("      LPU-Bench: K1 GEMM Scaling Benchmark Suite          ")
     print("==========================================================")
     
+    build_id = get_binary_md5(BINARY_PATH)
+    commit_hash = get_git_commit()
+    print(f"Binary Path: {BINARY_PATH}")
+    print(f"Build ID (MD5): {build_id}")
+    print(f"Git Commit: {commit_hash}")
+
     write_header = not os.path.exists(RESULTS_CSV) or os.path.getsize(RESULTS_CSV) == 0
     header = None
 
@@ -75,7 +90,7 @@ def main():
             print(f"[ERROR] No output for {version} M={M}", file=sys.stderr)
             continue
             
-        cur_header = output_lines[0] + ",commit_hash,timestamp"
+        cur_header = output_lines[0] + ",commit_hash,build_id,timestamp"
         if header is None:
             header = cur_header
             if write_header:
@@ -84,11 +99,10 @@ def main():
                 write_header = False
 
         data_rows = output_lines[1:]
-        commit_hash = get_git_commit()
         timestamp = get_timestamp()
         with open(RESULTS_CSV, "a", newline="") as f:
             for row in data_rows:
-                out_row = f"{row},{commit_hash},{timestamp}"
+                out_row = f"{row},{commit_hash},{build_id},{timestamp}"
                 f.write(out_row + "\n")
                 print(f"  -> Recorded: {out_row}")
 
