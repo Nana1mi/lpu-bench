@@ -1,6 +1,7 @@
 #include "scale.h"
 #include "maps_runtime_api.h"
 #include "aurora.h"
+#include "aurora_s-intrin.h"
 #include "scale/barrier"
 #include "cooperative_groups.h"
 
@@ -13,6 +14,8 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
+
+extern "C" __device__ KERNEL_M void mpu_add_u32(unsigned int length);
 
 // Mode 0: In-register accumulation (acc += a * b, loop over N)
 __device__ KERNEL_M void mpu_fma_reg(v16fp32 *c, const v16fp32 *a, const v16fp32 *b, unsigned N) {
@@ -43,6 +46,36 @@ __device__ KERNEL_M void mpu_fma_dm(v16fp32 *c, const v16fp32 *a, const v16fp32 
     }
 }
 
+// Mode 3: Hand-written VLIW assembly (vendor official_demo mpu_add_u32)
+__device__ KERNEL_S void call_mpu_add_u32_asm(unsigned int input1_addr, unsigned int input2_addr, unsigned int output_addr, unsigned int N) {
+    v16u32 params_input1 = {
+        input1_addr, input1_addr, input1_addr, input1_addr,
+        0x0000010<<2, 0x100<<2, 0x0, 0x0,
+        ((N) << 16) | (N), 0x01000100, 0x0, 0xffffffff,
+        0x00010000, 0x0, 0x00000f0c, 0xffff0000
+    };
+    v16u32 params_input2 = {
+        input2_addr, input2_addr, input2_addr, input2_addr,
+        0x0000010<<2, 0x100<<2, 0x0, 0x0,
+        ((N) << 16) | (N), 0x01000100, 0x0, 0xffffffff,
+        0x00010000, 0x0, 0x00000f0c, 0xffff0000
+    };
+    v16u32 params_output = {
+        output_addr, output_addr, output_addr, output_addr,
+        0x0000010<<2, 0x100<<2, 0x0, 0x0,
+        ((N) << 16) | (N), 0x01000100, 0x0, 0xffffffff,
+        0x00010000, 0x0, 0x00000f0c, 0xffff0000
+    };
+
+    __aurora_s_setMReg_var(0, *(v16u32*)&params_input1);
+    __aurora_s_setMReg_var(1, *(v16u32*)&params_input2);
+    __aurora_s_setMReg_var(2, *(v16u32*)&params_output);
+
+    mpu_add_u32(N);
+    __aurora_s_getStatB();
+    __aurora_s_fenceI();
+}
+
 __global__ void test_fma_kernel(
     __DDR float *c_out,
     const __DDR float *a_in,
@@ -54,9 +87,9 @@ __global__ void test_fma_kernel(
     unsigned int tid = blockIdx.x * blockDim.x + threadIdx.x;
     if (tid != 0) return;
 
-    __mem0__ v16fp32 va_buf __attribute__((aligned(64)));
-    __mem1__ v16fp32 vb_buf __attribute__((aligned(64)));
-    __mem2__ v16fp32 vc_buf __attribute__((aligned(64)));
+    __mem0__ v16fp32 va_buf[1024] __attribute__((aligned(64)));
+    __mem1__ v16fp32 vb_buf[1024] __attribute__((aligned(64)));
+    __mem2__ v16fp32 vc_buf[1024] __attribute__((aligned(64)));
 
     auto block = cooperative_groups::this_thread_block();
     using barrier_t = scale::barrier<scale::thread_scope_block>;
@@ -66,9 +99,9 @@ __global__ void test_fma_kernel(
     }
     __syncthreads();
 
-    scale::memcpy_async(block, (float*)&va_buf, a_in, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
-    scale::memcpy_async(block, (float*)&vb_buf, b_in, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
-    scale::memcpy_async(block, (float*)&vc_buf, c_out, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
+    scale::memcpy_async(block, (float*)va_buf, a_in, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
+    scale::memcpy_async(block, (float*)vb_buf, b_in, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
+    scale::memcpy_async(block, (float*)vc_buf, c_out, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
     bar.arrive_and_wait();
 
 #if defined(__aurora_s__) || defined(__confidence__)
@@ -76,11 +109,16 @@ __global__ void test_fma_kernel(
 #endif
 
     if (mode == 0) {
-        mpu_fma_reg(&vc_buf, &va_buf, &vb_buf, N);
+        mpu_fma_reg(vc_buf, va_buf, vb_buf, N);
     } else if (mode == 1) {
-        mpu_fma_chain(&vc_buf, &va_buf, &vb_buf, N);
-    } else {
-        mpu_fma_dm(&vc_buf, &va_buf, &vb_buf, N);
+        mpu_fma_chain(vc_buf, va_buf, vb_buf, N);
+    } else if (mode == 2) {
+        mpu_fma_dm(vc_buf, va_buf, vb_buf, N);
+    } else if (mode == 3) {
+        call_mpu_add_u32_asm((unsigned int)((uintptr_t)va_buf),
+                             (unsigned int)((uintptr_t)vb_buf),
+                             (unsigned int)((uintptr_t)vc_buf),
+                             N);
     }
     MPU_SYNC();
 
@@ -89,7 +127,7 @@ __global__ void test_fma_kernel(
     cycles_out[0] = t1 - t0;
 #endif
 
-    scale::memcpy_async(block, c_out, (float*)&vc_buf, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
+    scale::memcpy_async(block, c_out, (float*)vc_buf, scale::aligned_size_t<4>(sizeof(v16fp32)), bar);
     bar.arrive_and_wait();
 }
 

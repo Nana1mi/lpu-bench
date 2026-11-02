@@ -8,4 +8,8 @@ Attn_SRAM_Locality,L,64,v0_ddr,150059,v1_resident,138804,1.0811,11255,"L=64, d=6
 Attn_DDR_Overlap,L,128,v0_ddr,296651,v2_overlap,298640,0.9933,-1989,"L=128, d=64 DDR double-buffered streaming"
 Attn_SRAM_Locality,L,128,v0_ddr,296651,v1_resident,274024,1.0826,22627,"L=128, d=64 resident on-chip DM SRAM (7.6% DMA overhead)"
 Attn_DDR_Overlap,L,256,v0_ddr,589837,v2_overlap,593914,0.9931,-4077,"L=256, d=64 DDR double-buffered streaming"
+Attn_SRAM_Locality,L,256,v0_ddr,589837,v1_resident,544466,1.0833,45371,"L=256, d=64 resident on-chip DM SRAM (7.7% DMA overhead)"
 Attn_DDR_Overlap,L,512,v0_ddr,1176205,v2_overlap,1184458,0.993,-8253,"L=512, d=64 DDR double-buffered streaming"
+Attn_SRAM_Locality,L,512,v0_ddr,1176205,v1_resident,1085346,1.0837,90859,"L=512, d=64 resident on-chip DM SRAM (7.7% DMA overhead)"
+Attn_DDR_Overlap,L,1024,v0_ddr,2348945,v2_overlap,2365550,0.993,-16605,"L=1024, d=64 DDR double-buffered streaming"
+Attn_SRAM_Locality,L,1024,v0_ddr,2348945,v1_resident,2167110,1.0839,181835,"L=1024, d=64 resident on-chip DM SRAM (7.7% DMA overhead)"

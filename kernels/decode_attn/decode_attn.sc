@@ -23,11 +23,11 @@
 #define NUM_VECS  4   // 4 * 16 = 64 floats
 #define TILE_L    16  // tokens per tile
 #ifndef MAX_L
-#define MAX_L     512 // maximum sequence length supported in DM scratchpad
+#define MAX_L     1024 // maximum sequence length supported in DM scratchpad
 #endif
 
 #ifndef RESIDENT_L
-#define RESIDENT_L 128
+#define RESIDENT_L 1024
 #endif
 
 // -------------------------------------------------------------

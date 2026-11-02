@@ -29,6 +29,9 @@ FLAGS := -std=c++11 -Xclang -target-sdk-version=9.2 -g -fdynamic-memory-base -DU
 
 all: test_fma.out
 
+mpu_add_u32.o: mpu_add_u32.m.asm
+	$(TC_BIN)/clang++ -c -scale-mpu-asm mpu_add_u32.m.asm -o mpu_add_u32.o $(FLAGS)
+
 test_fma.o: test_fma.sc
 	$(TC_BIN)/clang++ test_fma.sc -c \
 	-Xarch_host -I$(INC_MAPS) -Xarch_host -I$(HOST_INC) -Xarch_host -I$(HOST_INC2) -Xarch_host -I$(HOST_INC3) -Xarch_host -I$(HOST_INC4) -Xarch_host -I$(HOST_INC5) -Xarch_host -I$(DEVICE_INC4) -Xarch_host -I$(INC_COMMON) \
@@ -36,8 +39,8 @@ test_fma.o: test_fma.sc
 	-I$(INC_TC) -I$(INC_LLCDSC) -I$(INC_COMMON) \
 	-Xarch_device -nostdlibinc $(FLAGS)
 
-test_fma.out: test_fma.o
-	$(TC_BIN)/clang++ --scale-link -o test_fma.out test_fma.o \
+test_fma.out: test_fma.o mpu_add_u32.o
+	$(TC_BIN)/clang++ --scale-link -o test_fma.out test_fma.o mpu_add_u32.o \
 	-lscalehost -lmaps -lmapskmd -lllcdsc_kernel -lelf -lstdc++ -lm -lgcc -lc -lgcc_eh \
 	-L/lib64 -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L$(LIB_TC) -L$(LIB_MAPS) -L$(LIB_MAPSKMD) -L$(HOST_LIB) -L$(HOST_LIB2)
 

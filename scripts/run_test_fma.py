@@ -14,7 +14,8 @@ def main():
     modes = [
         (0, "fma_reg_unfused"),
         (1, "fma_reg_fused"),
-        (2, "fma_dm_gemm_pattern")
+        (2, "fma_dm_gemm_pattern"),
+        (3, "handwritten_asm_vliw")
     ]
     N_list = [100, 1000, 10000]
     repeats = 3

@@ -4,6 +4,7 @@ import sys
 import subprocess
 import csv
 import datetime
+import argparse
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GUEST_RUN = os.path.join(PROJECT_ROOT, "scripts", "guest_run.sh")
@@ -20,7 +21,7 @@ def get_timestamp():
 
 os.makedirs(os.path.join(PROJECT_ROOT, "results"), exist_ok=True)
 
-CONFIGS = [
+ALL_CONFIGS = [
     # (version, L, d, repeats)
     ("v0", 64, 64, 3),
     ("v1", 64, 64, 3),
@@ -29,9 +30,14 @@ CONFIGS = [
     ("v1", 128, 64, 3),
     ("v2", 128, 64, 3),
     ("v0", 256, 64, 3),
+    ("v1", 256, 64, 3),
     ("v2", 256, 64, 3),
     ("v0", 512, 64, 3),
+    ("v1", 512, 64, 3),
     ("v2", 512, 64, 3),
+    ("v0", 1024, 64, 3),
+    ("v1", 1024, 64, 3),
+    ("v2", 1024, 64, 3),
 ]
 
 def run_config(version, L, d, repeats):
@@ -62,15 +68,32 @@ def run_config(version, L, d, repeats):
     return csv_lines
 
 def main():
+    parser = argparse.ArgumentParser(description="Run Decode Attention benchmarks")
+    parser.add_argument("--filter-version", type=str, help="Comma-separated versions to run, e.g. v1")
+    parser.add_argument("--filter-l", type=str, help="Comma-separated L values to run, e.g. 256,512,1024")
+    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing decode_attn.csv")
+    args = parser.parse_args()
+
+    filter_versions = args.filter_version.split(",") if args.filter_version else None
+    filter_ls = [int(x) for x in args.filter_l.split(",")] if args.filter_l else None
+
+    configs_to_run = []
+    for ver, l, d, reps in ALL_CONFIGS:
+        if filter_versions and ver not in filter_versions:
+            continue
+        if filter_ls and l not in filter_ls:
+            continue
+        configs_to_run.append((ver, l, d, reps))
+
     print("==========================================================")
     print("      LPU-Bench: K2 Decode Attention Benchmark Suite       ")
     print("==========================================================")
+    print(f"Configurations to run: {len(configs_to_run)}")
     
-    write_header = not os.path.exists(RESULTS_CSV) or os.path.getsize(RESULTS_CSV) == 0
-    all_rows = []
+    write_header = args.overwrite or not os.path.exists(RESULTS_CSV) or os.path.getsize(RESULTS_CSV) == 0
     header = None
 
-    for version, L, d, repeats in CONFIGS:
+    for version, L, d, repeats in configs_to_run:
         output_lines = run_config(version, L, d, repeats)
         if not output_lines:
             print(f"[ERROR] No output for {version} L={L}", file=sys.stderr)

@@ -88,13 +88,13 @@ def plot_k2_attn():
         sub = agg[agg['version'] == ver].sort_values('L')
         if not sub.empty:
             ax.plot(sub['L'], sub['device_cycles'] / 1e3,
-                    marker=markers[ver], markersize=8 if ver != 'v1' else 12,
+                    marker=markers[ver], markersize=8 if ver != 'v1' else 11,
                     linewidth=2.2, color=colors[ver], label=labels[ver])
 
     ax.set_xlabel('Context Sequence Length L (tokens, head_dim d=64)', fontsize=12, fontweight='bold')
     ax.set_ylabel('Execution Latency (Thousand Cycles)', fontsize=12, fontweight='bold')
     ax.set_title('K2: LLM Decode Attention Latency vs. KV Cache Locality', fontsize=14, fontweight='bold', pad=15)
-    ax.set_xticks([64, 128, 256, 512])
+    ax.set_xticks([64, 128, 256, 512, 1024])
     ax.set_ylim(bottom=0)
     ax.grid(True, linestyle='--', alpha=0.6)
     ax.legend(loc='upper left', frameon=True, framealpha=0.9)
@@ -113,11 +113,9 @@ def plot_k2_breakdown():
     df = pd.read_csv(csv_path)
     agg = df.groupby(['version', 'L'])['device_cycles'].mean().unstack(level=0)
 
-    # For lengths where v1 exists (64, 128), v1 represents pure compute / SRAM latency
-    # v0 - v1 represents DDR DMA transfer overhead
-    fig, ax = plt.subplots(figsize=(7, 5), dpi=300)
+    fig, ax = plt.subplots(figsize=(8, 5), dpi=300)
 
-    lengths = [64, 128]
+    lengths = [64, 128, 256, 512, 1024]
     valid_lengths = [l for l in lengths if l in agg.index and 'v1' in agg.columns and 'v0' in agg.columns]
 
     if valid_lengths:
@@ -131,9 +129,9 @@ def plot_k2_breakdown():
         p2 = ax.bar(x, dma_overhead, width, bottom=compute_cycles, label='DDR SDMA Fetch Overhead', color='#d62728', alpha=0.85)
 
         ax.set_ylabel('Cycles (Thousands)', fontsize=12, fontweight='bold')
-        ax.set_title('Decode Attention Execution Time Breakdown (L=64, 128)', fontsize=13, fontweight='bold', pad=15)
+        ax.set_title('Decode Attention Execution Time Breakdown (L=64 to 1024)', fontsize=13, fontweight='bold', pad=15)
         ax.set_xticks(x)
-        ax.set_xticklabels([f'L={l} Tokens' for l in valid_lengths], fontsize=11)
+        ax.set_xticklabels([f'L={l}' for l in valid_lengths], fontsize=11)
         ax.legend(loc='upper left', frameon=True)
         ax.grid(True, linestyle='--', alpha=0.5, axis='y')
 
@@ -147,7 +145,7 @@ def plot_k3_speedup():
     gemm_path = os.path.join(RESULTS_DIR, "gemm.csv")
     attn_path = os.path.join(RESULTS_DIR, "decode_attn.csv")
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), dpi=300)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), dpi=300)
 
     if os.path.exists(gemm_path):
         df_g = pd.read_csv(gemm_path)
@@ -163,7 +161,7 @@ def plot_k3_speedup():
             ax1.grid(True, linestyle='--', alpha=0.5, axis='y')
             for bar in bars1:
                 yval = bar.get_height()
-                ax1.text(bar.get_x() + bar.get_width()/2.0, yval + 0.02, f'{yval:.2f}x', ha='center', va='bottom', fontsize=9)
+                ax1.text(bar.get_x() + bar.get_width()/2.0, yval + 0.02, f'{yval:.4f}x', ha='center', va='bottom', fontsize=8)
 
     if os.path.exists(attn_path):
         df_a = pd.read_csv(attn_path)
@@ -191,7 +189,7 @@ def plot_k3_speedup():
             ax2.grid(True, linestyle='--', alpha=0.5, axis='y')
             for bar in b1:
                 yval = bar.get_height()
-                ax2.text(bar.get_x() + bar.get_width()/2.0, yval + 0.02, f'{yval:.2f}x', ha='center', va='bottom', fontsize=9)
+                ax2.text(bar.get_x() + bar.get_width()/2.0, yval + 0.02, f'{yval:.4f}x', ha='center', va='bottom', fontsize=8)
 
     out_file = os.path.join(FIGURES_DIR, "k3_speedup.png")
     fig.tight_layout()

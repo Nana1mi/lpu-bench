@@ -37,6 +37,7 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
 
 1. **确定性与方差 (Repeatability)**：
    - 相同工作量下，Device `tick()` 读出的硬件周期数在 3 次重复中**完全一致**（如 10 循环恒为 14,752 cycles，80 循环恒为 117,582 cycles），方差为 0。证明 gem5 仿真器在给定的静态指令序列下具有完全确定性与可重复性。
+   - **重要限定**：“方差为 0”仅在同一二进制内成立，不同 commit / 不同 build 之间的 cycles 不可直接比对（例如代码微小改动可能引起栈偏移、寄存器重排或指令包对齐变动，导致跨二进制出现微小周期漂移）。跨版本比较加速比时必须保证基线与优化版本在同一构建环境下生成。
 2. **完美线性度 (Linearity)**：
    - 基础循环基线（10 循环）= 14,752 cycles。
    - 每增加 10 次循环计算，增量周期为：
@@ -115,7 +116,8 @@ export MAPS_KERNEL_REPEATITION_COUNT=1
 - **Mode 0 (Unfused Reg, `acc += va * vb`)**: $Cycles = 74.00 \times N + 204$ ($R^2 = 1.00000$)
 - **Mode 1 (Fused Reg, `acc = acc * va + vb`)**: $Cycles = 69.00 \times N + 217$ ($R^2 = 1.00000$)，比 Mode 0 精确减少 5 周期（即消除拆分乘加之间的 5-NOP 气泡）。
 - **Mode 2 (DM Acc / GEMM Pattern, `c[0] += a[0] * b[0]`)**: $Cycles = 87.00 \times N + 146$ ($R^2 = 1.00000$)，包含 DM 向量写回（`BIU2: STORE`）。在真实 GEMM 内核中叠加多重循环步进与标量广播计算后，达到约 95~100 周期/步。
-- **与厂商手写汇编对比**：厂商官方手写汇编（`kernels/official_demo/mpu_add_u32.m.asm`）采用软件流水预热（`wait 13 || wait 16`），单行 VLIW 指令包实现 Load+Add+Store+Jump 并发，实测吞吐量为 **1 cycle/vector operation**。证实硬件本身具备单周期向量吞吐能力，编译代码的高延迟源于当前编译工具链的早期实现。
+- **Mode 3 (Handwritten VLIW Asm, `official_demo/mpu_add_u32`)**: $Cycles = 1.00 \times N + 336$ ($R^2 = 1.00000$)。在 `mpu_add_u32` 汇编调用外包裹 `tick()`（见 `test_fma` Mode 3，实测 $N \in \{100, 1000, 10000\}$，结果写入 `results/test_fma.csv`），拟合斜率严格为 1.00 周期/op。
+- **对比定性**：在该模型的记账方式下，手写 VLIW 约 1 周期/op，编译 C 为 74 周期/op，差距归因于工具链未做软件流水。本项目不对物理硅片的能力下任何判断。
 
 ### 5.3 仿真器微架构建模粒度审查
 审查 gem5 配置文件（`config.ini`）、启动参数与运行日志：
