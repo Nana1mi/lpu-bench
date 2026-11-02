@@ -116,7 +116,7 @@ export MAPS_KERNEL_REPEATITION_COUNT=1
 - **Mode 0 (Unfused Reg, `acc += va * vb`)**: $Cycles = 74.00 \times N + 204$ ($R^2 = 1.00000$)
 - **Mode 1 (Fused Reg, `acc = acc * va + vb`)**: $Cycles = 69.00 \times N + 217$ ($R^2 = 1.00000$)，比 Mode 0 精确减少 5 周期（即消除拆分乘加之间的 5-NOP 气泡）。
 - **Mode 2 (DM Acc / GEMM Pattern, `c[0] += a[0] * b[0]`)**: $Cycles = 87.00 \times N + 146$ ($R^2 = 1.00000$)，包含 DM 向量写回（`BIU2: STORE`）。在真实 GEMM 内核中叠加多重循环步进与标量广播计算后，达到约 95~100 周期/步。
-- **Mode 3 (Handwritten VLIW Asm, `official_demo/mpu_add_u32`)**: $Cycles = 1.00 \times N + 336$ ($R^2 = 1.00000$)。在 `mpu_add_u32` 汇编调用外包裹 `tick()`（见 `test_fma` Mode 3，实测 $N \in \{100, 1000, 10000\}$，结果写入 `results/test_fma.csv`），拟合斜率严格为 1.00 周期/op。
+- **Mode 3 (Handwritten VLIW Asm, `official_demo/mpu_add_u32`)**: 在 `mpu_add_u32` 汇编调用外包裹 `tick()`（见 `test_fma` Mode 3，实测 $N \in \{100, 1000, 10000\}$，耗时分别为 436, 1336, 10366 周期，结果写入 `results/test_fma.csv`）。三点最小二乘拟合为 $1.00315 \times N + 334.33$（$R^2 = 0.99999993$），段斜率 100→1000 为 1.0000、1000→10000 为 1.0033，约为 **1.003 周期/op（≈1 周期/op）**。
 - **对比定性**：在该模型的记账方式下，手写 VLIW 约 1 周期/op，编译 C 为 74 周期/op，差距归因于工具链未做软件流水。本项目不对物理硅片的能力下任何判断。
 
 ### 5.3 仿真器微架构建模粒度审查
