@@ -4,7 +4,7 @@
 在当前 CModel 记账方式下，测得单 APE 上 GEMM 与 Decode Attention 硬件周期，基于厂商回复建立了 Roofline 模型并完成 878 倍差距分解；但模型关闭流水线仿真，低精度与互联延迟等细节仍缺失。
 
 ## 二、已确立的结论
-1. **厂商标称参数明确推导出整芯片 5.837 TFLOPS 峰值与 11.40 拐点**：主频 1.425 GHz、8 条 FMA 发射、256-bit GDDR6 @ 512 GB/s，推导出单 APE 峰值 364.8 GFLOPS、整芯片 5.837 TFLOPS 与拐点 R=11.40 FLOP/byte。[来源：`notes/vendor_specs.md` §1、§2]
+1. **厂商标称参数推导整芯片 5.837 TFLOPS 峰值与 11.40 拐点**：主频 1.425 GHz、8 条 FMA 发射、256-bit GDDR6 @ 512 GB/s，均摊口径下单 APE 带宽 32 GB/s，推导整芯片 5.837 TFLOPS、单 APE 364.8 GFLOPS 与各尺度恒定拐点 R=11.40 FLOP/byte（独占上界 R=0.71）。[来源：`notes/vendor_specs.md` §1、§2]
 2. **完整 GEMM 算力距标称理论峰值存在 878 倍层级差距**：实测 GEMM M=8 为 0.2915 FLOPs/cycle（占峰值 256 FLOPs/cycle 的 0.114%），严格分解为 8×（微码发射未满）× 74×（编译缺乏流水）× 1.48×（循环外围开销）。[来源：`REPORT.md` §4.5，`results/gemm.csv`]
 3. **Decode Attention 片上常驻收益锁定在约 9% 且不随序列长度增长**：在当前 CModel 记账方式下，L=1024 时加速比为 1.0839x（2,348,945 / 2,167,110 = 1.0839x，节约 181,835 周期），与 L=64 时（1.0811x）基本一致，数据搬运已被编译器开销掩盖。[来源：`results/ablation.csv` 第 7、15 行，原始数据 `results/decode_attn.csv`]
 4. **Decode Attention 双缓冲流式预取在该模型记账下呈负收益**：因算子已被编译器开销压成计算受限，双缓冲在 L=1024 时的加速比为 0.9930x（2,348,945 / 2,365,550 = 0.9930x，增加 16,605 周期控制开销），无暴露搬运可重叠。[来源：`results/ablation.csv` 第 14 行，原始数据 `results/decode_attn.csv`]

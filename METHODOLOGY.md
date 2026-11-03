@@ -77,6 +77,22 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
    $$\text{有效带宽 (GB/s)} = \text{effective\_bw\_bytes\_per\_cycle} \times 1.425 \text{ GHz}$$
    严禁将该周期与外部 GDDR6 总线时钟或命令周期混淆。
 
+### 2.5 注意力算子访存量统计与常驻模式口径规范 (Attention Memory Traffic & Intensity Caliber)
+
+在微基准数据表与 `results/decode_attn.csv` 中，K2 Decode Attention 的 `v1`（片上 DM 常驻模式）记录的 `total_bytes = 512` 仅代表设备内核执行及计时窗口内实际发生的 Q（$d \times 4 = 256$ 字节）与 O（$d \times 4 = 256$ 字节）数据搬移。因为在 v1 模式下，全部 $K$ 与 $V$ Cache 已在计时开始前预置在片上 SRAM 中，计时窗口内无 KV 搬运。
+
+**方法学口径规范（硬性限定）**：
+1. **计时窗口搬运量 vs. 算法总访存量**：
+   - `v1` 的 512 字节仅为**计时窗口内的搬运量**，并非该注意力算子的**算法总访存量**。
+   - 完整的算法总访存量必须包含完整的 KV Cache 数据流，口径与 $v0$ 保持完全一致：
+     $$\text{Total Algorithmic Bytes} = 2 \times L \times d \times 4 + 512 \text{ 字节}$$
+     当隐藏层维度 $d=64$ 时，该值为 $512 \times L + 512$ 字节。
+2. **严禁用于计算算术强度或片外带宽**：
+   - 严禁将计时窗口内的 512 字节用于计算算子的算法算术强度（Arithmetic Intensity, $I$）或有效片外带宽。若用 512 字节计算，会导致 $I$ 虚高至 $32 \sim 512\text{ FLOP/byte}$，造成“片上常驻使 Attention 变成计算密集算子”的物理假象。
+   - 在体系结构分析与 Roofline 模型中，Attention 的算术强度必须按完整算法访存量统一计算：
+     $$I_{\text{Attn}} = \frac{\text{FLOPs}}{2 \cdot L \cdot d \cdot 4 + 512} \approx \frac{4 L d}{8 L d} \approx \mathbf{0.50 \text{ FLOP/byte}}$$
+     在此统一口径下，$v1$ 与 $v0$ 均精准定位于 $I \approx 0.50\text{ FLOP/byte}$ 的深访存受限区，且 $v1$ 的 y 轴算力吞吐高于 $v0$ 约 8.1% ~ 8.4%，直观反映片上 SRAM 常驻消除 DDR 搬运所带来的性能收益。
+
 ---
 
 ## 3. 统一计时封装 (`common/timer.h`)

@@ -241,9 +241,9 @@ Aurora 处理芯片的核心计算单元为 **APE (Aurora Processing Element)**�
 - **单 APE 理论峰值算力**：$8 \text{ 条} \times 16 \text{ lane} \times 2 \text{ FLOP} = \mathbf{256 \text{ FLOPs/cycle}}$（折合 $256 \times 1.425\text{ GHz} = \mathbf{364.8\text{ GFLOPS}}$，推导值，非厂商标称）。
 - **整芯片理论峰值算力**：16 个 APE 共 $\mathbf{5.837\text{ TFLOPS}}$（$4 \times 1.459\text{ TFLOPS}$ 单 APC，推导值，非厂商标称）。
 - **片外存储理论峰值物理带宽**：$256\text{ bit} \times 16\text{ Gbps} / 8 = \mathbf{512\text{ GB/s}}$（推导值，非厂商标称）。
-- **Roofline 理论拐点 $R$**：
-  - 整芯片 $R_{\text{chip}} = 5836.8\text{ GFLOPS} / 512\text{ GB/s} = \mathbf{11.40\text{ FLOP/byte}}$（推导值，非厂商标称）。
-  - 单 APE $R_{\text{ape}} = 364.8\text{ GFLOPS} / 512\text{ GB/s} = \mathbf{0.71\text{ FLOP/byte}}$（推导值，非厂商标称）。
+- **Roofline 理论拐点 $R$ 与片外带宽分配假设**：
+  - **均摊口径（系统基准，主用口径）**：整芯片 512 GB/s GDDR6 总带宽在 16 个 APE 间对称均摊，单 APE 平均峰值带宽为 **32 GB/s**（折合单时钟周期 22.45 字节/周期，推导值，非厂商标称）。由于算力与带宽同比例缩放，**理论拐点在整芯片、单 APC（128 GB/s）、单 APE（32 GB/s）各粒度下恒定不变，均为 $R = 11.40\text{ FLOP/byte}$**（推导值，非厂商标称）。这是多核并发运行时的真实系统平衡点。
+  - **独占口径（单核乐观上界）**：若假设单 APE 单线程运行时无争用独占访问整颗芯片的全部 512 GB/s 带宽，拐点为 $R_{\text{exclusive}} = 364.8\text{ GFLOPS} / 512\text{ GB/s} = \mathbf{0.71\text{ FLOP/byte}}$（推导值，非厂商标称），作为单核运行时的理论乐观上限。
 
 #### 2. 实测算力与峰值的差距分解 (The 878x Gap Decomposition)
 在 GEMM $M=8$ 下，实测计算吞吐率为 **0.2915 FLOPs/cycle**（源自 `results/gemm.csv`，对应 0.4154 GFLOPS）。相对于单 APE 标称峰值 256.00 FLOPs/cycle，实测仅达到峰值的 **0.114%（即 1/878）**。
@@ -275,9 +275,15 @@ $$\text{总差距因子} = 8.00 \times 74.00 \times 1.481 = \mathbf{876.8 \appro
 **图 4: Aurora 架构 Roofline 理论屋顶模型与 CModel 实测算子落点对比 (数据点完全衍生自实测 CSV)**
 
 **Roofline 核心特征解读**：
-1. **屋顶模型构建**：倾斜边界为 GDDR6 理论物理带宽 512 GB/s；实线水平顶为整芯片标称峰值 5.837 TFLOPS（拐点 $R = 11.40\text{ FLOP/byte}$）；虚线水平顶为单 APE 标称峰值 364.8 GFLOPS（拐点 $R = 0.71\text{ FLOP/byte}$）。
-2. **实测点严重陷落于屋顶下方**：GEMM（$M=1\sim 8$，算术强度 $I = M/2 = 0.5 \sim 4.0\text{ FLOP/byte}$）与 Decode Attention（$L=64\sim 1024$，算术强度 $I \approx 0.5\text{ FLOP/byte}$）的实测算力均落于 0.17 ~ 0.42 GFLOPS 区间，距离单 APE 理论屋顶约 878 倍。这一显著落差清晰展示了高级语言编译质量对底层物理算力的巨大侵蚀。
-3. **低拐点物理特性**：整芯片 $R = 11.40$ 是一个非常低的转折点，意味着算法在较低的算术强度下即可越过带宽瓶颈。这一特征对大模型推理体系结构具有决定性指导意义。
+1. **三条物理屋顶线构建**：
+   - **整芯片基准顶（黑色实线）**：标称峰值 5.837 TFLOPS，峰值带宽 512 GB/s，拐点为 **$R = 11.40\text{ FLOP/byte}$**。
+   - **单 APE 均摊基准顶（蓝色实线，主用口径）**：单 APE 标称峰值 364.8 GFLOPS，均摊带宽 32 GB/s，拐点同样精准为 **$R = 11.40\text{ FLOP/byte}$**，与整芯片平衡点完全一致。
+   - **单 APE 独占乐观上界顶（蓝色虚线）**：单 APE 标称峰值 364.8 GFLOPS，假定独占 512 GB/s 带宽，拐点为 **$R = 0.71\text{ FLOP/byte}$**。
+2. **算子数据点无遮挡与算法总访存量口径统一**：
+   - **GEMM 算子**：$v0$ 串行采用蓝色空心圆点，$v1$ 流水采用橙色实心方块，文字标签上下错开，清晰呈现 $M=1,2,4,8$ 沿 $I = M/2$ 爬升轨迹，消除视觉遮挡。
+   - **Decode Attention 算子**：严格遵循 `METHODOLOGY.md` §2.5 规范，$v1$ 片上常驻与 $v0$ DDR 流式均采用包含 KV 预载的完整算法总访存量（$2 \cdot L \cdot d \cdot 4 + 512$ 字节），统一精确落于理论参考线 **$I \approx 0.50\text{ FLOP/byte}$**（而非因计时窗口 512 字节导致虚高）。在 $I \approx 0.50$ 处，$v1$ 散点垂直高于 $v0$ 约 8.1% ~ 8.4%，在 Roofline 坐标系中直观刻画了消除 DDR 搬运所锁定的 ~9% SRAM 常驻收益。
+3. **实测点严重陷落于屋顶下方（878 倍物理鸿沟）**：所有微基准算子的实测有效算力均落于 0.16 ~ 0.42 GFLOPS 区间，仅占单 APE 物理峰值（364.8 GFLOPS）的约 0.114%（即约 1/878），直观展示了编译器缺乏软件流水所带来的算力压制。
+4. **低拐点物理特性**：无论整芯片还是单 APE 均摊口径，平衡拐点恒为 $R = 11.40\text{ FLOP/byte}$，远低于通用 GPU（数百 FLOP/byte）。这确立了 Aurora 在中小 Batch 下即可进入算力受限区的本质架构优势。
 
 ---
 
@@ -296,14 +302,16 @@ $$\text{总差距因子} = 8.00 \times 74.00 \times 1.481 = \mathbf{876.8 \appro
   标准矩阵乘 $Y = X \cdot W$，其中 $X \in \mathbb{R}^{M \times K}, W \in \mathbb{R}^{K \times N}$。总浮点计算量为 $2MKN$ FLOPs；权重分块流式加载中，读取权重矩阵占用 $4KN$ 字节（FP32 单精度，以权重访存为主导）。
   $$\text{算术强度 } I_{FFN} \approx \frac{2MKN \text{ FLOPs}}{4KN \text{ Bytes}} = \frac{M}{2} \text{ FLOP/byte}$$
   $I_{FFN}$ 随 Token/Batch 规模 $M$ 呈现严格的线性增长。
-- **解码注意力 (Decode Attention) 算术强度**：
-  单查询自回归解码计算 $S = q \cdot K^T, O = P \cdot V$。总计算量为 $4Ld$ FLOPs（内积 $2Ld$ FLOPs，加权值累加 $2Ld$ FLOPs）；访存量为读取历史上下文 $K$ 与 $V$ 张量，每个 Token 占用 $2 \times d \times 4 = 8d$ 字节，总访存量为 $8Ld$ 字节。
-  $$\text{算术强度 } I_{Attn} \approx \frac{4Ld \text{ FLOPs}}{8Ld \text{ Bytes}} = \mathbf{0.5 \text{ FLOP/byte}}$$
+- **解码注意力 (Decode Attention) 算术强度与口径规范**：
+  单查询自回归解码计算 $S = q \cdot K^T, O = P \cdot V$。总计算量为 $4Ld$ FLOPs（内积 $2Ld$ FLOPs，加权值累加 $2Ld$ FLOPs）；算法完整访存量为读取历史上下文 $K$ 与 $V$ 张量及 $Q$ 与 $O$（$2 \cdot L \cdot d \cdot 4 + 512$ 字节）。
+  $$\text{算术强度 } I_{Attn} \approx \frac{4Ld \text{ FLOPs}}{8Ld \text{ Bytes}} = \mathbf{0.50 \text{ FLOP/byte}}$$
   $I_{Attn}$ 为严格常数，**与上下文长度 $L$ 和批大小 $M$ 均无关**（每个自回归请求各有一份独立的 KV Cache，无法在 Batch 维度共享与摊薄）。
+  > [!NOTE]
+  > **严格口径说明**：根据 `METHODOLOGY.md` §2.5，微基准 CSV 中 $v1$ 记录的 `total_bytes = 512` 仅代表计时窗口内的搬运量，并非算子总访存量。若错误使用 512 字节计算，会导致算术强度虚高至 $32 \sim 512\text{ FLOP/byte}$。在 Roofline 与体系结构分析中，必须采用包含 KV 预载的完整算法总访存量，$v1$ 与 $v0$ 的算术强度严格统一为 $I_{Attn} \approx 0.50\text{ FLOP/byte}$。
 - **代入 Roofline 物理拐点判据**：
-  整芯片推导物理拐点为 $R_{\text{chip}} = 11.40 \text{ FLOP/byte}$（推导值，非厂商标称）：
-  1. 对于 Decode Attention：其理论算术强度 $0.5 \text{ FLOP/byte} \ll 11.40$，**在芯片体系结构上恒处于强访存受限区 (Permanently Memory-Bound)**。
-  2. 对于 FFN 算子：当且仅当 $I_{FFN} > R_{\text{chip}}$（即 $M / 2 > 11.40 \implies \mathbf{M > 22.8 \approx 23}$）时，算术强度跨过拐点，算子转入**算力受限区 (Compute-Bound)**。
+  在均摊口径下，系统物理拐点恒为 $R = 11.40 \text{ FLOP/byte}$（单 APE 独占乐观上界为 $R = 0.71\text{ FLOP/byte}$）：
+  1. 对于 Decode Attention：其理论算术强度 $0.50 \text{ FLOP/byte} \ll 11.40$（即便在独占乐观上界下 $0.50 < 0.71$），**在芯片体系结构上恒处于强访存受限区 (Permanently Memory-Bound)**。
+  2. 对于 FFN 算子：当且仅当 $I_{FFN} > R$（在均摊口径下 $M / 2 > 11.40 \implies \mathbf{M > 22.8 \approx 23}$）时，算术强度跨过拐点，算子转入**算力受限区 (Compute-Bound)**。
 
 #### 2. 实测验证分析
 - **Attention 收益锁定与工具链掩盖**：
@@ -435,9 +443,9 @@ bash scripts/reproduce_all.sh
 1. **本轮出现的每个数字，是厂商给出的还是推导的？是否都已标注？**
    - 是。主频 1.425 GHz、8 条发射、GDDR6 8 路 2 通道 16bit@16Gbps、1024 GB/s 互联带宽明确标注为厂商书面回复原文；5.837 TFLOPS、512 GB/s、R=11.40、0.7018 ns 等全部明确标注为「推导值，非厂商标称」并附带完整推导公式。
 2. **Roofline 图的数据点是否全部来自 CSV（无手填）？**
-   - 是。`figures/roofline.png` 中的 GEMM 各 M 点与 Decode Attention 各 L 点完全由 `scripts/plot.py` 通过 pandas 从 `results/gemm.csv` 与 `results/decode_attn.csv` 聚合计算生成，无任何硬编码手填数据点。
+   - 是。`figures/roofline.png` 中的 GEMM 各 M 点与 Decode Attention 各 L 点完全由 `scripts/plot.py` 从 `results/gemm.csv` 与 `results/decode_attn.csv` 聚合计算生成，无任何硬编码手填。GEMM $v0$（空心圆点）与 $v1$（实心方块）标签分离排布消除遮挡；Attention $v0$ 与 $v1$ 统一采用算法总访存量精确落在 $I \approx 0.50$，垂直落差直观展示片上常驻 ~9% 收益。
 3. **RQ2 是否明确区分了架构层面与当前实现层面的结论？**
-   - 是。明确区分了体系结构层面（低拐点 R=11.40 使得硬件在小 Batch M>23 下即可饱和，天然适宜小 Batch Decode）与当前实现层面（因工具链与模型记账存在 878 倍差距，当前高级 C 语言算子尚无法在 Batch=1 自回归场景兑现该红利）。
+   - 是。明确区分了体系结构层面（在均摊口径 $R=11.40$ 与独占上界 $R=0.71$ 下均具备极低拐点，仅需小 Batch $M > 23$ 即可饱和算力，天然契合小 Batch 低延迟 Decode）与当前实现层面（因工具链与微码存在 878 倍差距，当前高级 C 语言算子尚无法在自回归场景兑现该架构优势）。
 4. **引用的厂商原文是否一字未改？**
    - 是。厂商关于算子库性能（「有算子库，但 c 的性能比微码差很多，具体数据待评估或者后续反馈」）、主频时钟域、发射宽度、存储规格与片间互联的回复均一字不改照录。
 5. **互联带宽论据是否标注了“延迟未知”这一限制？**

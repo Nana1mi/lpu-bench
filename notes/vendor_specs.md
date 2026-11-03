@@ -57,14 +57,25 @@
 4. **硬件时钟周期物理时长**：
    - 公式：$$1 \text{ cycle} = \frac{1}{1.425 \times 10^9 \text{ Hz}} \approx \mathbf{0.701754 \text{ ns}} \approx \mathbf{0.7018 \text{ ns}}$$（推导值，非厂商标称）
 
-5. **Roofline 理论拐点 $R$ (Arithmetic Intensity Turn-Point)**：
+5. **Roofline 理论拐点 $R$ (Arithmetic Intensity Turn-Point) 与片外带宽分配假设**：
    - 拐点公式：$$R = \frac{\text{理论峰值算力}}{\text{理论峰值带宽}}$$
-   - **整芯片口径**（16 APE 共享 512 GB/s 带宽）：
-     $$R_{\text{chip}} = \frac{5836.8 \text{ GFLOPS}}{512 \text{ GB/s}} = \mathbf{11.40 \text{ FLOP/byte}}$$（推导值，非厂商标称）
-   - **单 APC 口径**（4 APE 对应 512 GB/s 带宽）：
-     $$R_{\text{apc}} = \frac{1459.2 \text{ GFLOPS}}{512 \text{ GB/s}} = \mathbf{2.85 \text{ FLOP/byte}}$$（推导值，非厂商标称）
-   - **单 APE 口径**（单 APE 独立对应 512 GB/s 带宽，微基准口径）：
-     $$R_{\text{ape}} = \frac{364.8 \text{ GFLOPS}}{512 \text{ GB/s}} = \mathbf{0.7125 \text{ FLOP/byte}} \approx \mathbf{0.71 \text{ FLOP/byte}}$$（推导值，非厂商标称）
+   - **片外带宽分配假设与两种口径对比**：
+     - **均摊口径 (Amortized Caliber，主用/系统基准口径)**：
+       假设整芯片 512 GB/s 的 GDDR6 物理总带宽在 16 个 APE 间对称均摊。
+       - 单 APE 平均可用峰值带宽：$$512 \text{ GB/s} \div 16 = \mathbf{32 \text{ GB/s}}$$（折合单时钟周期 $32 \times 10^9 / 1.425 \times 10^9 \approx \mathbf{22.45 \text{ 字节/周期}}$，推导值，非厂商标称）
+       - 单 APC（4 APE）平均可用峰值带宽：$$512 \text{ GB/s} \div 4 = \mathbf{128 \text{ GB/s}}$$（推导值，非厂商标称）
+       - **尺度不变性**：当带宽按核数等比例分配时，拐点在整芯片、单 APC、单 APE 任何粒度下**恒为 11.40 FLOP/byte**：
+         $$R_{\text{chip}} = \frac{5836.8 \text{ GFLOPS}}{512 \text{ GB/s}} = \mathbf{11.40 \text{ FLOP/byte}}$$（推导值，非厂商标称）
+         $$R_{\text{apc}} = \frac{1459.2 \text{ GFLOPS}}{128 \text{ GB/s}} = \mathbf{11.40 \text{ FLOP/byte}}$$（推导值，非厂商标称）
+         $$R_{\text{ape}} = \frac{364.8 \text{ GFLOPS}}{32 \text{ GB/s}} = \mathbf{11.40 \text{ FLOP/byte}}$$（推导值，非厂商标称）
+       - **物理意义**：$R = 11.40\text{ FLOP/byte}$ 是 Aurora 芯片在整机并发运行时的真实系统平衡点。
+     - **独占口径 (Exclusive Caliber，单核乐观上界口径)**：
+       假设在单 APE 单线程运行的极端非并发基准下，单个 APE 独占整颗芯片全部 512 GB/s 的 GDDR6 带宽。
+       - 单 APE 独占拐点：
+         $$R_{\text{ape, exclusive}} = \frac{364.8 \text{ GFLOPS}}{512 \text{ GB/s}} = \mathbf{0.7125 \text{ FLOP/byte}} \approx \mathbf{0.71 \text{ FLOP/byte}}$$（推导值，非厂商标称）
+       - 单 APC 独占拐点：
+         $$R_{\text{apc, exclusive}} = \frac{1459.2 \text{ GFLOPS}}{512 \text{ GB/s}} = \mathbf{2.85 \text{ FLOP/byte}}$$（推导值，非厂商标称）
+       - **物理意义**：该口径代表单 APE 运行时能够获得的物理性能绝对乐观上界。在实际多核并发推理场景下，各核争用总线，平衡点回归至均摊口径的 $11.40\text{ FLOP/byte}$。
 
 ---
 
