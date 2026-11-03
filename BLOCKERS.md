@@ -25,7 +25,7 @@
   经 T7 系统实测与文档核实，已确定：
   1. 单个 APC 包含 **24 个独立 Bank**，单 Bank 物理容量为 **256 KB**，单 APC 物理 DM 总量为 **6 MB**。
   2. 在单 APE 下，单 Region 物理上限为 **256 KB**，实测支持 $L=1024$ 完整常驻（耗时 2,152,767 cycles）。
-  3. 当申请超过 256 KB（例如 $L=1536$ 对应 384 KB）时，离线编译链接能通过，但驱动运行时 JIT 链接时精确抛出：`ld.lld: error: section .MEMORY0 size 524288 bytes exceeds max DM size 256KB`，导致启动失败。
+  3. 当申请超过 256 KB（例如 $L=2048$ 对应 512 KB）时，离线编译链接能通过，但驱动运行时 JIT 链接时精确抛出：`ld.lld: error: section .MEMORY0 size 524288 bytes exceeds max DM size 256KB`（$L=1536$ 对应 384 KB，报 393216 bytes），导致启动失败。
 - **仍需人类做什么**：
   单 APC 虽有 6 MB DM，但当前编译器与链接器将每个 `__mem__` 严格绑定到单一 Bank（上限 256 KB）。需向厂商系统软件团队确认：是否存在通过自定义链接脚本、`__shared__` 或平坦寻址修饰符将多个 Bank 聚合申请超过 256 KB 连续缓冲区的编程机制。
 
