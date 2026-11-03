@@ -63,6 +63,20 @@ workload_mult,loop_count,repeat,sim_ms,sim_cycles,device_cycles,wall_ms
 
 **结论**：`device_cycles` 是 CModel 仿真环境下唯一具备物理真实性与可重复性的性能指标。`sim_ms` 与 `sim_cycles` 仅作为排查和溯源证据保留在原始 CSV 中，已从 `REPORT.md` 的所有表格和论述中彻底剔除。
 
+### 2.4 时钟域一致性与物理时间换算基准 (Clock Domain Alignment & Physical Time)
+
+2026-11-03 厂商（思朗科技）书面回复明确声明：“**主频 1.425GHz，SPU/MPU 都是一样的，DDR 根据 IP 的主频定的**”。这一结论确立了底层计时到物理时间映射的关键方法学依据：
+
+1. **SPU 与 MPU 时钟域 1:1 等价性**：
+   本项目所有待测 Kernel 中的 `tick()` 计数器均直接读取 SPU 物理寄存器 `0x803440`。此前由于硬件时钟树文档未公开，存在“SPU 控制核与 MPU 向量计算核是否存在分频或倍频关系”的疑问。现厂商确认两者同频（1.425 GHz）同域，因此**无需任何分频换算系数，所有实测得到的 `device_cycles` 直接严格适用于 MPU 向量核周期**。
+2. **时钟周期与物理时间换算常数**：
+   - 单周期物理时长：$$1 \text{ cycle} = \frac{1}{1.425 \times 10^9 \text{ Hz}} \approx \mathbf{0.701754 \text{ ns}} \approx \mathbf{0.7018 \text{ ns}}$$（推导值，非厂商直接标称）
+   - 物理时间折算公式：$$\text{Time (ms)} = \frac{\text{device\_cycles} \times 0.701754}{10^6}$$
+3. **访存带宽换算适用边界限定**：
+   厂商声明“DDR 根据 IP 的主频定的”，表明板载 GDDR6 物理接口时钟由专用内存控制器 IP 独立驱动，与片上处理器核时钟域解耦。因此：**测试套件中输出的“字节/周期 (bytes/cycle)”，其时间基准严格为 SPU/MPU 处理核时钟周期**。当且仅当将“周期”视为核时钟步长时，其向物理带宽的折算为：
+   $$\text{有效带宽 (GB/s)} = \text{effective\_bw\_bytes\_per\_cycle} \times 1.425 \text{ GHz}$$
+   严禁将该周期与外部 GDDR6 总线时钟或命令周期混淆。
+
 ---
 
 ## 3. 统一计时封装 (`common/timer.h`)

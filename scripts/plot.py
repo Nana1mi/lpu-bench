@@ -203,12 +203,118 @@ def plot_k3_speedup():
     plt.close(fig)
     print(f"[PLOT] Generated {out_file}")
 
+def plot_roofline():
+    gemm_path = os.path.join(RESULTS_DIR, "gemm.csv")
+    attn_path = os.path.join(RESULTS_DIR, "decode_attn.csv")
+
+    fig, ax = plt.subplots(figsize=(10, 6.5), dpi=300)
+
+    # 1. Hardware Specifications (Vendor derived)
+    peak_bw = 512.0  # GB/s
+    peak_flops_chip = 5836.8  # GFLOPS (5.837 TFLOPS)
+    peak_flops_ape = 364.8    # GFLOPS (Single APE)
+    freq_ghz = 1.425
+
+    r_chip = peak_flops_chip / peak_bw  # 11.40 FLOP/byte
+    r_ape = peak_flops_ape / peak_bw    # 0.7125 FLOP/byte
+
+    # X range for intensity
+    i_min = 0.05
+    i_max = 64.0
+    i_vals = np.logspace(np.log10(i_min), np.log10(i_max), 500)
+
+    # Roofline curves
+    roof_chip = np.minimum(peak_bw * i_vals, peak_flops_chip)
+    roof_ape = np.minimum(peak_bw * i_vals, peak_flops_ape)
+
+    # Plot roofs
+    ax.plot(i_vals, roof_chip, 'k-', linewidth=2.0, label='Whole Chip Roof (16 APE, 5.837 TFLOPS, 512 GB/s)')
+    ax.plot(i_vals, roof_ape, 'b--', linewidth=1.8, label='Single APE Roof (1 APE, 364.8 GFLOPS, 512 GB/s)')
+
+    # Bandwidth slope text
+    ax.text(0.11, 512 * 0.11 * 1.35, 'Peak Bandwidth: 512 GB/s', rotation=40, fontsize=9.5, fontweight='bold', color='#333333')
+
+    # Knee points
+    ax.scatter([r_chip], [peak_flops_chip], color='black', s=60, zorder=5)
+    ax.annotate(f'Whole Chip Knee\nR={r_chip:.2f} FLOP/B\n(5.837 TFLOPS)',
+                xy=(r_chip, peak_flops_chip), xytext=(r_chip * 1.3, peak_flops_chip * 0.55),
+                arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.2),
+                fontsize=8.5, fontweight='bold')
+
+    ax.scatter([r_ape], [peak_flops_ape], color='blue', s=60, zorder=5)
+    ax.annotate(f'Single APE Knee\nR={r_ape:.2f} FLOP/B\n(364.8 GFLOPS)',
+                xy=(r_ape, peak_flops_ape), xytext=(r_ape * 1.5, peak_flops_ape * 0.45),
+                arrowprops=dict(facecolor='blue', arrowstyle='->', lw=1.2),
+                fontsize=8.5, fontweight='bold', color='blue')
+
+    # Vertical reference lines
+    ax.axvline(0.5, color='purple', linestyle=':', linewidth=1.5, alpha=0.8)
+    ax.text(0.5 * 1.08, 0.12, 'Decode Attention\nI ≈ 0.5 FLOP/B (Fixed)', color='purple', fontsize=8.5, fontweight='bold')
+
+    ax.axvline(23.0 / 2.0, color='darkgreen', linestyle=':', linewidth=1.5, alpha=0.8)
+    ax.text((23.0 / 2.0) * 1.05, 0.12, 'FFN M=23 Knee\nI ≈ 11.5 FLOP/B', color='darkgreen', fontsize=8.5, fontweight='bold')
+
+    # 2. Empirical Measured Data Points strictly from CSVs
+    if os.path.exists(gemm_path):
+        df_g = read_measured_csv(gemm_path)
+        g_agg = df_g.groupby(['version', 'M'])[['flops_per_cycle']].mean().reset_index()
+        for ver, color, marker, lbl in [('v0', '#1f77b4', 'o', 'GEMM v0 Serial (M=1,2,4,8)'),
+                                        ('v1', '#ff7f0e', 's', 'GEMM v1 Overlap (M=1,2,4,8)')]:
+            sub = g_agg[g_agg['version'] == ver].sort_values('M')
+            if not sub.empty:
+                i_gemm = sub['M'].values / 2.0  # I = M / 2
+                gflops_gemm = sub['flops_per_cycle'].values * freq_ghz
+                ax.scatter(i_gemm, gflops_gemm, color=color, marker=marker, s=55, label=lbl, zorder=6)
+                for _, row in sub.iterrows():
+                    m_val = int(row['M'])
+                    x_pt = m_val / 2.0
+                    y_pt = row['flops_per_cycle'] * freq_ghz
+                    ax.text(x_pt * 1.06, y_pt * 0.82, f"M={m_val}", fontsize=7.5, color=color)
+
+    if os.path.exists(attn_path):
+        df_a = read_measured_csv(attn_path)
+        a_agg = df_a.groupby(['version', 'L'])[['flops', 'total_bytes', 'device_cycles']].mean().reset_index()
+        for ver, color, marker, lbl in [('v0', '#d62728', '^', 'Attn v0 DDR Stream (L=64..1024)'),
+                                        ('v1', '#2ca02c', 'D', 'Attn v1 DM Resident (L=64..1024)')]:
+            sub = a_agg[a_agg['version'] == ver].sort_values('L')
+            if not sub.empty:
+                i_attn = (sub['flops'] / sub['total_bytes']).values
+                gflops_attn = (sub['flops'] / sub['device_cycles']).values * freq_ghz
+                ax.scatter(i_attn, gflops_attn, color=color, marker=marker, s=50, label=lbl, zorder=6)
+
+    # Empirical cluster annotation showing the ~1/878 gap
+    ax.annotate("Empirical Measured Points (Single APE)\n0.17 - 0.42 GFLOPS (~1/878 of Single APE Peak)",
+                xy=(1.0, 0.35), xytext=(0.07, 1.4),
+                arrowprops=dict(facecolor='#d62728', arrowstyle='->', lw=1.2),
+                bbox=dict(boxstyle="round,pad=0.4", fc="#fff2f2", ec="#d62728", lw=1),
+                fontsize=9, fontweight='bold', color='#990000')
+
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.set_xlim(i_min, i_max)
+    ax.set_ylim(0.08, 15000)
+
+    ax.set_xlabel('Arithmetic Intensity I (FLOP / Byte)', fontsize=12, fontweight='bold')
+    ax.set_ylabel('Attainable Compute Throughput (GFLOPS, log scale)', fontsize=12, fontweight='bold')
+    ax.set_title('Aurora Architecture Roofline Model: Nominal Roofs vs. CModel Measured Kernels',
+                 fontsize=13, fontweight='bold', pad=14)
+
+    ax.grid(True, which="both", ls="--", alpha=0.5)
+    ax.legend(loc='lower right', frameon=True, framealpha=0.92, fontsize=8.5)
+
+    out_file = os.path.join(FIGURES_DIR, "roofline.png")
+    fig.tight_layout()
+    fig.savefig(out_file)
+    plt.close(fig)
+    print(f"[PLOT] Generated {out_file}")
+
 def main():
     print("Generating benchmark figures...")
     plot_k1_gemm()
     plot_k2_attn()
     plot_k2_breakdown()
     plot_k3_speedup()
+    plot_roofline()
     print("Done!")
 
 if __name__ == "__main__":
