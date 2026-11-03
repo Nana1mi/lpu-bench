@@ -21,6 +21,8 @@ def main():
     # 1. Process GEMM Overlap Ablation
     if os.path.exists(gemm_csv):
         df_g = pd.read_csv(gemm_csv)
+        if 'build_id' in df_g.columns and df_g['build_id'].fillna('').astype(str).str.strip().ne('').any():
+            df_g = df_g[df_g['build_id'].fillna('').astype(str).str.strip() != '']
         # Filter valid numeric rows
         df_g = df_g[df_g['kernel'] == 'gemm']
         df_g['device_cycles'] = pd.to_numeric(df_g['device_cycles'], errors='coerce')
@@ -51,6 +53,8 @@ def main():
     # 2. Process Decode Attention Overlap & SRAM Locality Ablation
     if os.path.exists(attn_csv):
         df_a = pd.read_csv(attn_csv)
+        if 'build_id' in df_a.columns and df_a['build_id'].fillna('').astype(str).str.strip().ne('').any():
+            df_a = df_a[df_a['build_id'].fillna('').astype(str).str.strip() != '']
         df_a = df_a[df_a['kernel'] == 'decode_attn']
         df_a['device_cycles'] = pd.to_numeric(df_a['device_cycles'], errors='coerce')
         df_a['L'] = pd.to_numeric(df_a['L'], errors='coerce')
@@ -63,7 +67,7 @@ def main():
             c_v2 = a_agg.loc[L, 'v2'] if 'v2' in a_agg.columns else None
 
             # Overlap ablation (v0 vs v2)
-            if c_v0 is not None and c_v2 is not None and not np.isnan(c_v2):
+            if c_v0 is not None and c_v2 is not None and not np.isnan(c_v2) and not np.isnan(c_v0):
                 speedup_ov = c_v0 / c_v2 if c_v2 > 0 else 1.0
                 diff_ov = c_v0 - c_v2
                 ablation_records.append({
@@ -81,7 +85,7 @@ def main():
                 print(f"  L={L:3d} (v0 vs v2): v0={int(c_v0):d} cyc, v2={int(c_v2):d} cyc, Speedup={speedup_ov:.4f}x")
 
             # Locality ablation (v0 vs v1 resident SRAM)
-            if c_v0 is not None and c_v1 is not None and not np.isnan(c_v1):
+            if c_v0 is not None and c_v1 is not None and not np.isnan(c_v1) and not np.isnan(c_v0):
                 speedup_res = c_v0 / c_v1 if c_v1 > 0 else 1.0
                 dma_overhead = c_v0 - c_v1
                 dma_pct = (dma_overhead / c_v0) * 100.0 if c_v0 > 0 else 0.0

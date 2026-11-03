@@ -17,13 +17,19 @@ matplotlib.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
 matplotlib.rcParams['axes.edgecolor'] = '#cccccc'
 matplotlib.rcParams['axes.linewidth'] = 0.8
 
+def read_measured_csv(csv_path):
+    df = pd.read_csv(csv_path)
+    if 'build_id' in df.columns and df['build_id'].fillna('').astype(str).str.strip().ne('').any():
+        df = df[df['build_id'].fillna('').astype(str).str.strip() != '']
+    return df
+
 def plot_k1_gemm():
     csv_path = os.path.join(RESULTS_DIR, "gemm.csv")
     if not os.path.exists(csv_path):
         print(f"[WARN] {csv_path} does not exist, skipping K1 plot")
         return
 
-    df = pd.read_csv(csv_path)
+    df = read_measured_csv(csv_path)
     # Average across repeats
     agg = df.groupby(['version', 'M'])[['device_cycles', 'flops_per_cycle']].mean().reset_index()
 
@@ -71,7 +77,7 @@ def plot_k2_attn():
         print(f"[WARN] {csv_path} does not exist, skipping K2 plot")
         return
 
-    df = pd.read_csv(csv_path)
+    df = read_measured_csv(csv_path)
     agg = df.groupby(['version', 'L'])[['device_cycles', 'effective_bw_bytes_per_cycle']].mean().reset_index()
 
     fig, ax = plt.subplots(figsize=(8, 5), dpi=300)
@@ -110,7 +116,7 @@ def plot_k2_breakdown():
     if not os.path.exists(csv_path):
         return
 
-    df = pd.read_csv(csv_path)
+    df = read_measured_csv(csv_path)
     agg = df.groupby(['version', 'L'])['device_cycles'].mean().unstack(level=0)
 
     fig, ax = plt.subplots(figsize=(8, 5), dpi=300)
@@ -148,7 +154,7 @@ def plot_k3_speedup():
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), dpi=300)
 
     if os.path.exists(gemm_path):
-        df_g = pd.read_csv(gemm_path)
+        df_g = read_measured_csv(gemm_path)
         g_agg = df_g.groupby(['version', 'M'])['device_cycles'].mean().unstack(level=0)
         if 'v0' in g_agg.columns and 'v1' in g_agg.columns:
             g_speedup = g_agg['v0'] / g_agg['v1']
@@ -164,7 +170,7 @@ def plot_k3_speedup():
                 ax1.text(bar.get_x() + bar.get_width()/2.0, yval + 0.02, f'{yval:.4f}x', ha='center', va='bottom', fontsize=8)
 
     if os.path.exists(attn_path):
-        df_a = pd.read_csv(attn_path)
+        df_a = read_measured_csv(attn_path)
         a_agg = df_a.groupby(['version', 'L'])['device_cycles'].mean().unstack(level=0)
         if 'v0' in a_agg.columns and 'v1' in a_agg.columns:
             resident_speedup = (a_agg['v0'] / a_agg['v1']).dropna()
