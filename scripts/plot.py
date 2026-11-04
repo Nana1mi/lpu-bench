@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS_DIR = os.path.join(PROJECT_ROOT, "results")
@@ -210,11 +211,21 @@ def plot_k3_speedup():
     plt.close(fig)
     print(f"[PLOT] Generated {out_file}")
 
+def clean_log_format(x, pos):
+    if x <= 0:
+        return ""
+    lx = np.log10(x)
+    if np.isclose(lx, np.round(lx)):
+        return f"$10^{{{int(np.round(lx))}}}$"
+    return f"{x:g}"
+
 def plot_roofline():
     gemm_path = os.path.join(RESULTS_DIR, "gemm.csv")
     attn_path = os.path.join(RESULTS_DIR, "decode_attn.csv")
 
-    fig, ax = plt.subplots(figsize=(12.0, 7.2), dpi=300)
+    # Canvas ratio: ~4:3 with figsize=(13.0, 9.2), subplots_adjust right=0.71
+    fig, ax = plt.subplots(figsize=(13.0, 9.2), dpi=300)
+    fig.subplots_adjust(left=0.09, right=0.71, top=0.93, bottom=0.08)
 
     # 1. Hardware Specifications (Vendor derived)
     peak_bw_chip = 512.0          # GB/s (Whole chip GDDR6)
@@ -245,7 +256,8 @@ def plot_roofline():
 
     # Bandwidth slope texts
     ax.text(0.08, 512 * 0.08 * 1.35, 'Chip Peak BW: 512 GB/s', rotation=38, fontsize=8.5, fontweight='bold', color='#333333')
-    ax.text(0.16, 32 * 0.16 * 0.72, 'APE Amortized BW: 32 GB/s', rotation=38, fontsize=8.5, fontweight='bold', color='blue')
+    # Place Amortized BW label at x=0.65 along the slope, completely clear of the left red box
+    ax.text(0.65, 32 * 0.65 * 0.70, 'APE Amortized BW: 32 GB/s', rotation=38, fontsize=8.5, fontweight='bold', color='blue')
 
     # Knee points
     ax.scatter([r_chip], [peak_flops_chip], color='black', s=60, zorder=5)
@@ -340,36 +352,54 @@ def plot_roofline():
     ax.annotate('', xy=(x_gap, y_peak), xytext=(x_gap, y_peak * 0.85),
                 arrowprops=dict(arrowstyle="->", color="#990000", lw=1.8), zorder=9)
 
-    # 3 segment annotations
-    # Tier 1 (top): 8x issue slots unutilized
-    y_t1 = np.sqrt(y_asm * y_peak)
-    ax.text(x_gap * 1.10, y_t1, "① 8.00× (微码未用满8发射槽: 32 → 256 FLOPs/cyc)",
-            fontsize=8.0, fontweight='bold', color='#990000', va='center')
+    # 3 segment annotations - shortened and tight to ruler right side
+    # Tier 1 (top): 8x issue slots unutilized - placed at y=85 (below blue line at 128 and above tick at 45.6)
+    ax.text(x_gap * 1.06, 85.0, "① 8× 发射槽",
+            fontsize=8.5, fontweight='bold', color='#990000', va='center')
 
     # Tier 2 (middle): 74x compiler unpipelined
-    y_t2 = np.sqrt(y_cmodel * y_asm)
-    ax.text(x_gap * 1.10, y_t2, "② 74.00× (编译器未做软件流水: 0.432 → 32 FLOPs/cyc)",
-            fontsize=8.0, fontweight='bold', color='#990000', va='center')
+    y_t2 = np.sqrt(y_cmodel * y_asm)  # 5.30 GFLOPS
+    ax.text(x_gap * 1.06, y_t2, "② 74× 编译器",
+            fontsize=8.5, fontweight='bold', color='#990000', va='center')
 
     # Tier 3 (bottom): 1.48x loop/DMA overhead
-    y_t3 = np.sqrt(y_gemm8 * y_cmodel)
-    ax.text(x_gap * 1.10, y_t3 * 1.15, "③ 1.48× (外围循环控制与DMA: 0.2915 → 0.432)",
-            fontsize=8.0, fontweight='bold', color='#990000', va='center')
+    y_t3 = np.sqrt(y_gemm8 * y_cmodel)  # 0.505 GFLOPS
+    ax.text(x_gap * 1.06, y_t3, "③ 1.48× 控制开销",
+            fontsize=8.5, fontweight='bold', color='#990000', va='center')
 
-    # Overall 878x header box
-    ax.text(x_gap * 1.10, y_peak * 0.95, "【878× 总算力差距分解】\n8.00 × 74.00 × 1.481 = 878×",
-            fontsize=8.5, fontweight='bold', color='#990000', va='top',
-            bbox=dict(boxstyle="round,pad=0.3", fc="#fff2f2", ec="#990000", lw=1.2))
+    # Overall 878x header box in left open area (x≈0.20, y≈25), with curved thin leader line to ruler top
+    ax.annotate("【878× 总算力差距分解】\n8.00 × 74.00 × 1.481 = 878×",
+                xy=(x_gap, y_peak), xytext=(0.20, 25.0),
+                arrowprops=dict(arrowstyle="->", color="#990000", lw=1.0, linestyle="--",
+                                connectionstyle="arc3,rad=-0.12"),
+                fontsize=8.5, fontweight='bold', color='#990000', ha='center', va='center',
+                bbox=dict(boxstyle="round,pad=0.35", fc="#fff2f2", ec="#990000", lw=1.2),
+                zorder=10)
 
-    # GEMM overlap explanation note box
-    ax.text(0.04, 0.035, "注：GEMM v0（空心圆）与 v1（实心方块）在对数轴上重合（加速比 0.996x~0.9995x，差距<0.5%），证实单 APE 下小 Tile 双缓冲无流水重叠收益",
-            transform=ax.transAxes, fontsize=8.0, color='#444444', fontstyle='italic',
-            bbox=dict(boxstyle="square,pad=0.25", fc="#f8f9fa", ec="#cccccc", lw=0.8))
+    # Note text moved outside below legend
+    note_text = (
+        "【算子重合说明】\n"
+        "GEMM v0（空心圆）与 v1（实心方块）\n"
+        "在对数轴上重合（加速比 0.996x~0.9995x，\n"
+        "差距 <0.5%），证实单 APE 下小 Tile\n"
+        "双缓冲无流水重叠收益。\n\n"
+        "【878× 差距分解说明】\n"
+        "① 8× 发射槽：微码仅发射1路向量加法\n"
+        "② 74× 编译器：未做软件流水与寄存器溢出\n"
+        "③ 1.48× 控制开销：外围循环控制与DMA调度"
+    )
+    ax.text(1.02, 0.48, note_text, transform=ax.transAxes,
+            fontsize=8.0, color='#333333', va='top', ha='left',
+            bbox=dict(boxstyle="round,pad=0.4", fc="#f8f9fa", ec="#cccccc", lw=0.8))
 
     ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_xlim(i_min, i_max)
     ax.set_ylim(0.08, 15000)
+
+    # Clean log format for both axes
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(clean_log_format))
+    ax.yaxis.set_major_formatter(ticker.FuncFormatter(clean_log_format))
 
     ax.set_xlabel('Arithmetic Intensity I (FLOP / Byte)', fontsize=12, fontweight='bold')
     ax.set_ylabel('Attainable Compute Throughput (GFLOPS, log scale)', fontsize=12, fontweight='bold')
@@ -378,7 +408,7 @@ def plot_roofline():
 
     ax.grid(True, which="both", ls="--", alpha=0.5)
 
-    # Place legend outside on the right to prevent ANY data occlusion
+    # Place legend outside on the right top
     ax.legend(bbox_to_anchor=(1.02, 1.0), loc='upper left', frameon=True, framealpha=0.92, fontsize=8.5)
 
     out_file = os.path.join(FIGURES_DIR, "roofline.png")
