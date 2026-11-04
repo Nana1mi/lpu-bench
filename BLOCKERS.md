@@ -73,3 +73,15 @@
 - **需要人类做什么**：
   与思朗科技编译器与微架构团队沟通，确认在缺乏寄存器动态重命名的硬件架构下，是否有官方推荐的针对 $d=128$ 的向量分块展开方案（例如两趟 64 维半步点积），或获取官方手写的 $d=128$ 优化汇编。
 
+---
+
+## 6. Git 历史记录残留厂商专有涉密文件需人工决策是否重写历史
+
+- **现象**：
+  在本次保密合规整改前，部分厂商涉密物料（`kernels/official_demo/` 下源码、`maops.h`、`*.m.asm`、驱动日志 `*malog*.txt`、`*scalehost_log*.txt` 与 `results/maps_event_driver_log_excerpt.txt`）已被提交进 git 历史。虽然当前工作树已通过 `git rm --cached` 将其从最新版本控制中移出并配置了 `.gitignore`，但历史 commit 对象中依然残留这些文件的快照数据。
+- **为何 Agent 不能自主重写历史**：
+  若使用 `git filter-repo` 或 `git filter-branch` 抹除历史文件，将强制重写仓库全部历史 commit hash。然而 `results/*.csv` 测量记录中已如实持久化记录了各阶段运行时的 `commit_hash`，破坏历史哈希将直接导致 CSV 数据溯源链条断裂。
+- **需要人类做什么**：
+  1. **立即确认 GitHub 远程仓库已设置为 Private（私有仓库）**，切勿保持 Public 状态；
+  2. 由课题组研究员评估后续是否在结题或交付阶段使用 `git filter-repo` 进行深度历史清洗，或直接以当前干净状态克隆为全新私有发布仓库。在此之前，本仓库必须严格保持 Private 状态。
+
