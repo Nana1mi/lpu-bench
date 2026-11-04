@@ -13,7 +13,14 @@ FIGURES_DIR = os.path.join(PROJECT_ROOT, "figures")
 os.makedirs(FIGURES_DIR, exist_ok=True)
 
 plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
-matplotlib.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
+import matplotlib.font_manager as fm
+font_path = '/mnt/c/Windows/Fonts/simhei.ttf'
+if os.path.exists(font_path):
+    fm.fontManager.addfont(font_path)
+    matplotlib.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans', 'Arial', 'Helvetica']
+    matplotlib.rcParams['axes.unicode_minus'] = False
+else:
+    matplotlib.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
 matplotlib.rcParams['axes.edgecolor'] = '#cccccc'
 matplotlib.rcParams['axes.linewidth'] = 0.8
 
@@ -207,7 +214,7 @@ def plot_roofline():
     gemm_path = os.path.join(RESULTS_DIR, "gemm.csv")
     attn_path = os.path.join(RESULTS_DIR, "decode_attn.csv")
 
-    fig, ax = plt.subplots(figsize=(10.5, 7.0), dpi=300)
+    fig, ax = plt.subplots(figsize=(12.0, 7.2), dpi=300)
 
     # 1. Hardware Specifications (Vendor derived)
     peak_bw_chip = 512.0          # GB/s (Whole chip GDDR6)
@@ -234,7 +241,7 @@ def plot_roofline():
     # Plot roofs
     ax.plot(i_vals, roof_chip, 'k-', linewidth=2.0, label='Whole Chip Roof (16 APE, 5.837 TFLOPS, 512 GB/s, R=11.40)')
     ax.plot(i_vals, roof_ape_amortized, 'b-', linewidth=1.8, label='Single APE Amortized Roof (32 GB/s, 364.8 GFLOPS, R=11.40)')
-    ax.plot(i_vals, roof_ape_exclusive, 'b:', linewidth=1.5, label='Single APE Exclusive Roof (512 GB/s Optimistic Upper Bound, R=0.71)')
+    ax.plot(i_vals, roof_ape_exclusive, 'b:', linewidth=1.5, label='Single APE Exclusive Roof (512 GB/s Upper Bound, R=0.71)')
 
     # Bandwidth slope texts
     ax.text(0.08, 512 * 0.08 * 1.35, 'Chip Peak BW: 512 GB/s', rotation=38, fontsize=8.5, fontweight='bold', color='#333333')
@@ -254,8 +261,8 @@ def plot_roofline():
                 fontsize=8.5, fontweight='bold', color='blue')
 
     ax.scatter([r_ape_exclusive], [peak_flops_ape], color='blue', marker='x', s=65, zorder=5)
-    ax.annotate(f'Single APE Exclusive Knee (Upper Bound)\nR={r_ape_exclusive:.2f} FLOP/B (512 GB/s)',
-                xy=(r_ape_exclusive, peak_flops_ape), xytext=(r_ape_exclusive * 0.35, peak_flops_ape * 1.35),
+    ax.annotate(f'Single APE Exclusive Knee\nR={r_ape_exclusive:.2f} FLOP/B (512 GB/s)',
+                xy=(r_ape_exclusive, peak_flops_ape), xytext=(r_ape_exclusive * 0.30, peak_flops_ape * 1.35),
                 arrowprops=dict(facecolor='blue', arrowstyle='->', lw=1.0),
                 fontsize=8.0, fontweight='bold', color='#003399')
 
@@ -271,43 +278,37 @@ def plot_roofline():
         df_g = read_measured_csv(gemm_path)
         g_agg = df_g.groupby(['version', 'M'])[['flops_per_cycle']].mean().reset_index()
 
-        # GEMM v0: hollow blue circle
         sub_v0 = g_agg[g_agg['version'] == 'v0'].sort_values('M')
-        if not sub_v0.empty:
-            i_gemm_v0 = sub_v0['M'].values / 2.0  # I = M / 2
-            gflops_gemm_v0 = sub_v0['flops_per_cycle'].values * freq_ghz
-            ax.scatter(i_gemm_v0, gflops_gemm_v0, facecolors='none', edgecolors='#1f77b4', marker='o', s=75, linewidth=1.8, label='GEMM v0 Serial (M=1,2,4,8)', zorder=6)
-            for _, row in sub_v0.iterrows():
-                m_val = int(row['M'])
-                x_pt = m_val / 2.0
-                y_pt = row['flops_per_cycle'] * freq_ghz
-                ax.text(x_pt * 0.88, y_pt * 1.18, f"M={m_val}(v0)", fontsize=7.5, color='#1f77b4', fontweight='bold')
-
-        # GEMM v1: solid orange square
         sub_v1 = g_agg[g_agg['version'] == 'v1'].sort_values('M')
+
+        # Plot v0 as hollow blue circles
+        if not sub_v0.empty:
+            i_gemm_v0 = sub_v0['M'].values / 2.0
+            gflops_gemm_v0 = sub_v0['flops_per_cycle'].values * freq_ghz
+            ax.scatter(i_gemm_v0, gflops_gemm_v0, facecolors='none', edgecolors='#1f77b4', marker='o', s=85, linewidth=1.8, label='GEMM v0 Serial (M=1,2,4,8)', zorder=6)
+
+        # Plot v1 as solid orange squares (at exact same I, naturally overlapping)
         if not sub_v1.empty:
-            i_gemm_v1 = sub_v1['M'].values / 2.0  # I = M / 2
+            i_gemm_v1 = sub_v1['M'].values / 2.0
             gflops_gemm_v1 = sub_v1['flops_per_cycle'].values * freq_ghz
             ax.scatter(i_gemm_v1, gflops_gemm_v1, color='#ff7f0e', marker='s', s=45, label='GEMM v1 Overlap (M=1,2,4,8)', zorder=7)
-            for _, row in sub_v1.iterrows():
-                m_val = int(row['M'])
-                x_pt = m_val / 2.0
-                y_pt = row['flops_per_cycle'] * freq_ghz
-                ax.text(x_pt * 1.05, y_pt * 0.82, f"M={m_val}(v1)", fontsize=7.5, color='#ff7f0e', fontweight='bold')
+
+        for _, row in sub_v1.iterrows():
+            m_val = int(row['M'])
+            x_pt = m_val / 2.0
+            y_pt = row['flops_per_cycle'] * freq_ghz
+            ax.text(x_pt * 1.05, y_pt * 0.76, f"M={m_val}", fontsize=8.0, color='#333333', fontweight='bold')
 
     if os.path.exists(attn_path):
         df_a = read_measured_csv(attn_path)
         a_agg = df_a.groupby(['version', 'L'])[['flops', 'total_bytes', 'device_cycles']].mean().reset_index()
 
-        # For Decode Attention, both v0 and v1 use complete algorithmic memory traffic:
-        # 2 * L * d * 4 + 512 bytes (with d=64, 512*L + 512 bytes)
-        # This places both v0 and v1 at I ≈ 0.5 FLOP/byte
         sub_v0 = a_agg[a_agg['version'] == 'v0'].sort_values('L')
         if not sub_v0.empty:
             total_algo_bytes_v0 = 2 * sub_v0['L'].values * 64 * 4 + 512
             i_attn_v0 = sub_v0['flops'].values / total_algo_bytes_v0
             gflops_attn_v0 = (sub_v0['flops'].values / sub_v0['device_cycles'].values) * freq_ghz
-            ax.scatter(i_attn_v0, gflops_attn_v0, facecolors='none', edgecolors='#d62728', marker='^', s=65, linewidth=1.8, label='Attn v0 DDR Stream (L=64..1024, I≈0.5)', zorder=6)
+            ax.scatter(i_attn_v0, gflops_attn_v0, facecolors='none', edgecolors='#d62728', marker='^', s=70, linewidth=1.8, label='Attn v0 DDR Stream (L=64..1024, I≈0.5)', zorder=6)
 
         sub_v1 = a_agg[a_agg['version'] == 'v1'].sort_values('L')
         if not sub_v1.empty:
@@ -316,19 +317,54 @@ def plot_roofline():
             gflops_attn_v1 = (sub_v1['flops'].values / sub_v1['device_cycles'].values) * freq_ghz
             ax.scatter(i_attn_v1, gflops_attn_v1, color='#2ca02c', marker='D', s=45, label='Attn v1 DM Resident (L=64..1024, I≈0.5, ~9% speedup)', zorder=7)
 
-        # Annotation highlighting the ~9% on-chip residency speedup at I≈0.5
+        # Attention annotation
         ax.annotate("Attention v1 vs v0 (~9% SRAM speedup)\nBoth at algorithmic I ≈ 0.5 FLOP/B",
-                    xy=(0.50, 0.171), xytext=(0.09, 0.45),
+                    xy=(0.50, 0.171), xytext=(0.08, 0.45),
                     arrowprops=dict(facecolor='#2ca02c', arrowstyle='->', lw=1.2),
                     bbox=dict(boxstyle="round,pad=0.35", fc="#f0fff0", ec="#2ca02c", lw=1),
                     fontsize=8.5, fontweight='bold', color='#1b661b')
 
-    # Empirical cluster annotation showing the ~1/878 gap
-    ax.annotate("Empirical Measured Points (Single APE)\n0.16 - 0.42 GFLOPS (~1/878 of Single APE Peak)",
-                xy=(1.0, 0.35), xytext=(0.07, 1.4),
-                arrowprops=dict(facecolor='#d62728', arrowstyle='->', lw=1.2),
-                bbox=dict(boxstyle="round,pad=0.4", fc="#fff2f2", ec="#d62728", lw=1),
-                fontsize=9, fontweight='bold', color='#990000')
+    # 3. 878x Three-layer gap vertical arrow and decomposition at x = 4.0 (GEMM M=8)
+    x_gap = 4.0
+    y_gemm8 = 0.2915 * freq_ghz    # 0.4154 GFLOPS (Empirical GEMM M=8)
+    y_cmodel = 0.432 * freq_ghz    # 0.6156 GFLOPS (Compiled C vector loop)
+    y_asm = 32.0 * freq_ghz        # 45.600 GFLOPS (Handwritten VLIW Asm)
+    y_peak = 256.0 * freq_ghz      # 364.80 GFLOPS (Single APE Peak Roof)
+
+    # Draw vertical dashed guide line with ticks
+    ax.plot([x_gap, x_gap], [y_gemm8, y_peak], color='#990000', linestyle='--', linewidth=1.5, zorder=8)
+    for y_pt in [y_gemm8, y_cmodel, y_asm, y_peak]:
+        ax.plot([x_gap * 0.95, x_gap * 1.05], [y_pt, y_pt], color='#990000', linewidth=1.5, zorder=8)
+
+    # Arrowhead at top
+    ax.annotate('', xy=(x_gap, y_peak), xytext=(x_gap, y_peak * 0.85),
+                arrowprops=dict(arrowstyle="->", color="#990000", lw=1.8), zorder=9)
+
+    # 3 segment annotations
+    # Tier 1 (top): 8x issue slots unutilized
+    y_t1 = np.sqrt(y_asm * y_peak)
+    ax.text(x_gap * 1.10, y_t1, "① 8.00× (微码未用满8发射槽: 32 → 256 FLOPs/cyc)",
+            fontsize=8.0, fontweight='bold', color='#990000', va='center')
+
+    # Tier 2 (middle): 74x compiler unpipelined
+    y_t2 = np.sqrt(y_cmodel * y_asm)
+    ax.text(x_gap * 1.10, y_t2, "② 74.00× (编译器未做软件流水: 0.432 → 32 FLOPs/cyc)",
+            fontsize=8.0, fontweight='bold', color='#990000', va='center')
+
+    # Tier 3 (bottom): 1.48x loop/DMA overhead
+    y_t3 = np.sqrt(y_gemm8 * y_cmodel)
+    ax.text(x_gap * 1.10, y_t3 * 1.15, "③ 1.48× (外围循环控制与DMA: 0.2915 → 0.432)",
+            fontsize=8.0, fontweight='bold', color='#990000', va='center')
+
+    # Overall 878x header box
+    ax.text(x_gap * 1.10, y_peak * 0.95, "【878× 总算力差距分解】\n8.00 × 74.00 × 1.481 = 878×",
+            fontsize=8.5, fontweight='bold', color='#990000', va='top',
+            bbox=dict(boxstyle="round,pad=0.3", fc="#fff2f2", ec="#990000", lw=1.2))
+
+    # GEMM overlap explanation note box
+    ax.text(0.04, 0.035, "注：GEMM v0（空心圆）与 v1（实心方块）在对数轴上重合（加速比 0.996x~0.9995x，差距<0.5%），证实单 APE 下小 Tile 双缓冲无流水重叠收益",
+            transform=ax.transAxes, fontsize=8.0, color='#444444', fontstyle='italic',
+            bbox=dict(boxstyle="square,pad=0.25", fc="#f8f9fa", ec="#cccccc", lw=0.8))
 
     ax.set_xscale('log')
     ax.set_yscale('log')
@@ -341,11 +377,12 @@ def plot_roofline():
                  fontsize=13, fontweight='bold', pad=14)
 
     ax.grid(True, which="both", ls="--", alpha=0.5)
-    ax.legend(loc='lower right', frameon=True, framealpha=0.92, fontsize=8.2)
+
+    # Place legend outside on the right to prevent ANY data occlusion
+    ax.legend(bbox_to_anchor=(1.02, 1.0), loc='upper left', frameon=True, framealpha=0.92, fontsize=8.5)
 
     out_file = os.path.join(FIGURES_DIR, "roofline.png")
-    fig.tight_layout()
-    fig.savefig(out_file)
+    fig.savefig(out_file, bbox_inches='tight')
     plt.close(fig)
     print(f"[PLOT] Generated {out_file}")
 
