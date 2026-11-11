@@ -1,0 +1,546 @@
+
+
+0000000000000000 _ZM11mpu_fma_regPDv16_fPKS_S2_j:
+       0: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+       4: 03 00 00 2a                                                  	MFETCH: KI3 -> BIU.T0[0] ||
+       8: 9a 00 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 76 ) (I32) (MODE1) ;
+      10: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      14: 02 10 00 2a                                                  	MFETCH: KI2 -> BIU.T0[1] ||
+      18: 92 02 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[1], T15[15] + 72 ) (I32) (MODE1) ;
+      20: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      24: 01 20 00 2a                                                  	MFETCH: KI1 -> BIU.T0[2] ||
+      28: 8a 04 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[2], T15[15] + 68 ) (I32) (MODE1) ;
+      30: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      34: 00 30 00 2a                                                  	MFETCH: KI0 -> BIU.T0[3] ||
+      38: 82 06 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[3], T15[15] + 64 ) (I32) (MODE1) ;
+      40: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      44: 00 04 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 64 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      4c: 00 00 00 08                                                  	NOP ;
+      50: 00 00 00 08                                                  	NOP ;
+      54: 00 00 00 08                                                  	NOP ;
+      58: 00 00 00 08                                                  	NOP ;
+      5c: 00 00 00 08                                                  	NOP ;
+      60: 00 00 00 08                                                  	NOP ;
+      64: 00 00 00 08                                                  	NOP ;
+      68: 00 00 00 08                                                  	NOP ;
+      6c: 00 00 00 08                                                  	NOP ;
+      70: 00 00 00 08                                                  	NOP ;
+      74: 00 00 00 08                                                  	NOP ;
+      78: 00 00 00 08                                                  	NOP ;
+      7c: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      80: 60 00 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  BIU.T0(MODE1) ;
+      88: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      8c: 00 14 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 68 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      94: 00 00 00 08                                                  	NOP ;
+      98: 00 00 00 08                                                  	NOP ;
+      9c: 00 00 00 08                                                  	NOP ;
+      a0: 00 00 00 08                                                  	NOP ;
+      a4: 00 00 00 08                                                  	NOP ;
+      a8: 00 00 00 08                                                  	NOP ;
+      ac: 00 00 00 08                                                  	NOP ;
+      b0: 00 00 00 08                                                  	NOP ;
+      b4: 00 00 00 08                                                  	NOP ;
+      b8: 00 00 00 08                                                  	NOP ;
+      bc: 00 00 00 08                                                  	NOP ;
+      c0: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+      c4: 00 00 fe 05 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 128 ) (MODE1) ;
+      cc: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      d0: 60 00 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  BIU.T0(MODE1) ;
+      d8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      dc: 00 24 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 72 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      e4: 00 00 00 08                                                  	NOP ;
+      e8: 00 00 00 08                                                  	NOP ;
+      ec: 00 00 00 08                                                  	NOP ;
+      f0: 00 00 00 08                                                  	NOP ;
+      f4: 00 00 00 08                                                  	NOP ;
+      f8: 00 00 00 08                                                  	NOP ;
+      fc: 00 00 00 08                                                  	NOP ;
+     100: 00 00 00 08                                                  	NOP ;
+     104: 00 00 00 08                                                  	NOP ;
+     108: 00 00 00 08                                                  	NOP ;
+     10c: 00 00 00 08                                                  	NOP ;
+     110: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     114: 00 00 fe 07 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 192 ) (MODE1) ;
+     11c: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     120: 60 00 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  BIU.T0(MODE1) ;
+     128: 00 00 00 08                                                  	NOP ;
+     12c: 00 00 00 08                                                  	NOP ;
+     130: 00 00 00 08                                                  	NOP ;
+     134: 00 00 00 08                                                  	NOP ;
+     138: 00 00 00 08                                                  	NOP ;
+     13c: 00 00 00 08                                                  	NOP ;
+     140: 00 00 00 08                                                  	NOP ;
+     144: 00 00 00 08                                                  	NOP ;
+     148: 00 00 00 08                                                  	NOP ;
+     14c: 00 00 00 08                                                  	NOP ;
+     150: 00 00 00 08                                                  	NOP ;
+     154: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     158: 00 00 00 0c 46 00 00 00                                      	BIU0: 0 (L)(E) -> BIU.T0[0] (MODE1) ;
+     160: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     164: 00 00 fe 09 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 256 ) (MODE1) ;
+     16c: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     170: 82 00 fe 03 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 320 ) (I32) (MODE1) ;
+     178: 00 00 00 08                                                  	NOP ;
+     17c: 00 00 00 08                                                  	NOP ;
+     180: 00 00 00 08                                                  	NOP ;
+     184: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     188: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+000000000000018c LBB0_1:
+     18c: 06 00 00 20                                                   // Header |BIU0|BIU1| Size(words): 4
+     190: 00 04 ff 05 6e                                               	BIU0: LOAD ( T15[15] + 320 ) (I32)  -> BIU.T0[0] (MODE1) ||
+     195: 10 34 ff 01 6e 00 00                                         	BIU1: LOAD ( T15[15] + 76 ) (I32)  -> BIU.T0[1] (MODE1) ;
+     19c: 00 00 00 08                                                  	NOP ;
+     1a0: 00 00 00 08                                                  	NOP ;
+     1a4: 00 00 00 08                                                  	NOP ;
+     1a8: 00 00 00 08                                                  	NOP ;
+     1ac: 00 00 00 08                                                  	NOP ;
+     1b0: 00 00 00 08                                                  	NOP ;
+     1b4: 00 00 00 08                                                  	NOP ;
+     1b8: 00 00 00 08                                                  	NOP ;
+     1bc: 00 00 00 08                                                  	NOP ;
+     1c0: 00 00 00 08                                                  	NOP ;
+     1c4: 00 00 00 08                                                  	NOP ;
+     1c8: 00 00 00 08                                                  	NOP ;
+     1cc: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     1d0: 70 00 00 40 47 00 00 00                                      	BIU0: KG ( T0[0] ) ->  KI0(MODE1) ;
+     1d8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     1dc: 71 00 02 40 47 00 00 00                                      	BIU0: KG ( T0[1] ) ->  KI1(MODE1) ;
+     1e4: 00 00 00 08                                                  	NOP ;
+     1e8: 00 00 00 08                                                  	NOP ;
+     1ec: 00 00 00 08                                                  	NOP ;
+     1f0: 00 00 00 08                                                  	NOP ;
+     1f4: 00 00 00 08                                                  	NOP ;
+     1f8: 00 00 00 08                                                  	NOP ;
+     1fc: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     200: 01 02 00 80                                                  	MFETCH: IF ( KI0 >= KI1 ) JUMP 0     ;
+     204: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     208: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+000000000000020c LBB0_2:
+     20c: 0e 00 00 28                                                   // Header |BIU0|BIU1|BIU2| Size(words): 5
+     210: 90 01 fe 07 6a                                               	BIU0: LOAD ( T15[15] + 192 ) ->  FMA1.T0(MODE1) ||
+     215: 91 01 fe 09 6a                                               	BIU1: LOAD ( T15[15] + 256 ) ->  FMA1.T1(MODE1) ||
+     21a: 89 01 fe 05 6a 00                                            	BIU2: LOAD ( T15[15] + 128 ) ->  FMA0.T1(MODE1) ;
+     220: 00 00 00 08                                                  	NOP ;
+     224: 00 00 00 08                                                  	NOP ;
+     228: 00 00 00 08                                                  	NOP ;
+     22c: 00 00 00 08                                                  	NOP ;
+     230: 00 00 00 08                                                  	NOP ;
+     234: 00 00 00 08                                                  	NOP ;
+     238: 00 00 00 08                                                  	NOP ;
+     23c: 00 00 00 08                                                  	NOP ;
+     240: 00 00 00 08                                                  	NOP ;
+     244: 00 00 00 08                                                  	NOP ;
+     248: 00 00 00 08                                                  	NOP ;
+     24c: 00 00 00 08                                                  	NOP ;
+     250: 00 04 00 18                                                   // Header |FMA1| Size(words): 3
+     254: 88 01 1e 62 10 48 00 00                                      	FMA1: 0 + FMA1.T0 * FMA1.T1 (FP32) ->  FMA0.T0(MODE1) ;
+     25c: 00 00 00 08                                                  	NOP ;
+     260: 00 00 00 08                                                  	NOP ;
+     264: 00 00 00 08                                                  	NOP ;
+     268: 00 00 00 08                                                  	NOP ;
+     26c: 00 02 00 18                                                   // Header |FMA0| Size(words): 3
+     270: 60 00 02 7e 10 48 00 00                                      	FMA0: FMA0.T1 + FMA0.T0 * 1 (FP32) ->  BIU.T0(MODE1) ;
+     278: 00 00 00 08                                                  	NOP ;
+     27c: 00 00 00 08                                                  	NOP ;
+     280: 00 00 00 08                                                  	NOP ;
+     284: 00 00 00 08                                                  	NOP ;
+     288: 00 00 00 08                                                  	NOP ;
+     28c: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     290: 00 00 fe 05 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 128 ) (MODE1) ;
+     298: 00 00 00 08                                                  	NOP ;
+     29c: 00 00 00 08                                                  	NOP ;
+     2a0: 00 00 00 08                                                  	NOP ;
+     2a4: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     2a8: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+00000000000002ac LBB0_3:
+     2ac: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     2b0: 00 04 ff 05 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 320 ) (I32)  -> BIU.T0[0] (MODE1) ;
+     2b8: 00 00 00 08                                                  	NOP ;
+     2bc: 00 00 00 08                                                  	NOP ;
+     2c0: 00 00 00 08                                                  	NOP ;
+     2c4: 00 00 00 08                                                  	NOP ;
+     2c8: 00 00 00 08                                                  	NOP ;
+     2cc: 00 00 00 08                                                  	NOP ;
+     2d0: 00 00 00 08                                                  	NOP ;
+     2d4: 00 00 00 08                                                  	NOP ;
+     2d8: 00 00 00 08                                                  	NOP ;
+     2dc: 00 00 00 08                                                  	NOP ;
+     2e0: 00 00 00 08                                                  	NOP ;
+     2e4: 00 00 00 08                                                  	NOP ;
+     2e8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     2ec: 00 01 00 00 4b 00 00 00                                      	BIU0: T0[0] + 1 (U) -> BIU.T0[0] (MODE1) ;
+     2f4: 00 00 00 08                                                  	NOP ;
+     2f8: 00 00 00 08                                                  	NOP ;
+     2fc: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     300: 82 00 fe 03 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 320 ) (I32) (MODE1) ;
+     308: 00 00 00 08                                                  	NOP ;
+     30c: 00 00 00 08                                                  	NOP ;
+     310: 00 00 00 08                                                  	NOP ;
+     314: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     318: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+000000000000031c LBB0_4:
+     31c: 06 00 00 20                                                   // Header |BIU0|BIU1| Size(words): 4
+     320: 60 00 fe 05 6a                                               	BIU0: LOAD ( T15[15] + 128 ) ->  BIU.T0(MODE1) ||
+     325: 01 04 ff 01 6e 00 00                                         	BIU1: LOAD ( T15[15] + 64 ) (I32)  -> BIU.T1[0] (MODE1) ;
+     32c: 00 00 00 08                                                  	NOP ;
+     330: 00 00 00 08                                                  	NOP ;
+     334: 00 00 00 08                                                  	NOP ;
+     338: 00 00 00 08                                                  	NOP ;
+     33c: 00 00 00 08                                                  	NOP ;
+     340: 00 00 00 08                                                  	NOP ;
+     344: 00 00 00 08                                                  	NOP ;
+     348: 00 00 00 08                                                  	NOP ;
+     34c: 00 00 00 08                                                  	NOP ;
+     350: 00 00 00 08                                                  	NOP ;
+     354: 00 00 00 08                                                  	NOP ;
+     358: 00 00 00 08                                                  	NOP ;
+     35c: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     360: 00 00 20 00 7a 00 00 00                                      	BIU2: STORE ( T0, T1[0] + 0 ) (MODE1) ;
+     368: 00 00 00 08                                                  	NOP ;
+     36c: 00 00 00 08                                                  	NOP ;
+     370: 00 00 00 08                                                  	NOP ;
+     374: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     378: 00 c0 03 08                                                  	MFETCH: JUMP KI15      ;
+
+0000000000000000 _ZM13mpu_fma_chainPDv16_fPKS_S2_j:
+       0: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+       4: 03 00 00 2a                                                  	MFETCH: KI3 -> BIU.T0[0] ||
+       8: 9a 00 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 76 ) (I32) (MODE1) ;
+      10: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      14: 02 10 00 2a                                                  	MFETCH: KI2 -> BIU.T0[1] ||
+      18: 92 02 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[1], T15[15] + 72 ) (I32) (MODE1) ;
+      20: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      24: 01 20 00 2a                                                  	MFETCH: KI1 -> BIU.T0[2] ||
+      28: 8a 04 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[2], T15[15] + 68 ) (I32) (MODE1) ;
+      30: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      34: 00 30 00 2a                                                  	MFETCH: KI0 -> BIU.T0[3] ||
+      38: 82 06 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[3], T15[15] + 64 ) (I32) (MODE1) ;
+      40: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      44: 00 04 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 64 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      4c: 00 00 00 08                                                  	NOP ;
+      50: 00 00 00 08                                                  	NOP ;
+      54: 00 00 00 08                                                  	NOP ;
+      58: 00 00 00 08                                                  	NOP ;
+      5c: 00 00 00 08                                                  	NOP ;
+      60: 00 00 00 08                                                  	NOP ;
+      64: 00 00 00 08                                                  	NOP ;
+      68: 00 00 00 08                                                  	NOP ;
+      6c: 00 00 00 08                                                  	NOP ;
+      70: 00 00 00 08                                                  	NOP ;
+      74: 00 00 00 08                                                  	NOP ;
+      78: 00 00 00 08                                                  	NOP ;
+      7c: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      80: 60 00 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  BIU.T0(MODE1) ;
+      88: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      8c: 00 14 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 68 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      94: 00 00 00 08                                                  	NOP ;
+      98: 00 00 00 08                                                  	NOP ;
+      9c: 00 00 00 08                                                  	NOP ;
+      a0: 00 00 00 08                                                  	NOP ;
+      a4: 00 00 00 08                                                  	NOP ;
+      a8: 00 00 00 08                                                  	NOP ;
+      ac: 00 00 00 08                                                  	NOP ;
+      b0: 00 00 00 08                                                  	NOP ;
+      b4: 00 00 00 08                                                  	NOP ;
+      b8: 00 00 00 08                                                  	NOP ;
+      bc: 00 00 00 08                                                  	NOP ;
+      c0: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+      c4: 00 00 fe 05 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 128 ) (MODE1) ;
+      cc: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      d0: 60 00 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  BIU.T0(MODE1) ;
+      d8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      dc: 00 24 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 72 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      e4: 00 00 00 08                                                  	NOP ;
+      e8: 00 00 00 08                                                  	NOP ;
+      ec: 00 00 00 08                                                  	NOP ;
+      f0: 00 00 00 08                                                  	NOP ;
+      f4: 00 00 00 08                                                  	NOP ;
+      f8: 00 00 00 08                                                  	NOP ;
+      fc: 00 00 00 08                                                  	NOP ;
+     100: 00 00 00 08                                                  	NOP ;
+     104: 00 00 00 08                                                  	NOP ;
+     108: 00 00 00 08                                                  	NOP ;
+     10c: 00 00 00 08                                                  	NOP ;
+     110: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     114: 00 00 fe 07 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 192 ) (MODE1) ;
+     11c: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     120: 60 00 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  BIU.T0(MODE1) ;
+     128: 00 00 00 08                                                  	NOP ;
+     12c: 00 00 00 08                                                  	NOP ;
+     130: 00 00 00 08                                                  	NOP ;
+     134: 00 00 00 08                                                  	NOP ;
+     138: 00 00 00 08                                                  	NOP ;
+     13c: 00 00 00 08                                                  	NOP ;
+     140: 00 00 00 08                                                  	NOP ;
+     144: 00 00 00 08                                                  	NOP ;
+     148: 00 00 00 08                                                  	NOP ;
+     14c: 00 00 00 08                                                  	NOP ;
+     150: 00 00 00 08                                                  	NOP ;
+     154: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     158: 00 00 00 0c 46 00 00 00                                      	BIU0: 0 (L)(E) -> BIU.T0[0] (MODE1) ;
+     160: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     164: 00 00 fe 09 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 256 ) (MODE1) ;
+     16c: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     170: 82 00 fe 03 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 320 ) (I32) (MODE1) ;
+     178: 00 00 00 08                                                  	NOP ;
+     17c: 00 00 00 08                                                  	NOP ;
+     180: 00 00 00 08                                                  	NOP ;
+     184: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     188: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+000000000000018c LBB1_1:
+     18c: 06 00 00 20                                                   // Header |BIU0|BIU1| Size(words): 4
+     190: 00 04 ff 05 6e                                               	BIU0: LOAD ( T15[15] + 320 ) (I32)  -> BIU.T0[0] (MODE1) ||
+     195: 10 34 ff 01 6e 00 00                                         	BIU1: LOAD ( T15[15] + 76 ) (I32)  -> BIU.T0[1] (MODE1) ;
+     19c: 00 00 00 08                                                  	NOP ;
+     1a0: 00 00 00 08                                                  	NOP ;
+     1a4: 00 00 00 08                                                  	NOP ;
+     1a8: 00 00 00 08                                                  	NOP ;
+     1ac: 00 00 00 08                                                  	NOP ;
+     1b0: 00 00 00 08                                                  	NOP ;
+     1b4: 00 00 00 08                                                  	NOP ;
+     1b8: 00 00 00 08                                                  	NOP ;
+     1bc: 00 00 00 08                                                  	NOP ;
+     1c0: 00 00 00 08                                                  	NOP ;
+     1c4: 00 00 00 08                                                  	NOP ;
+     1c8: 00 00 00 08                                                  	NOP ;
+     1cc: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     1d0: 70 00 00 40 47 00 00 00                                      	BIU0: KG ( T0[0] ) ->  KI0(MODE1) ;
+     1d8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     1dc: 71 00 02 40 47 00 00 00                                      	BIU0: KG ( T0[1] ) ->  KI1(MODE1) ;
+     1e4: 00 00 00 08                                                  	NOP ;
+     1e8: 00 00 00 08                                                  	NOP ;
+     1ec: 00 00 00 08                                                  	NOP ;
+     1f0: 00 00 00 08                                                  	NOP ;
+     1f4: 00 00 00 08                                                  	NOP ;
+     1f8: 00 00 00 08                                                  	NOP ;
+     1fc: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     200: 01 02 00 80                                                  	MFETCH: IF ( KI0 >= KI1 ) JUMP 0     ;
+     204: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     208: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+000000000000020c LBB1_2:
+     20c: 06 00 00 20                                                   // Header |BIU0|BIU1| Size(words): 4
+     210: 88 01 fe 05 6a                                               	BIU0: LOAD ( T15[15] + 128 ) ->  FMA0.T0(MODE1) ||
+     215: 89 01 fe 07 6a 00 00                                         	BIU1: LOAD ( T15[15] + 192 ) ->  FMA0.T1(MODE1) ;
+     21c: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     220: 8a 01 fe 09 6a 00 00 00                                      	BIU0: LOAD ( T15[15] + 256 ) ->  FMA0.T2(MODE1) ;
+     228: 00 00 00 08                                                  	NOP ;
+     22c: 00 00 00 08                                                  	NOP ;
+     230: 00 00 00 08                                                  	NOP ;
+     234: 00 00 00 08                                                  	NOP ;
+     238: 00 00 00 08                                                  	NOP ;
+     23c: 00 00 00 08                                                  	NOP ;
+     240: 00 00 00 08                                                  	NOP ;
+     244: 00 00 00 08                                                  	NOP ;
+     248: 00 00 00 08                                                  	NOP ;
+     24c: 00 00 00 08                                                  	NOP ;
+     250: 00 00 00 08                                                  	NOP ;
+     254: 00 00 00 08                                                  	NOP ;
+     258: 00 02 00 18                                                   // Header |FMA0| Size(words): 3
+     25c: 60 00 04 62 10 48 00 00                                      	FMA0: FMA0.T2 + FMA0.T0 * FMA0.T1 (FP32) ->  BIU.T0(MODE1) ;
+     264: 00 00 00 08                                                  	NOP ;
+     268: 00 00 00 08                                                  	NOP ;
+     26c: 00 00 00 08                                                  	NOP ;
+     270: 00 00 00 08                                                  	NOP ;
+     274: 00 00 00 08                                                  	NOP ;
+     278: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     27c: 00 00 fe 05 7a 00 00 00                                      	BIU2: STORE ( T0, T15[15] + 128 ) (MODE1) ;
+     284: 00 00 00 08                                                  	NOP ;
+     288: 00 00 00 08                                                  	NOP ;
+     28c: 00 00 00 08                                                  	NOP ;
+     290: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     294: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+0000000000000298 LBB1_3:
+     298: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     29c: 00 04 ff 05 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 320 ) (I32)  -> BIU.T0[0] (MODE1) ;
+     2a4: 00 00 00 08                                                  	NOP ;
+     2a8: 00 00 00 08                                                  	NOP ;
+     2ac: 00 00 00 08                                                  	NOP ;
+     2b0: 00 00 00 08                                                  	NOP ;
+     2b4: 00 00 00 08                                                  	NOP ;
+     2b8: 00 00 00 08                                                  	NOP ;
+     2bc: 00 00 00 08                                                  	NOP ;
+     2c0: 00 00 00 08                                                  	NOP ;
+     2c4: 00 00 00 08                                                  	NOP ;
+     2c8: 00 00 00 08                                                  	NOP ;
+     2cc: 00 00 00 08                                                  	NOP ;
+     2d0: 00 00 00 08                                                  	NOP ;
+     2d4: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     2d8: 00 01 00 00 4b 00 00 00                                      	BIU0: T0[0] + 1 (U) -> BIU.T0[0] (MODE1) ;
+     2e0: 00 00 00 08                                                  	NOP ;
+     2e4: 00 00 00 08                                                  	NOP ;
+     2e8: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     2ec: 82 00 fe 03 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 320 ) (I32) (MODE1) ;
+     2f4: 00 00 00 08                                                  	NOP ;
+     2f8: 00 00 00 08                                                  	NOP ;
+     2fc: 00 00 00 08                                                  	NOP ;
+     300: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     304: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+0000000000000308 LBB1_4:
+     308: 06 00 00 20                                                   // Header |BIU0|BIU1| Size(words): 4
+     30c: 60 00 fe 05 6a                                               	BIU0: LOAD ( T15[15] + 128 ) ->  BIU.T0(MODE1) ||
+     311: 01 04 ff 01 6e 00 00                                         	BIU1: LOAD ( T15[15] + 64 ) (I32)  -> BIU.T1[0] (MODE1) ;
+     318: 00 00 00 08                                                  	NOP ;
+     31c: 00 00 00 08                                                  	NOP ;
+     320: 00 00 00 08                                                  	NOP ;
+     324: 00 00 00 08                                                  	NOP ;
+     328: 00 00 00 08                                                  	NOP ;
+     32c: 00 00 00 08                                                  	NOP ;
+     330: 00 00 00 08                                                  	NOP ;
+     334: 00 00 00 08                                                  	NOP ;
+     338: 00 00 00 08                                                  	NOP ;
+     33c: 00 00 00 08                                                  	NOP ;
+     340: 00 00 00 08                                                  	NOP ;
+     344: 00 00 00 08                                                  	NOP ;
+     348: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     34c: 00 00 20 00 7a 00 00 00                                      	BIU2: STORE ( T0, T1[0] + 0 ) (MODE1) ;
+     354: 00 00 00 08                                                  	NOP ;
+     358: 00 00 00 08                                                  	NOP ;
+     35c: 00 00 00 08                                                  	NOP ;
+     360: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     364: 00 c0 03 08                                                  	MFETCH: JUMP KI15      ;
+
+0000000000000000 _ZM10mpu_fma_dmPDv16_fPKS_S2_j:
+       0: 0b 00 00 28                                                   // Header |MFetch|BIU0|BIU2| Size(words): 5
+       4: 03 00 00 2a                                                  	MFETCH: KI3 -> BIU.T0[0] ||
+       8: 00 00 00 0c 46                                               	BIU0: 0 (L)(E) -> BIU.T0[0] (MODE1) ||
+       d: 9a 00 fe 01 7e 00 00                                         	BIU2: STORE ( T0[0], T15[15] + 76 ) (I32) (MODE1) ;
+      14: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      18: 02 10 00 2a                                                  	MFETCH: KI2 -> BIU.T0[1] ||
+      1c: 92 02 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[1], T15[15] + 72 ) (I32) (MODE1) ;
+      24: 19 00 00 28                                                   // Header |MFetch|BIU2|BIU3| Size(words): 5
+      28: 01 20 00 2a                                                  	MFETCH: KI1 -> BIU.T0[2] ||
+      2c: 8a 04 fe 01 7e                                               	BIU2: STORE ( T0[2], T15[15] + 68 ) (I32) (MODE1) ||
+      31: a2 00 fe 01 7e 00 00                                         	BIU3: STORE ( T0[0], T15[15] + 80 ) (I32) (MODE1) ;
+      38: 09 00 00 20                                                   // Header |MFetch|BIU2| Size(words): 4
+      3c: 00 30 00 2a                                                  	MFETCH: KI0 -> BIU.T0[3] ||
+      40: 82 06 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[3], T15[15] + 64 ) (I32) (MODE1) ;
+      48: 00 00 00 08                                                  	NOP ;
+      4c: 00 00 00 08                                                  	NOP ;
+      50: 00 00 00 08                                                  	NOP ;
+      54: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+      58: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+000000000000005c LBB2_1:
+      5c: 06 00 00 20                                                   // Header |BIU0|BIU1| Size(words): 4
+      60: 00 44 ff 01 6e                                               	BIU0: LOAD ( T15[15] + 80 ) (I32)  -> BIU.T0[0] (MODE1) ||
+      65: 10 34 ff 01 6e 00 00                                         	BIU1: LOAD ( T15[15] + 76 ) (I32)  -> BIU.T0[1] (MODE1) ;
+      6c: 00 00 00 08                                                  	NOP ;
+      70: 00 00 00 08                                                  	NOP ;
+      74: 00 00 00 08                                                  	NOP ;
+      78: 00 00 00 08                                                  	NOP ;
+      7c: 00 00 00 08                                                  	NOP ;
+      80: 00 00 00 08                                                  	NOP ;
+      84: 00 00 00 08                                                  	NOP ;
+      88: 00 00 00 08                                                  	NOP ;
+      8c: 00 00 00 08                                                  	NOP ;
+      90: 00 00 00 08                                                  	NOP ;
+      94: 00 00 00 08                                                  	NOP ;
+      98: 00 00 00 08                                                  	NOP ;
+      9c: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      a0: 70 00 00 40 47 00 00 00                                      	BIU0: KG ( T0[0] ) ->  KI0(MODE1) ;
+      a8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      ac: 71 00 02 40 47 00 00 00                                      	BIU0: KG ( T0[1] ) ->  KI1(MODE1) ;
+      b4: 00 00 00 08                                                  	NOP ;
+      b8: 00 00 00 08                                                  	NOP ;
+      bc: 00 00 00 08                                                  	NOP ;
+      c0: 00 00 00 08                                                  	NOP ;
+      c4: 00 00 00 08                                                  	NOP ;
+      c8: 00 00 00 08                                                  	NOP ;
+      cc: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+      d0: 01 02 00 80                                                  	MFETCH: IF ( KI0 >= KI1 ) JUMP 0     ;
+      d4: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+      d8: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+00000000000000dc LBB2_2:
+      dc: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      e0: 00 14 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 68 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      e8: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      ec: 00 24 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 72 ) (I32)  -> BIU.T0[0] (MODE1) ;
+      f4: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+      f8: 00 04 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 64 ) (I32)  -> BIU.T0[0] (MODE1) ;
+     100: 00 00 00 08                                                  	NOP ;
+     104: 00 00 00 08                                                  	NOP ;
+     108: 00 00 00 08                                                  	NOP ;
+     10c: 00 00 00 08                                                  	NOP ;
+     110: 00 00 00 08                                                  	NOP ;
+     114: 00 00 00 08                                                  	NOP ;
+     118: 00 00 00 08                                                  	NOP ;
+     11c: 00 00 00 08                                                  	NOP ;
+     120: 00 00 00 08                                                  	NOP ;
+     124: 00 00 00 08                                                  	NOP ;
+     128: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     12c: 90 01 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  FMA1.T0(MODE1) ;
+     134: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     138: 91 01 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  FMA1.T1(MODE1) ;
+     140: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     144: 89 01 00 00 6a 00 00 00                                      	BIU0: LOAD ( T0[0] + 0 ) ->  FMA0.T1(MODE1) ;
+     14c: 00 00 00 08                                                  	NOP ;
+     150: 00 00 00 08                                                  	NOP ;
+     154: 00 00 00 08                                                  	NOP ;
+     158: 00 00 00 08                                                  	NOP ;
+     15c: 00 00 00 08                                                  	NOP ;
+     160: 00 00 00 08                                                  	NOP ;
+     164: 00 00 00 08                                                  	NOP ;
+     168: 00 00 00 08                                                  	NOP ;
+     16c: 00 00 00 08                                                  	NOP ;
+     170: 00 00 00 08                                                  	NOP ;
+     174: 00 00 00 08                                                  	NOP ;
+     178: 00 04 00 18                                                   // Header |FMA1| Size(words): 3
+     17c: 88 01 1e 62 10 48 00 00                                      	FMA1: 0 + FMA1.T0 * FMA1.T1 (FP32) ->  FMA0.T0(MODE1) ;
+     184: 00 00 00 08                                                  	NOP ;
+     188: 00 00 00 08                                                  	NOP ;
+     18c: 00 00 00 08                                                  	NOP ;
+     190: 00 00 00 08                                                  	NOP ;
+     194: 00 02 00 18                                                   // Header |FMA0| Size(words): 3
+     198: 61 00 02 7e 10 48 00 00                                      	FMA0: FMA0.T1 + FMA0.T0 * 1 (FP32) ->  BIU.T1(MODE1) ;
+     1a0: 00 00 00 08                                                  	NOP ;
+     1a4: 00 00 00 08                                                  	NOP ;
+     1a8: 00 00 00 08                                                  	NOP ;
+     1ac: 00 00 00 08                                                  	NOP ;
+     1b0: 00 00 00 08                                                  	NOP ;
+     1b4: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     1b8: 00 20 00 00 7a 00 00 00                                      	BIU2: STORE ( T1, T0[0] + 0 ) (MODE1) ;
+     1c0: 00 00 00 08                                                  	NOP ;
+     1c4: 00 00 00 08                                                  	NOP ;
+     1c8: 00 00 00 08                                                  	NOP ;
+     1cc: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     1d0: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+00000000000001d4 LBB2_3:
+     1d4: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     1d8: 00 44 ff 01 6e 00 00 00                                      	BIU0: LOAD ( T15[15] + 80 ) (I32)  -> BIU.T0[0] (MODE1) ;
+     1e0: 00 00 00 08                                                  	NOP ;
+     1e4: 00 00 00 08                                                  	NOP ;
+     1e8: 00 00 00 08                                                  	NOP ;
+     1ec: 00 00 00 08                                                  	NOP ;
+     1f0: 00 00 00 08                                                  	NOP ;
+     1f4: 00 00 00 08                                                  	NOP ;
+     1f8: 00 00 00 08                                                  	NOP ;
+     1fc: 00 00 00 08                                                  	NOP ;
+     200: 00 00 00 08                                                  	NOP ;
+     204: 00 00 00 08                                                  	NOP ;
+     208: 00 00 00 08                                                  	NOP ;
+     20c: 00 00 00 08                                                  	NOP ;
+     210: 02 00 00 18                                                   // Header |BIU0| Size(words): 3
+     214: 00 01 00 00 4b 00 00 00                                      	BIU0: T0[0] + 1 (U) -> BIU.T0[0] (MODE1) ;
+     21c: 00 00 00 08                                                  	NOP ;
+     220: 00 00 00 08                                                  	NOP ;
+     224: 08 00 00 18                                                   // Header |BIU2| Size(words): 3
+     228: a2 00 fe 01 7e 00 00 00                                      	BIU2: STORE ( T0[0], T15[15] + 80 ) (I32) (MODE1) ;
+     230: 00 00 00 08                                                  	NOP ;
+     234: 00 00 00 08                                                  	NOP ;
+     238: 00 00 00 08                                                  	NOP ;
+     23c: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     240: 00 00 00 80                                                  	MFETCH: JUMP 0     ;
+
+0000000000000244 LBB2_4:
+     244: 01 00 00 10                                                   // Header |MFetch| Size(words): 2
+     248: 00 c0 03 08                                                  	MFETCH: JUMP KI15      ;

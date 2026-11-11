@@ -1,0 +1,3 @@
+kernel,version,M,K,N,dtype,repeat,sim_ms,sim_cycles,device_cycles,wall_ms,flops,flops_per_cycle,correct,max_diff,commit_hash,build_id,timestamp,validity
+mablaslt,gemm_matmul_cmode,8,512,512,fp32,warmup,,,107563,57759.10,4194304,38.9939,,,7e7cba2,36190e5d6e2f,2026-11-09T16:53:45.351000+00:00,invalid_dma_bypassed
+mablaslt,gemm_matmul_cmode,8,512,512,fp32,0,,,107665,12334.10,4194304,38.9570,,,7e7cba2,36190e5d6e2f,2026-11-09T16:54:15.956000+00:00,invalid_dma_bypassed

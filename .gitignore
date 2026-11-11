@@ -1,0 +1,10 @@
+docs/
+kernels/official_demo/
+*.m.asm
+*malog*.txt
+*scalehost_log*.txt
+results/maps_event_driver_log_excerpt.txt
+*.o
+*.out
+*.log
+results/*.log
